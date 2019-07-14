@@ -19,26 +19,49 @@ function Hero(spriteTexture) {
     this.mDye.getXform().setPosition(35, 50);
     this.mDye.getXform().setSize(9, 12);
     this.mDye.setElementPixelPositions(0, 120, 0, 180);
+
+    this.mPackSet = new GameObjectSet();
+    this.kMinionSprite = spriteTexture;
+
+    this.kLastFireTime = 0;
+    //Rate in per second
+    this.kfireRate=5;
+
     GameObject.call(this, this.mDye);
 
     this.setSpeed(0.5);
 
 }
+
 gEngine.Core.inheritPrototype(Hero, GameObject);
 
+Hero.prototype.draw = function (aCamera) {
+    this.mPackSet.draw(aCamera);
+    GameObject.prototype.draw.call(this, aCamera);  // the default GameObject: only move forward
+
+};
 Hero.prototype.update = function () {
     // control by WASD
     var xform = this.getXform();
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
-        xform.incYPosBy(this.kDelta);
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)) {
+        if (Date.now() - this.kLastFireTime > 1000/this.kfireRate) {
+            this.kLastFireTime = Date.now();
+            this.mPackSet.addToSet(new DyePack(this.kMinionSprite,xform.getPosition()));
+        }
     }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
-        xform.incYPosBy(-this.kDelta);
-    }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
-        xform.incXPosBy(-this.kDelta);
-    }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
-        xform.incXPosBy(this.kDelta);
-    }
+
+    this.mPackSet.update();
+
+    // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
+    //     xform.incYPosBy(this.kDelta);
+    // }
+    // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
+    //     xform.incYPosBy(-this.kDelta);
+    // }
+    // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
+    //     xform.incXPosBy(-this.kDelta);
+    // }
+    // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
+    //     xform.incXPosBy(this.kDelta);
+    // }
 };

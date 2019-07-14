@@ -61,7 +61,7 @@ MyGame.prototype.initialize = function () {
     // Step A: set up the cameras
     this.mCamera = new Camera(
         vec2.fromValues(0, 0), // position of the camera
-        150,                     // width of camera
+        200,                     // width of camera
         [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
     );
     this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
@@ -70,7 +70,7 @@ MyGame.prototype.initialize = function () {
 
     this.bg = new TextureRenderable(this.kBG);
     this.bg.getXform().setSize(200,150);
-    this.bg.getXform().setPosition(10,10);
+    this.bg.getXform().setPosition(0,0);
 
     //  Create the hero object
     this.mHero = new Hero(this.kMinionSprite);
@@ -95,12 +95,13 @@ MyGame.prototype.update = function () {
 
     // this.mHero.rotateObjPointTo(gEngine.Input.getMousePos(), 1);
     var mousePos = vec2.fromValues(this.mCamera.mouseWCX(), this.mCamera.mouseWCY());
-    if (vec2.distance(mousePos, this.mHero.getXform().getPosition())>1) {
+    if (vec2.distance(mousePos, this.mHero.getXform().getPosition())>5) {
         this.mHero.rotateObjPointTo(mousePos, 0.05);
         GameObject.prototype.update.call(this.mHero);  // the default GameObject: only move forward
 
     }
 
+    this.mHero.update();
     // this.mHero.update();
 
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
