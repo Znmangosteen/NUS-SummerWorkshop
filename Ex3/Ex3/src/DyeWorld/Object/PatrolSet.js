@@ -64,6 +64,12 @@ PatrolSet.prototype.update = function (aCamera) {
     for (i = 0; i < this.mSet.length; i++) {
         this.mSet[i].update(aCamera, this.mBoxActivity);
     }
+    for (i = 0; i < this.mSet.length; i++) {
+        if (this.mSet[i].isDied()) {
+            this.mSet.splice(i, 1);
+            break;
+        }
+    }
     // var i;
     // for (i = 0; i < this.mSet.length; i++) {
     //     this.mSet[i].update();

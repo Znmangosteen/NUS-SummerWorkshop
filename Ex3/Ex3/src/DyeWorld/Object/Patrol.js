@@ -29,9 +29,23 @@ function Patrol(spriteTexture, atX, atY, speed) {
 
     this.mBBox = null;
     this.mBoxActivity = false;
+
+    this.died = false;
 }
 
 // gEngine.Core.inheritPrototype(Patrol, GameObject);
+Patrol.prototype.updateLiveState = function () {
+    if (this.mWingTop.mMinion.getColor()[3] >= 0.999 && this.mWingBottom.mMinion.getColor()[3] >= 0.999) {
+        this.died = true;
+    }else if (this.mHead.getXform().getPosition()[0] > 100) {
+        this.died = true;
+    }
+};
+
+
+Patrol.prototype.isDied = function () {
+    return this.died;
+};
 
 Patrol.prototype.draw = function (aCamera) {
     this.mHead.draw(aCamera, this.mBoxActivity);
@@ -47,6 +61,8 @@ Patrol.prototype.draw = function (aCamera) {
 };
 Patrol.prototype.update = function (aCamera,boxActivity) {
     this.mHead.update(aCamera);
+    this.updateLiveState();
+
     var headPos = this.mHead.getXform().getPosition();
     var topPos = vec2.fromValues(10, 6);
     var bottomPos = vec2.fromValues(10, -6);
