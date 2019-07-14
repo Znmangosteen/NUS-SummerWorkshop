@@ -38,9 +38,9 @@ Patrol.prototype.draw = function (aCamera) {
     this.mWingTop.draw(aCamera, this.mBoxActivity);
     this.mWingBottom.draw(aCamera, this.mBoxActivity);
 
+    var xPos = vec2.fromValues(this.mHead.getXform().getPosition()[0] + 5.625, this.mWingBottom.getXform().getPosition()[1] + 11);
+    this.mBBox = new BoundingBox(xPos, 18.75, 30);
     if (this.mBoxActivity) {
-        var xPos = vec2.fromValues(this.mHead.getXform().getPosition()[0] + 5.625, this.mWingBottom.getXform().getPosition()[1] + 11);
-        this.mBBox = new BoundingBox(xPos, 18.75, 30);
         this.mBBox.drawBox(aCamera);
     }
 

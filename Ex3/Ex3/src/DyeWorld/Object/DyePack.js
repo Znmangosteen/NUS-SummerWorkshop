@@ -25,6 +25,7 @@ function DyePack(spriteTexture, spawnPos) {
 
     this.spawnTime = Date.now();
     this.died = false;
+    this.dying = false;
     this.hitting = false;
     this.remainFrames = 300;
 }
@@ -43,7 +44,7 @@ DyePack.prototype.speedRecover = function () {
 DyePack.prototype.updateLiveState = function () {
     if (this.remainFrames <= 0) {
         this.died = true;
-    }else if (this.getXform().getPosition()[0] > 100) {
+    } else if (this.getXform().getPosition()[0] > 100) {
         this.died = true;
     } else if (this.getSpeed() <= 0) {
         this.died = true;
@@ -61,11 +62,12 @@ DyePack.prototype.update = function () {
     this.updateLiveState();
 
     this.remainFrames -= 1;
-    if (this.hitting) {
+    if (this.hitting && !this.dying) {
         this.speedDown();
         this.remainFrames = 300;
+        this.dying = true;
     } else {
-        this.speedRecover();
+        // this.speedRecover();
     }
 
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {

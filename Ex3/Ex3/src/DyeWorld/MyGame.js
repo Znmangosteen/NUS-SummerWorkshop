@@ -122,7 +122,7 @@ MyGame.prototype.update = function () {
 
     }
 
-    this.mHero.update();
+    this.mHero.update(this.mPatrolSet);
     // this.mP.update(this.mCamera);
     this.mPatrolSet.update(this.mCamera);
 

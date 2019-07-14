@@ -19,6 +19,7 @@ function DyePackSet() {
     GameObjectSet.call(this);
     this.mPackSet = [];
 }
+
 gEngine.Core.inheritPrototype(DyePackSet, GameObjectSet);
 
 /**
@@ -41,7 +42,7 @@ DyePackSet.prototype.addEmitterAt = function (p, n, func) {
  * @memberOf DyePackSet
  */
 DyePackSet.prototype.draw = function (aCamera) {
-    GameObjectSet.prototype.draw.call(this,aCamera);
+    GameObjectSet.prototype.draw.call(this, aCamera);
 
     // var gl = gEngine.Core.getGL();
     // gl.blendFunc(gl.ONE, gl.ONE);  // for additive blending!
@@ -54,14 +55,24 @@ DyePackSet.prototype.draw = function (aCamera) {
  * @returns {void}
  * @memberOf DyePackSet
  */
-DyePackSet.prototype.update = function () {
+DyePackSet.prototype.update = function (patrolSet) {
     GameObjectSet.prototype.update.call(this);
-    var i;
+    var i, j;
     for (i = 0; i < this.mSet.length; i++) {
         if (this.mSet[i].isDied()) {
             this.mSet.splice(i, 1);
             break;
         }
+    }
+    for (i = 0; i < this.mSet.length; i++) {
+        for (j = 0; j < patrolSet.mSet.length; j++) {
+            var pack = this.mSet[i];
+            var p = patrolSet.mSet[j];
+            if (pack.getBBox().intersectsBound(p.mBBox)) {
+                pack.hitting = true;
+            }
+        }
+
     }
     // Cleanup Particles
     // var i, e, obj;

@@ -27,6 +27,8 @@ function Wing(spriteTexture, atX, atY, speed) {
     GameObject.call(this, this.mMinion);
     this.setSpeed(speed);
 
+    this.hitTime = 0;
+
 }
 
 gEngine.Core.inheritPrototype(Wing, GameObject);
@@ -39,12 +41,20 @@ Wing.prototype.draw = function (aCamera, boxActivity) {
 
 };
 
+Wing.prototype.hit = function () {
+    this.hitTime -= 1;
+    this.getColor()[3] += 0.2;
+};
+
 Wing.prototype.update = function () {
     // remember to update this.mMinion's animation
     this.mMinion.updateAnimation();
 
     GameObject.prototype.update.call(this);  // default moving forward
 
+    if (this.hitTime > 0) {
+        this.hit();
+    }
     // // move towards the left and wraps
     // var xform = this.getXform();
     // xform.incXPosBy(-this.kDelta);
