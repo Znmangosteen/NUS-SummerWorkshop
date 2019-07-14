@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Patrol(spriteTexture, atX, atY,speed) {
+function Patrol(spriteTexture, atX, atY, speed) {
     // this.kDeltaDegree = 1;
     // this.kDeltaRad = Math.PI * this.kDeltaDegree / 180;
     // this.kDeltaSpeed = 0.01;
@@ -23,22 +23,27 @@ function Patrol(spriteTexture, atX, atY,speed) {
     //
     // GameObject.call(this, this.mPatrol);
 
-    this.mHead = new Head(spriteTexture, atX, atY,speed);
-    this.mWingTop = new Wing(spriteTexture, atX + 10, atY + 6,speed);
-    this.mWingBottom = new Wing(spriteTexture, atX + 10, atY - 6,speed);
+    this.mHead = new Head(spriteTexture, atX, atY, speed);
+    this.mWingTop = new Wing(spriteTexture, atX + 10, atY + 6, speed);
+    this.mWingBottom = new Wing(spriteTexture, atX + 10, atY - 6, speed);
 
-    this.xBBox = null;
+    this.mBBox = null;
+    this.mBoxActivity = false;
 }
 
 // gEngine.Core.inheritPrototype(Patrol, GameObject);
 
 Patrol.prototype.draw = function (aCamera) {
-    this.mHead.draw(aCamera);
-    this.mWingTop.draw(aCamera);
-    this.mWingBottom.draw(aCamera);
-    var xPos = vec2.fromValues(this.mHead.getXform().getPosition()[0] + 5.625, this.mWingBottom.getXform().getPosition()[1] + 11);
-    var xBBox = new BoundingBox(xPos, 18.75, 30);
-    xBBox.drawBox(aCamera);
+    this.mHead.draw(aCamera, this.mBoxActivity);
+    this.mWingTop.draw(aCamera, this.mBoxActivity);
+    this.mWingBottom.draw(aCamera, this.mBoxActivity);
+
+    if (this.mBoxActivity) {
+        var xPos = vec2.fromValues(this.mHead.getXform().getPosition()[0] + 5.625, this.mWingBottom.getXform().getPosition()[1] + 11);
+        this.mBBox = new BoundingBox(xPos, 18.75, 30);
+        this.mBBox.drawBox(aCamera);
+    }
+
 };
 Patrol.prototype.update = function (aCamera) {
     this.mHead.update(aCamera);
@@ -50,14 +55,19 @@ Patrol.prototype.update = function (aCamera) {
     vec2.add(bottomPos, headPos, bottomPos);
     if (vec2.distance(headPos, topPos) > 3) {
         this.mWingTop.rotateObjPointTo(topPos, 1);
-
     }
     if (vec2.distance(headPos, bottomPos) > 3) {
         this.mWingBottom.rotateObjPointTo(bottomPos, 1);
-
     }
     this.mWingTop.update();
     this.mWingBottom.update();
+
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.B)) {
+        this.mBoxActivity = !this.mBoxActivity;
+    }
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.J)) {
+
+    }
 
 
     // GameObject.prototype.update.call(this);  // default moving forward

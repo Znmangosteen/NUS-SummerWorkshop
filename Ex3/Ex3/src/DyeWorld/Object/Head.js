@@ -27,9 +27,11 @@ function Head(spriteTexture,atX,atY,speed) {
 }
 gEngine.Core.inheritPrototype(Head, GameObject);
 
-Head.prototype.draw = function (aCamera) {
+Head.prototype.draw = function (aCamera,boxActivity) {
     GameObject.prototype.draw.call(this,aCamera);  // default moving forward
-    GameObject.prototype.drawBBox.call(this,aCamera);  // default moving forward
+    if (boxActivity) {
+        GameObject.prototype.drawBBox.call(this,aCamera);  // default moving forward
+    }
 
 };
 Head.prototype.update = function (aCamera) {

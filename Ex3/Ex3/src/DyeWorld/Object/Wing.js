@@ -31,9 +31,11 @@ function Wing(spriteTexture, atX, atY, speed) {
 
 gEngine.Core.inheritPrototype(Wing, GameObject);
 
-Wing.prototype.draw = function (aCamera) {
+Wing.prototype.draw = function (aCamera, boxActivity) {
     GameObject.prototype.draw.call(this, aCamera);  // default moving forward
-    GameObject.prototype.drawBBox.call(this, aCamera);  // default moving forward
+    if (boxActivity) {
+        GameObject.prototype.drawBBox.call(this, aCamera);  // default moving forward
+    }
 
 };
 
