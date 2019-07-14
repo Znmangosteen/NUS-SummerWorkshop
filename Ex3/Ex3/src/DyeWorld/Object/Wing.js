@@ -43,7 +43,7 @@ Wing.prototype.draw = function (aCamera, boxActivity) {
 
 Wing.prototype.hit = function () {
     this.hitTime -= 1;
-    this.getColor()[3] += 0.2;
+    this.mMinion.getColor()[3] += 0.2;
 };
 
 Wing.prototype.update = function () {

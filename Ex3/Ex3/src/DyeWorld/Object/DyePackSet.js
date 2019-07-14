@@ -65,13 +65,33 @@ DyePackSet.prototype.update = function (patrolSet) {
         }
     }
     for (i = 0; i < this.mSet.length; i++) {
-        for (j = 0; j < patrolSet.mSet.length; j++) {
-            var pack = this.mSet[i];
-            var p = patrolSet.mSet[j];
-            if (pack.getBBox().intersectsBound(p.mBBox)) {
-                pack.hitting = true;
+        var pack = this.mSet[i];
+
+        if (! pack.dying) {
+            for (j = 0; j < patrolSet.mSet.length; j++) {
+                var p = patrolSet.mSet[j];
+                if (pack.getBBox().intersectsBound(p.mBBox)) {
+                    pack.hitting = true;
+                    var h = [];
+                    if (pack.pixelTouches(p.mHead, h)) {
+
+                        p.mHead.hit();
+                    }
+                    if (pack.pixelTouches(p.mWingTop, h)) {
+                        p.mWingTop.hitTime += 1;
+
+                        p.mHead.hit();
+                    }
+                    if (pack.pixelTouches(p.mWingBottom, h)) {
+
+                        p.mWingBottom.hitTime += 1;
+                        p.mHead.hit();
+                    }
+
+                }
             }
         }
+
 
     }
     // Cleanup Particles
