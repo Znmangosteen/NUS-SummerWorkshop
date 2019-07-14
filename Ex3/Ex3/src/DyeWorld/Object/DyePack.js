@@ -22,17 +22,57 @@ function DyePack(spriteTexture, spawnPos) {
 
     this.setSpeed(2);
     this.setCurrentFrontDir(vec2.fromValues(1, 0));
+
+    this.spawnTime = Date.now();
+    this.died = false;
+    this.hitting = false;
+    this.remainFrames = 300;
 }
 
 gEngine.Core.inheritPrototype(DyePack, GameObject);
 
+DyePack.prototype.speedDown = function () {
+    this.setSpeed(0.1);
+
+};
+DyePack.prototype.speedRecover = function () {
+    this.setSpeed(2);
+
+};
+
+DyePack.prototype.updateLiveState = function () {
+    if (this.remainFrames <= 0) {
+        this.died = true;
+    }else if (this.getXform().getPosition()[0] > 100) {
+        this.died = true;
+    } else if (this.getSpeed() <= 0) {
+        this.died = true;
+    }
+
+};
+
+DyePack.prototype.isDied = function () {
+    return this.died;
+};
+
 DyePack.prototype.update = function () {
     GameObject.prototype.update.call(this);  // default moving forward
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
-        this.setSpeed(0.1);
+    this.updateLiveState();
+
+    this.remainFrames -= 1;
+    if (this.hitting) {
+        this.speedDown();
+        this.remainFrames = 300;
     } else {
-        this.setSpeed(2);
+        this.speedRecover();
+    }
+
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
+        this.speedDown();
+    }
+    if (gEngine.Input.isKeyReleased(gEngine.Input.keys.D)) {
+        this.speedRecover();
 
     }
 

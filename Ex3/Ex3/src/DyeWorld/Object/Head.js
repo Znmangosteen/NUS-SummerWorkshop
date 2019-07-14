@@ -9,29 +9,34 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Head(spriteTexture,atX,atY,speed) {
+function Head(spriteTexture, atX, atY, speed) {
     this.kDeltaDegree = 1;
     this.kDeltaRad = Math.PI * this.kDeltaDegree / 180;
     this.kDeltaSpeed = 0.01;
     this.mHead = new SpriteRenderable(spriteTexture);
     this.mHead.setColor([1, 1, 1, 0]);
-    this.mHead.getXform().setPosition(atX,atY);
+    this.mHead.getXform().setPosition(atX, atY);
     this.mHead.getXform().setSize(7.5, 7.5);
     this.mHead.setElementPixelPositions(130, 310, 0, 180);
 
     GameObject.call(this, this.mHead);
 
     this.setSpeed(speed);
-    this.setCurrentFrontDir(vec2.fromValues(Math.random()*2-1,Math.random()*2-1));
+    this.setCurrentFrontDir(vec2.fromValues(Math.random() * 2 - 1, Math.random() * 2 - 1));
 
 }
+
 gEngine.Core.inheritPrototype(Head, GameObject);
 
-Head.prototype.draw = function (aCamera,boxActivity) {
-    GameObject.prototype.draw.call(this,aCamera);  // default moving forward
+Head.prototype.draw = function (aCamera, boxActivity) {
+    GameObject.prototype.draw.call(this, aCamera);  // default moving forward
     if (boxActivity) {
-        GameObject.prototype.drawBBox.call(this,aCamera);  // default moving forward
+        GameObject.prototype.drawBBox.call(this, aCamera);  // default moving forward
     }
+
+};
+Head.prototype.hit = function () {
+    this.getXform().incXPosBy(5);
 
 };
 Head.prototype.update = function (aCamera) {
@@ -39,9 +44,14 @@ Head.prototype.update = function (aCamera) {
 
     var status = aCamera.collideWCBound(this.getXform(), 1);
     if (status < 16) {
-        vec2.rotate(this.getCurrentFrontDir(), this.getCurrentFrontDir(),3.1415926);
+        vec2.rotate(this.getCurrentFrontDir(), this.getCurrentFrontDir(), 3.1415926);
     }
-    
+
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.J)) {
+        this.hit();
+    }
+
+
     // var xf = this.getXform();
     // var fdir = this.getCurrentFrontDir();
     // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {

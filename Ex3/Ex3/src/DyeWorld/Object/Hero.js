@@ -20,7 +20,8 @@ function Hero(spriteTexture) {
     this.mDye.getXform().setSize(9, 12);
     this.mDye.setElementPixelPositions(0, 120, 0, 180);
 
-    this.mPackSet = new GameObjectSet();
+    // this.mPackSet = new GameObjectSet();
+    this.mPackSet = new DyePackSet();
     this.kMinionSprite = spriteTexture;
 
     this.kLastFireTime = 0;

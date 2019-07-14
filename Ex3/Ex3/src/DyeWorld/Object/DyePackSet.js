@@ -41,7 +41,8 @@ DyePackSet.prototype.addEmitterAt = function (p, n, func) {
  * @memberOf DyePackSet
  */
 DyePackSet.prototype.draw = function (aCamera) {
-    
+    GameObjectSet.prototype.draw.call(this,aCamera);
+
     // var gl = gEngine.Core.getGL();
     // gl.blendFunc(gl.ONE, gl.ONE);  // for additive blending!
     // GameObjectSet.prototype.draw.call(this, aCamera);
@@ -55,7 +56,13 @@ DyePackSet.prototype.draw = function (aCamera) {
  */
 DyePackSet.prototype.update = function () {
     GameObjectSet.prototype.update.call(this);
-
+    var i;
+    for (i = 0; i < this.mSet.length; i++) {
+        if (this.mSet[i].isDied()) {
+            this.mSet.splice(i, 1);
+            break;
+        }
+    }
     // Cleanup Particles
     // var i, e, obj;
     // for (i=0; i<this.size(); i++) {
