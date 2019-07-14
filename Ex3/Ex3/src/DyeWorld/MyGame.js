@@ -27,6 +27,7 @@ function MyGame() {
     this.LevelSelect = null;
 
     this.mHero = null;
+    this.mPatrolSet = null;
     this.mP = null;
 }
 
@@ -75,7 +76,8 @@ MyGame.prototype.initialize = function () {
 
     //  Create the hero object
     this.mHero = new Hero(this.kMinionSprite);
-    this.mP = new Patrol(this.kMinionSprite, Math.random() *(this.mCamera.getWCWidth()/2), Math.random()*(this.mCamera.getWCHeight()/2)-this.mCamera.getWCHeight()/4);
+    this.mP = new Patrol(this.kMinionSprite, Math.random() *(this.mCamera.getWCWidth()/2), Math.random()*(this.mCamera.getWCHeight()/2)-this.mCamera.getWCHeight()/4,Math.random()*5/60+5/60);
+    this.mPatrolSet = new PatrolSet();
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -91,6 +93,8 @@ MyGame.prototype.draw = function () {
     this.mHero.draw(this.mCamera);
 
     this.mP.draw(this.mCamera);
+
+    this.mPatrolSet.draw(this.mCamera);
 };
 
 MyGame.prototype.update = function () {
@@ -106,8 +110,12 @@ MyGame.prototype.update = function () {
 
     this.mHero.update();
     this.mP.update();
+    this.mPatrolSet.update();
     // this.mHero.update();
 
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.C)) {
+        this.mPatrolSet.addToSet(new Patrol(this.kMinionSprite, Math.random() *(this.mCamera.getWCWidth()/2), Math.random()*(this.mCamera.getWCHeight()/2)-this.mCamera.getWCHeight()/4,Math.random()*5/60+5/60));
+    }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
 
         gEngine.AudioClips.playACue(this.kCue, 0.1);

@@ -17,9 +17,9 @@
  */
 function PatrolSet() {
     GameObjectSet.call(this);
-    this.mPatrolSet = [];
+    this.mSet = [];
 }
-gEngine.Core.inheritPrototype(Patrol, GameObjectSet);
+gEngine.Core.inheritPrototype(PatrolSet, GameObjectSet);
 
 /**
  * the function to call to generate particles
@@ -29,7 +29,7 @@ gEngine.Core.inheritPrototype(Patrol, GameObjectSet);
  * @returns {void}
  * @memberOf Patrol
  */
-Patrol.prototype.addEmitterAt = function (p, n, func) {
+PatrolSet.prototype.addEmitterAt = function (p, n, func) {
     var e = new ParticleEmitter(p, n, func);
     this.mEmitterSet.push(e);
 };
@@ -40,7 +40,8 @@ Patrol.prototype.addEmitterAt = function (p, n, func) {
  * @returns {void}
  * @memberOf Patrol
  */
-Patrol.prototype.draw = function (aCamera) {
+PatrolSet.prototype.draw = function (aCamera) {
+    GameObjectSet.prototype.draw.call(this,aCamera);
 
     // var gl = gEngine.Core.getGL();
     // gl.blendFunc(gl.ONE, gl.ONE);  // for additive blending!
@@ -53,9 +54,12 @@ Patrol.prototype.draw = function (aCamera) {
  * @returns {void}
  * @memberOf Patrol
  */
-Patrol.prototype.update = function () {
+PatrolSet.prototype.update = function () {
     GameObjectSet.prototype.update.call(this);
-
+    // var i;
+    // for (i = 0; i < this.mSet.length; i++) {
+    //     this.mSet[i].update();
+    // }
     // Cleanup Particles
     // var i, e, obj;
     // for (i=0; i<this.size(); i++) {

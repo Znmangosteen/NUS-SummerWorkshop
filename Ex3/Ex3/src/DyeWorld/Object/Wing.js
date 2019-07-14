@@ -10,7 +10,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Wing(spriteTexture, atX, atY) {
+function Wing(spriteTexture, atX, atY, speed) {
     this.kDelta = 0.2;
     this.mMinion = new SpriteAnimateRenderable(spriteTexture);
     this.mMinion.setColor([1, 1, 1, 0]);
@@ -25,7 +25,7 @@ function Wing(spriteTexture, atX, atY) {
     // show each element for mAnimSpeed updates
 
     GameObject.call(this, this.mMinion);
-    this.setSpeed(0.3);
+    this.setSpeed(speed);
 
 }
 

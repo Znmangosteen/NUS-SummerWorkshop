@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Patrol(spriteTexture, atX, atY) {
+function Patrol(spriteTexture, atX, atY,speed) {
     // this.kDeltaDegree = 1;
     // this.kDeltaRad = Math.PI * this.kDeltaDegree / 180;
     // this.kDeltaSpeed = 0.01;
@@ -23,9 +23,9 @@ function Patrol(spriteTexture, atX, atY) {
     //
     // GameObject.call(this, this.mPatrol);
 
-    this.mHead = new Head(spriteTexture, atX, atY);
-    this.mWingTop = new Wing(spriteTexture, atX + 10, atY + 6);
-    this.mWingBottom = new Wing(spriteTexture, atX + 10, atY - 6);
+    this.mHead = new Head(spriteTexture, atX, atY,speed);
+    this.mWingTop = new Wing(spriteTexture, atX + 10, atY + 6,speed);
+    this.mWingBottom = new Wing(spriteTexture, atX + 10, atY - 6,speed);
 
     this.xBBox = null;
 }

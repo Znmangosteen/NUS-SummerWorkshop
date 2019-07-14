@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Head(spriteTexture,atX,atY) {
+function Head(spriteTexture,atX,atY,speed) {
     this.kDeltaDegree = 1;
     this.kDeltaRad = Math.PI * this.kDeltaDegree / 180;
     this.kDeltaSpeed = 0.01;
@@ -21,8 +21,8 @@ function Head(spriteTexture,atX,atY) {
 
     GameObject.call(this, this.mHead);
 
-    this.setSpeed(0.3);
-    this.setCurrentFrontDir(vec2.fromValues(-1,0));
+    this.setSpeed(speed);
+    this.setCurrentFrontDir(vec2.fromValues(Math.random()*2-1,Math.random()*2-1));
 
 }
 gEngine.Core.inheritPrototype(Head, GameObject);
