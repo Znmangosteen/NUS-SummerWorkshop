@@ -109,8 +109,8 @@ MyGame.prototype.update = function () {
     }
 
     this.mHero.update();
-    this.mP.update();
-    this.mPatrolSet.update();
+    this.mP.update(this.mCamera);
+    this.mPatrolSet.update(this.mCamera);
     // this.mHero.update();
 
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.C)) {

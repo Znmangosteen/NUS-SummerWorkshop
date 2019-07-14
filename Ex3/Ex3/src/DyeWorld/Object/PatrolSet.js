@@ -54,8 +54,12 @@ PatrolSet.prototype.draw = function (aCamera) {
  * @returns {void}
  * @memberOf Patrol
  */
-PatrolSet.prototype.update = function () {
-    GameObjectSet.prototype.update.call(this);
+PatrolSet.prototype.update = function (aCamera) {
+    // GameObjectSet.prototype.update.call(this);
+    var i;
+    for (i = 0; i < this.mSet.length; i++) {
+        this.mSet[i].update(aCamera);
+    }
     // var i;
     // for (i = 0; i < this.mSet.length; i++) {
     //     this.mSet[i].update();

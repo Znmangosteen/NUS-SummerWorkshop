@@ -32,23 +32,28 @@ Head.prototype.draw = function (aCamera) {
     GameObject.prototype.drawBBox.call(this,aCamera);  // default moving forward
 
 };
-Head.prototype.update = function () {
+Head.prototype.update = function (aCamera) {
     GameObject.prototype.update.call(this);  // default moving forward
 
-    var xf = this.getXform();
-    var fdir = this.getCurrentFrontDir();
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
-        xf.incRotationByDegree(this.kDeltaDegree);
-        vec2.rotate(fdir, fdir, this.kDeltaRad);
+    var status = aCamera.collideWCBound(this.getXform(), 1);
+    if (status < 16) {
+        vec2.rotate(this.getCurrentFrontDir(), this.getCurrentFrontDir(),3.1415926);
     }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
-        xf.incRotationByRad(-this.kDeltaRad);
-        vec2.rotate(fdir, fdir, -this.kDeltaRad);
-    }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Up)) {
-        this.incSpeedBy(this.kDeltaSpeed);
-    }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Down)) {
-        this.incSpeedBy(-this.kDeltaSpeed);
-    }
+    
+    // var xf = this.getXform();
+    // var fdir = this.getCurrentFrontDir();
+    // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
+    //     xf.incRotationByDegree(this.kDeltaDegree);
+    //     vec2.rotate(fdir, fdir, this.kDeltaRad);
+    // }
+    // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
+    //     xf.incRotationByRad(-this.kDeltaRad);
+    //     vec2.rotate(fdir, fdir, -this.kDeltaRad);
+    // }
+    // if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Up)) {
+    //     this.incSpeedBy(this.kDeltaSpeed);
+    // }
+    // if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Down)) {
+    //     this.incSpeedBy(-this.kDeltaSpeed);
+    // }
 };

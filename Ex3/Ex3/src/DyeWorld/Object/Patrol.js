@@ -40,8 +40,8 @@ Patrol.prototype.draw = function (aCamera) {
     var xBBox = new BoundingBox(xPos, 18.75, 30);
     xBBox.drawBox(aCamera);
 };
-Patrol.prototype.update = function () {
-    this.mHead.update();
+Patrol.prototype.update = function (aCamera) {
+    this.mHead.update(aCamera);
     var headPos = this.mHead.getXform().getPosition();
     var topPos = vec2.fromValues(10, 6);
     var bottomPos = vec2.fromValues(10, -6);

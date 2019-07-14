@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function DyePack(spriteTexture,spawnPos) {
+function DyePack(spriteTexture, spawnPos) {
     this.kRefWidth = 80;
     this.kRefHeight = 130;
 
@@ -21,8 +21,19 @@ function DyePack(spriteTexture,spawnPos) {
     GameObject.call(this, this.mDyePack);
 
     this.setSpeed(2);
-    this.setCurrentFrontDir(vec2.fromValues(1,0));
+    this.setCurrentFrontDir(vec2.fromValues(1, 0));
 }
+
 gEngine.Core.inheritPrototype(DyePack, GameObject);
 
-// DyePack.prototype.update = function () {};
+DyePack.prototype.update = function () {
+    GameObject.prototype.update.call(this);  // default moving forward
+
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
+        this.setSpeed(0.1);
+    } else {
+        this.setSpeed(2);
+
+    }
+
+};
