@@ -28,6 +28,7 @@ function DyePack(spriteTexture, spawnPos) {
     this.dying = false;
     this.hitting = false;
     this.remainFrames = 300;
+    this.power = true;
 }
 
 gEngine.Core.inheritPrototype(DyePack, GameObject);
@@ -38,6 +39,14 @@ DyePack.prototype.speedDown = function () {
 };
 DyePack.prototype.speedRecover = function () {
     this.setSpeed(2);
+
+};
+DyePack.prototype.losePower = function () {
+    this.power=false;
+
+};
+DyePack.prototype.hasPower = function () {
+    return this.power;
 
 };
 

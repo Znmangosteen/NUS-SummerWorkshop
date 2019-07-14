@@ -67,25 +67,27 @@ DyePackSet.prototype.update = function (patrolSet) {
     for (i = 0; i < this.mSet.length; i++) {
         var pack = this.mSet[i];
 
-        if (! pack.dying) {
+        if ( pack.hasPower()) {
             for (j = 0; j < patrolSet.mSet.length; j++) {
                 var p = patrolSet.mSet[j];
                 if (pack.getBBox().intersectsBound(p.mBBox)) {
                     pack.hitting = true;
                     var h = [];
                     if (pack.pixelTouches(p.mHead, h)) {
-
+                        pack.losePower();
                         p.mHead.hit();
                     }
                     if (pack.pixelTouches(p.mWingTop, h)) {
+                        pack.losePower();
                         p.mWingTop.hitTime += 1;
 
-                        p.mHead.hit();
+                        // p.mHead.hit();
                     }
                     if (pack.pixelTouches(p.mWingBottom, h)) {
+                        pack.losePower();
 
                         p.mWingBottom.hitTime += 1;
-                        p.mHead.hit();
+                        // p.mHead.hit();
                     }
 
                 }
