@@ -33,6 +33,8 @@ function MyGame() {
     this.autoSpawn = false;
     this.lastSpawnTime = 0;
     this.autoSpawnInter = 0;
+
+    this.mMsg = null;
 }
 
 gEngine.Core.inheritPrototype(MyGame, Scene);
@@ -82,6 +84,12 @@ MyGame.prototype.initialize = function () {
     this.mHero = new Hero(this.kMinionSprite);
     // this.mP = new Patrol(this.kMinionSprite, Math.random() *(this.mCamera.getWCWidth()/2), Math.random()*(this.mCamera.getWCHeight()/2)-this.mCamera.getWCHeight()/4,Math.random()*5/60+5/60);
     this.mPatrolSet = new PatrolSet();
+
+    // For echoing
+    this.mMsg = new FontRenderable("Status Message");
+    this.mMsg.setColor([1, 1, 1, 1]);
+    this.mMsg.getXform().setPosition(-92, -70);
+    this.mMsg.setTextHeight(5);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -99,6 +107,8 @@ MyGame.prototype.draw = function () {
     // this.mP.draw(this.mCamera);
 
     this.mPatrolSet.draw(this.mCamera);
+
+    this.mMsg.draw(this.mCamera);
 };
 
 MyGame.prototype.update = function () {
@@ -124,13 +134,13 @@ MyGame.prototype.update = function () {
         if (Date.now() - this.lastSpawnTime > this.autoSpawnInter) {
             this.autoSpawnInter = Math.random() * 1000 + 2000;
             this.lastSpawnTime = Date.now();
-            this.mPatrolSet.addToSet(new Patrol(this.kMinionSprite, Math.random() * (this.mCamera.getWCWidth() / 2), Math.random() * (this.mCamera.getWCHeight() / 2) - this.mCamera.getWCHeight() / 4, Math.random() * 5 / 60 + 5 / 60));
+            this.mPatrolSet.addToSet(new Patrol(this.kMinionSprite, Math.random() * (this.mCamera.getWCWidth() / 2.1), Math.random() * (this.mCamera.getWCHeight() / 2) - this.mCamera.getWCHeight() / 4, Math.random() * 5 / 60 + 5 / 60));
         }
 
     }
 
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.C)) {
-        this.mPatrolSet.addToSet(new Patrol(this.kMinionSprite, Math.random() * (this.mCamera.getWCWidth() / 2), Math.random() * (this.mCamera.getWCHeight() / 2) - this.mCamera.getWCHeight() / 4, Math.random() * 5 / 60 + 5 / 60));
+        this.mPatrolSet.addToSet(new Patrol(this.kMinionSprite, Math.random() * (this.mCamera.getWCWidth() / 2.1), Math.random() * (this.mCamera.getWCHeight() / 2) - this.mCamera.getWCHeight() / 4, Math.random() * 5 / 60 + 5 / 60));
     }
 
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
@@ -138,6 +148,7 @@ MyGame.prototype.update = function () {
         gEngine.AudioClips.playACue(this.kCue, 0.1);
     }
 
+    this.mMsg.setText("Status: DyePacks(" + this.mHero.mPackSet.size() + ") Patrols(" + this.mPatrolSet.size() + ") AutoSpawn(" + this.autoSpawn + ")");
 };
 
 MyGame.prototype.particleSelect = function () {

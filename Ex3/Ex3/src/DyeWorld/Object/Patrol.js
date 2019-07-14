@@ -45,7 +45,7 @@ Patrol.prototype.draw = function (aCamera) {
     }
 
 };
-Patrol.prototype.update = function (aCamera) {
+Patrol.prototype.update = function (aCamera,boxActivity) {
     this.mHead.update(aCamera);
     var headPos = this.mHead.getXform().getPosition();
     var topPos = vec2.fromValues(10, 6);
@@ -62,9 +62,8 @@ Patrol.prototype.update = function (aCamera) {
     this.mWingTop.update();
     this.mWingBottom.update();
 
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.B)) {
-        this.mBoxActivity = !this.mBoxActivity;
-    }
+    this.mBoxActivity = boxActivity;
+
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.J)) {
 
     }

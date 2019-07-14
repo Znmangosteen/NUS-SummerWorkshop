@@ -18,6 +18,7 @@
 function PatrolSet() {
     GameObjectSet.call(this);
     this.mSet = [];
+    this.mBoxActivity = false;
 }
 gEngine.Core.inheritPrototype(PatrolSet, GameObjectSet);
 
@@ -57,8 +58,11 @@ PatrolSet.prototype.draw = function (aCamera) {
 PatrolSet.prototype.update = function (aCamera) {
     // GameObjectSet.prototype.update.call(this);
     var i;
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.B)) {
+        this.mBoxActivity = !this.mBoxActivity;
+    }
     for (i = 0; i < this.mSet.length; i++) {
-        this.mSet[i].update(aCamera);
+        this.mSet[i].update(aCamera, this.mBoxActivity);
     }
     // var i;
     // for (i = 0; i < this.mSet.length; i++) {
