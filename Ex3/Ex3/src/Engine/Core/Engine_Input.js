@@ -110,6 +110,7 @@ gEngine.Input = (function () {
     var mIsButtonReleased = [];
     var mMousePosX = -1;
     var mMousePosY = -1;
+    var mMousePos = vec2.fromValues(0, 0);
 
     // <editor-fold desc="Event handler functions">
     //<editor-fold desc="Keyboard handlers">
@@ -135,6 +136,8 @@ gEngine.Input = (function () {
             (y >= 0) && (y < mCanvas.height)) {
             mMousePosX = x;
             mMousePosY = mCanvas.height - 1 - y;
+            mMousePos[0] = mMousePosX;
+            mMousePos[1] = mMousePosY;
             inside = true;
         }
         return inside;
@@ -286,6 +289,8 @@ gEngine.Input = (function () {
      */
     var getMousePosY = function () { return mMousePosY; };
 
+    var getMousePos = function () { return mMousePos; };
+
     var mPublic = {
         initialize: initialize,
         update: update,
@@ -302,6 +307,7 @@ gEngine.Input = (function () {
         isButtonReleased: isButtonReleased,
         getMousePosX: getMousePosX,       // invalid if no corresponding buttonPressed or buttonClicked
         getMousePosY: getMousePosY,
+        getMousePos: getMousePos,
         mouseButton: kMouseButton
     };
     return mPublic;
