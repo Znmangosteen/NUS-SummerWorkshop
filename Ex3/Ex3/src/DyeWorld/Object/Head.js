@@ -9,22 +9,29 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Head(spriteTexture) {
+function Head(spriteTexture,atX,atY) {
     this.kDeltaDegree = 1;
     this.kDeltaRad = Math.PI * this.kDeltaDegree / 180;
     this.kDeltaSpeed = 0.01;
     this.mHead = new SpriteRenderable(spriteTexture);
     this.mHead.setColor([1, 1, 1, 0]);
-    this.mHead.getXform().setPosition(10, 10);
+    this.mHead.getXform().setPosition(atX,atY);
     this.mHead.getXform().setSize(7.5, 7.5);
     this.mHead.setElementPixelPositions(130, 310, 0, 180);
 
     GameObject.call(this, this.mHead);
 
     this.setSpeed(0.3);
+    this.setCurrentFrontDir(vec2.fromValues(-1,0));
+
 }
 gEngine.Core.inheritPrototype(Head, GameObject);
 
+Head.prototype.draw = function (aCamera) {
+    GameObject.prototype.draw.call(this,aCamera);  // default moving forward
+    GameObject.prototype.drawBBox.call(this,aCamera);  // default moving forward
+
+};
 Head.prototype.update = function () {
     GameObject.prototype.update.call(this);  // default moving forward
 

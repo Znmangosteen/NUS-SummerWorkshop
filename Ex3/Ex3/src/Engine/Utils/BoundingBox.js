@@ -136,3 +136,15 @@ BoundingBox.prototype.minY = function () { return this.mLL[1]; };
  */
 BoundingBox.prototype.maxY = function () { return this.mLL[1] + this.mHeight; };
 //</editor-fold>
+
+BoundingBox.prototype.drawBox = function (aCamera) {
+    var line1 = new LineRenderable(this.minX(),this.minY(),this.minX()+this.mWidth,this.minY());
+    var line2 = new LineRenderable(this.minX(),this.minY(),this.minX(),this.minY()+this.mHeight);
+    var line3 = new LineRenderable(this.maxX(),this.maxY(),this.maxX()-this.mWidth,this.maxY());
+    var line4 = new LineRenderable(this.maxX(),this.maxY(),this.maxX(),this.maxY()-this.mHeight);
+    line1.draw(aCamera);
+    line2.draw(aCamera);
+    line3.draw(aCamera);
+    line4.draw(aCamera);
+
+};

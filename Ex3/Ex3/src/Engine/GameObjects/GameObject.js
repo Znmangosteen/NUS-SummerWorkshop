@@ -30,7 +30,9 @@ function GameObject(renderableObj) {
  * @returns {Transform} Gameobject Transform
  * @memberOf GameObject
  */
-GameObject.prototype.getXform = function () { return this.mRenderComponent.getXform(); };
+GameObject.prototype.getXform = function () {
+    return this.mRenderComponent.getXform();
+};
 
 /**
  * Return the GameObject's Bounding Box
@@ -43,20 +45,32 @@ GameObject.prototype.getBBox = function () {
     return b;
 };
 
+GameObject.prototype.drawBBox = function (aCamera) {
+    var xform = this.getXform();
+    var xBBox = new BoundingBox(xform.getPosition(), xform.getWidth(), xform.getHeight());
+    xBBox.drawBox(aCamera);
+
+};
+
+
 /**
  * Set the visibility state of the GameObject
  * @param {Boolean} f new state of GameObject
  * @returns {void}
  * @memberOf GameObject
  */
-GameObject.prototype.setVisibility = function (f) { this.mVisible = f; };
+GameObject.prototype.setVisibility = function (f) {
+    this.mVisible = f;
+};
 
 /**
  * Returs the visibility state of the GameObject
  * @returns {Boolean} returns true if this GameObject is visible
  * @memberOf GameObject
  */
-GameObject.prototype.isVisible = function () { return this.mVisible; };
+GameObject.prototype.isVisible = function () {
+    return this.mVisible;
+};
 
 /**
  * Set the Speed of the GameObject
@@ -64,14 +78,18 @@ GameObject.prototype.isVisible = function () { return this.mVisible; };
  * @returns {void}
  * @memberOf GameObject
  */
-GameObject.prototype.setSpeed = function (s) { this.mSpeed = s; };
+GameObject.prototype.setSpeed = function (s) {
+    this.mSpeed = s;
+};
 
 /**
  * Return the speed og the GameObject
  * @returns {Number} Speed of GameObject
  * @memberOf GameObject
  */
-GameObject.prototype.getSpeed = function () { return this.mSpeed; };
+GameObject.prototype.getSpeed = function () {
+    return this.mSpeed;
+};
 
 /**
  * Increment the speed by delta
@@ -79,7 +97,9 @@ GameObject.prototype.getSpeed = function () { return this.mSpeed; };
  * @returns {void}
  * @memberOf GameObject
  */
-GameObject.prototype.incSpeedBy = function (delta) { this.mSpeed += delta; };
+GameObject.prototype.incSpeedBy = function (delta) {
+    this.mSpeed += delta;
+};
 
 /**
  * Set the front vector of the GameObject
@@ -87,21 +107,27 @@ GameObject.prototype.incSpeedBy = function (delta) { this.mSpeed += delta; };
  * @returns {void}
  * @memberOf GameObject
  */
-GameObject.prototype.setCurrentFrontDir = function (f) { vec2.normalize(this.mCurrentFrontDir, f); };
+GameObject.prototype.setCurrentFrontDir = function (f) {
+    vec2.normalize(this.mCurrentFrontDir, f);
+};
 
 /**
  * Return the front vector of the GameObject
  * @returns {vec2} GameObject's front vector
  * @memberOf GameObject
  */
-GameObject.prototype.getCurrentFrontDir = function () { return this.mCurrentFrontDir; };
+GameObject.prototype.getCurrentFrontDir = function () {
+    return this.mCurrentFrontDir;
+};
 
 /**
  * Return the GameObject Renderable Object
  * @returns {Renderable} current Renderable of the GameObject
  * @memberOf GameObject
  */
-GameObject.prototype.getRenderable = function () { return this.mRenderComponent; };
+GameObject.prototype.getRenderable = function () {
+    return this.mRenderComponent;
+};
 
 /**
  * Set the Physics Component for the GameObject
@@ -109,14 +135,19 @@ GameObject.prototype.getRenderable = function () { return this.mRenderComponent;
  * @returns {void}
  * @memberOf GameObject
  */
-GameObject.prototype.setPhysicsComponent = function (p) { this.mPhysicsComponent = p; console.log(p); };
+GameObject.prototype.setPhysicsComponent = function (p) {
+    this.mPhysicsComponent = p;
+    console.log(p);
+};
 
 /**
  * Return the Physics Component for the GameObject
  * @returns {RigidShape} Physics Compenent of the GameObject
  * @memberOf GameObject
  */
-GameObject.prototype.getPhysicsComponent = function () { return this.mPhysicsComponent; };
+GameObject.prototype.getPhysicsComponent = function () {
+    return this.mPhysicsComponent;
+};
 
 /**
  * Orientate the entire object to point towards point p<p>

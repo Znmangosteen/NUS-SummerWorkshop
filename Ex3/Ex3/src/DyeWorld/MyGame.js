@@ -27,8 +27,9 @@ function MyGame() {
     this.LevelSelect = null;
 
     this.mHero = null;
-
+    this.mP = null;
 }
+
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
 
@@ -45,13 +46,13 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBG);
     gEngine.Textures.unloadTexture(this.kMinionSprite);
 
-    if(this.LevelSelect==="Particle"){
+    if (this.LevelSelect === "Particle") {
         gEngine.Core.startScene(new ParticleLevel());
     }
-    else if(this.LevelSelect==="Physics"){
+    else if (this.LevelSelect === "Physics") {
         gEngine.Core.startScene(new RigidShapeDemo());
     }
-    else if(this.LevelSelect==="UI"){
+    else if (this.LevelSelect === "UI") {
         gEngine.Core.startScene(new UIDemo());
     }
     gEngine.AudioClips.unloadAudio(this.kCue);
@@ -69,12 +70,12 @@ MyGame.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
 
     this.bg = new TextureRenderable(this.kBG);
-    this.bg.getXform().setSize(200,150);
-    this.bg.getXform().setPosition(0,0);
+    this.bg.getXform().setSize(200, 150);
+    this.bg.getXform().setPosition(0, 0);
 
     //  Create the hero object
     this.mHero = new Hero(this.kMinionSprite);
-
+    this.mP = new Patrol(this.kMinionSprite, Math.random() *(this.mCamera.getWCWidth()/2), Math.random()*(this.mCamera.getWCHeight()/2)-this.mCamera.getWCHeight()/4);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -88,6 +89,8 @@ MyGame.prototype.draw = function () {
     this.bg.draw(this.mCamera);
 
     this.mHero.draw(this.mCamera);
+
+    this.mP.draw(this.mCamera);
 };
 
 MyGame.prototype.update = function () {
@@ -95,13 +98,14 @@ MyGame.prototype.update = function () {
 
     // this.mHero.rotateObjPointTo(gEngine.Input.getMousePos(), 1);
     var mousePos = vec2.fromValues(this.mCamera.mouseWCX(), this.mCamera.mouseWCY());
-    if (vec2.distance(mousePos, this.mHero.getXform().getPosition())>5) {
+    if (vec2.distance(mousePos, this.mHero.getXform().getPosition()) > 5) {
         this.mHero.rotateObjPointTo(mousePos, 0.05);
         GameObject.prototype.update.call(this.mHero);  // the default GameObject: only move forward
 
     }
 
     this.mHero.update();
+    this.mP.update();
     // this.mHero.update();
 
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
@@ -111,17 +115,17 @@ MyGame.prototype.update = function () {
 
 };
 
-MyGame.prototype.particleSelect = function(){
-    this.LevelSelect="Particle";
+MyGame.prototype.particleSelect = function () {
+    this.LevelSelect = "Particle";
     gEngine.GameLoop.stop();
 };
 
-MyGame.prototype.physicsSelect = function(){
-    this.LevelSelect="Physics";
+MyGame.prototype.physicsSelect = function () {
+    this.LevelSelect = "Physics";
     gEngine.GameLoop.stop();
 };
 
-MyGame.prototype.uiSelect= function(){
-    this.LevelSelect="UI";
+MyGame.prototype.uiSelect = function () {
+    this.LevelSelect = "UI";
     gEngine.GameLoop.stop();
 };
