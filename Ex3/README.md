@@ -1,0 +1,2 @@
+- This project should be able to be opened by NetBeans. If it doesn’t work, please try it with WebStorme or just directly open the index.html file using firefox without an IDE.
+- Our program should meet all of the requirement. However, there’s some bugs remains where a collision happened.
