@@ -20,7 +20,7 @@ function Barrage(spriteTexture, spawnPos, speed, type, num) {
     var i = 0;
 
     this.barrageNum = num ? num : 100;
-    var unit= 1;
+    var unit = 1;
 
     switch (type) {
         case BARRAGE_TYPE.CIRCLE:
@@ -32,26 +32,26 @@ function Barrage(spriteTexture, spawnPos, speed, type, num) {
         case BARRAGE_TYPE.SECTOR:
             unit = Math.PI / (2 * this.barrageNum);
             for (i = 0; i < this.barrageNum; i++) {
-                this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(Math.cos((i-this.barrageNum/2) * unit), Math.sin((i-this.barrageNum/2) * unit))));
+                this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(Math.cos((i - this.barrageNum / 2) * unit), Math.sin((i - this.barrageNum / 2) * unit))));
             }
             break;
         case BARRAGE_TYPE.D_SECTOR:
             unit = Math.PI / (2 * this.barrageNum);
             for (i = 0; i < this.barrageNum; i++) {
-                this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(Math.cos((i-this.barrageNum/2) * unit), Math.sin((i-this.barrageNum/2) * unit))));
-                this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(-Math.cos((i-this.barrageNum/2) * unit), -Math.sin((i-this.barrageNum/2) * unit))));
+                this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(Math.cos((i - this.barrageNum / 2) * unit), Math.sin((i - this.barrageNum / 2) * unit))));
+                this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(-Math.cos((i - this.barrageNum / 2) * unit), -Math.sin((i - this.barrageNum / 2) * unit))));
             }
             break;
         case BARRAGE_TYPE.LINE:
-            this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(1,0)));
+            this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(1, 0)));
 
 
             break;
         case BARRAGE_TYPE.CROSS:
-            this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(1,0)));
-            this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(-1,0)));
-            this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(0,1)));
-            this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(0,-1)));
+            this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(1, 0)));
+            this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(-1, 0)));
+            this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(0, 1)));
+            this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(0, -1)));
 
             break;
 
@@ -98,10 +98,14 @@ Barrage.prototype.draw = function (aCamera) {
  * @returns {void}
  * @memberOf Barrage
  */
-Barrage.prototype.update = function (aCamera) {
+Barrage.prototype.update = function (aCamera, wing) {
     var i;
     for (i = 0; i < this.mSet.length; i++) {
         this.mSet[i].update(aCamera);
+        var h = [];
+        if (this.mSet[i].pixelTouches(wing,h)) {
+            wing.hitTime += 1;
+        }
     }
 
     for (i = 0; i < this.mSet.length; i++) {

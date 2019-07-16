@@ -30,6 +30,8 @@ function MyGame() {
 
     this.mMsg = null;
 
+//    FIXME debug thing
+    this.mWing = null;
 }
 
 gEngine.Core.inheritPrototype(MyGame, Scene);
@@ -80,6 +82,9 @@ MyGame.prototype.initialize = function () {
     this.mMsg.setColor([1, 1, 1, 1]);
     this.mMsg.getXform().setPosition(5, 5);
     this.mMsg.setTextHeight(3);
+
+    this.mWing = new Wing(this.kMinionSprite,50,20,0);
+
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -101,6 +106,8 @@ MyGame.prototype.draw = function () {
 
     this.mMsg.draw(this.mCamera);
 
+    this.mWing.draw(this.mCamera);
+
 };
 
 MyGame.prototype.update = function () {
@@ -110,7 +117,7 @@ MyGame.prototype.update = function () {
 
     var num = 0;
     for (let i = 0; i < this.mBarrageSet.length; i++) {
-        this.mBarrageSet[i].update(this.mCamera);
+        this.mBarrageSet[i].update(this.mCamera,this.mWing);
         // FIXME debug thing
         num += this.mBarrageSet[i].size();
     }
@@ -132,7 +139,7 @@ MyGame.prototype.update = function () {
         gEngine.AudioClips.playACue(this.kCue, 0.1);
     }
 
-
+    this.mWing.update();
     this.mMsg.setText("Bullet Num: " + num);
 
 };

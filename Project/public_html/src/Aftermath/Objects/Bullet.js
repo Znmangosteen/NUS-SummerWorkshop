@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Bullet(bulletSet, spriteTexture, spawnPos, speed, dir) {
+function Bullet(bulletSet, spriteTexture, spawnPos, speed, dir, target) {
     this.kRefWidth = 80;
     this.kRefHeight = 130;
 
@@ -26,6 +26,8 @@ function Bullet(bulletSet, spriteTexture, spawnPos, speed, dir) {
     this.setSpeed(speed);
     this.setCurrentFrontDir(dir);
 
+    this.kDemage = 0;
+
 
     this.spawnTime = Date.now();
 }
@@ -35,6 +37,7 @@ gEngine.Core.inheritPrototype(Bullet, GameObject);
 
 Bullet.prototype.update = function (aCamera) {
     GameObject.prototype.update.call(this);  // default moving forward
+
 
     var status = aCamera.collideWCBound(this.getXform(), 1);
     if (status === 0) {
