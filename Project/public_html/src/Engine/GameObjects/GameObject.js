@@ -23,7 +23,7 @@ function GameObject(renderableObj) {
     this.mCurrentFrontDir = vec2.fromValues(0, 1);  // this is the current front direction of the object
     this.mRigidBody = null;
     this.mDrawRenderable = true;
-    this.mDrawRigidShape = false; 
+    this.mDrawRigidShape = false;
 }
 
 /**
@@ -31,7 +31,9 @@ function GameObject(renderableObj) {
  * @returns {Transform} Gameobject Transform
  * @memberOf GameObject
  */
-GameObject.prototype.getXform = function () { return this.mRenderComponent.getXform(); };
+GameObject.prototype.getXform = function () {
+    return this.mRenderComponent.getXform();
+};
 
 /**
  * Return the GameObject's Bounding Box
@@ -50,16 +52,22 @@ GameObject.prototype.getBBox = function () {
  * @returns {void}
  * @memberOf GameObject
  */
-GameObject.prototype.setVisibility = function (f) { this.mVisible = f; };
+GameObject.prototype.setVisibility = function (f) {
+    this.mVisible = f;
+};
 
 /**
  * Returs the visibility state of the GameObject
  * @returns {Boolean} returns true if this GameObject is visible
  * @memberOf GameObject
  */
-GameObject.prototype.isVisible = function () { return this.mVisible; };
+GameObject.prototype.isVisible = function () {
+    return this.mVisible;
+};
 
-GameObject.prototype.setCurrentFrontDir = function (f) { vec2.normalize(this.mCurrentFrontDir, f); };
+GameObject.prototype.setCurrentFrontDir = function (f) {
+    vec2.normalize(this.mCurrentFrontDir, f);
+};
 
 
 /**
@@ -67,28 +75,124 @@ GameObject.prototype.setCurrentFrontDir = function (f) { vec2.normalize(this.mCu
  * @returns {vec2} GameObject's front vector
  * @memberOf GameObject
  */
-GameObject.prototype.getCurrentFrontDir = function () { return this.mCurrentFrontDir; };
+GameObject.prototype.getCurrentFrontDir = function () {
+    return this.mCurrentFrontDir;
+};
 
 /**
  * Return the GameObject Renderable Object
  * @returns {Renderable} current Renderable of the GameObject
  * @memberOf GameObject
  */
-GameObject.prototype.getRenderable = function () { return this.mRenderComponent; };
+GameObject.prototype.getRenderable = function () {
+    return this.mRenderComponent;
+};
 
 GameObject.prototype.setRigidBody = function (r) {
     this.mRigidBody = r;
 };
-GameObject.prototype.getRigidBody = function () { return this.mRigidBody; };
-GameObject.prototype.toggleDrawRenderable = function() { 
-    this.mDrawRenderable = !this.mDrawRenderable; };
-GameObject.prototype.toggleDrawRigidShape = function() { 
-    this.mDrawRigidShape = !this.mDrawRigidShape; };
+GameObject.prototype.getRigidBody = function () {
+    return this.mRigidBody;
+};
+GameObject.prototype.toggleDrawRenderable = function () {
+    this.mDrawRenderable = !this.mDrawRenderable;
+};
+GameObject.prototype.toggleDrawRigidShape = function () {
+    this.mDrawRigidShape = !this.mDrawRigidShape;
+};
 
 GameObject.prototype.update = function () {
     // simple default behavior
+    var pos = this.getXform().getPosition();
+    vec2.scaleAndAdd(pos, pos, this.getCurrentFrontDir(), this.getSpeed());
+
+
+    // simple default behavior
     if (this.mRigidBody !== null)
-            this.mRigidBody.update();
+        this.mRigidBody.update();
+};
+
+
+/**
+ * Set the Speed of the GameObject
+ * @param {Number} s new speed of GameObject
+ * @returns {void}
+ * @memberOf GameObject
+ */
+GameObject.prototype.setSpeed = function (s) {
+    this.mSpeed = s;
+};
+
+/**
+ * Return the speed og the GameObject
+ * @returns {Number} Speed of GameObject
+ * @memberOf GameObject
+ */
+GameObject.prototype.getSpeed = function () {
+    return this.mSpeed;
+};
+
+/**
+ * Increment the speed by delta
+ * @param {Number} delta to increment the speed by
+ * @returns {void}
+ * @memberOf GameObject
+ */
+GameObject.prototype.incSpeedBy = function (delta) {
+    this.mSpeed += delta;
+};
+
+/**
+ * Orientate the entire object to point towards point p<p>
+ * will rotate Xform() accordingly
+ * @param {vec2} p position to rotate to
+ * @param {Number} rate rate of turn towards point
+ * @returns {void}
+ * @memberOf GameObject
+ */
+GameObject.prototype.rotateObjPointTo = function (p, rate) {
+    // Step A: determine if reach the destination position p
+    var dir = [];
+    vec2.sub(dir, p, this.getXform().getPosition());
+    var len = vec2.length(dir);
+    if (len < Number.MIN_VALUE) {
+        return; // we are there.
+    }
+    vec2.scale(dir, dir, 1 / len);
+
+    // Step B: compute the angle to rotate
+    var fdir = this.getCurrentFrontDir();
+    var cosTheta = vec2.dot(dir, fdir);
+
+    if (cosTheta > 0.999999) { // almost exactly the same direction
+        return;
+    }
+
+    // Step C: clamp the cosTheda to -1 to 1
+    // in a perfect world, this would never happen! BUT ...
+    if (cosTheta > 1) {
+        cosTheta = 1;
+    } else {
+        if (cosTheta < -1) {
+            cosTheta = -1;
+        }
+    }
+
+    // Step D: compute whether to rotate clockwise, or counterclockwise
+    var dir3d = vec3.fromValues(dir[0], dir[1], 0);
+    var f3d = vec3.fromValues(fdir[0], fdir[1], 0);
+    var r3d = [];
+    vec3.cross(r3d, f3d, dir3d);
+
+    var rad = Math.acos(cosTheta);  // radian to roate
+    if (r3d[2] < 0) {
+        rad = -rad;
+    }
+
+    // Step E: rotate the facing direction with the angle and rate
+    rad *= rate;  // actual angle need to rotate from Obj's front
+    vec2.rotate(this.getCurrentFrontDir(), this.getCurrentFrontDir(), rad);
+    // this.getXform().incRotationByRad(rad);
 };
 
 GameObject.prototype.draw = function (aCamera) {

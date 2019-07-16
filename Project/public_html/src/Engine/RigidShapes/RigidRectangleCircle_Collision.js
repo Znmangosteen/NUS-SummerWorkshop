@@ -10,14 +10,14 @@
 /**
  * Determines if there is collision between the shapes
  * @memberOf RigidRectangle
- * @param {float[]} v The rectangle vertex that is closest to the center of the circle
- * @param {float[]} circPt The center of the circle
- * @param {float} r The radius of the circle
+ * @param {float[]} v The rectangle vertex that is closest to the center of the CIRCLE
+ * @param {float[]} circPt The center of the CIRCLE
+ * @param {float} r The radius of the CIRCLE
  * @param {CollisionInfo} info Used to store the collision info
  * @returns {Boolean} If there is collision between the 2 shapes
  */
 RigidRectangle.prototype.checkCircRecVertex = function(v, circPt, r, info) {
-    //the center of circle is in corner region of mVertex[nearestEdge]
+    //the center of CIRCLE is in corner region of mVertex[nearestEdge]
     var dis = vec2.length(v);
     //compare the distance with radium to decide collision
     if (dis > r)
@@ -33,7 +33,7 @@ RigidRectangle.prototype.checkCircRecVertex = function(v, circPt, r, info) {
 
 /**
  * Check for collision between RigidRectangle and Circle
- * @param {Circle} otherCir circle to check for collision status against
+ * @param {Circle} otherCir CIRCLE to check for collision status against
  * @param {CollisionInfo} collisionInfo Where the Collision Info is stored
  * @returns {Boolean} true if collision occurs
  * @memberOf RigidRectangle
@@ -46,7 +46,7 @@ RigidRectangle.prototype.collideRectCirc = function (otherCir, collisionInfo) {
     var circ2Pos = [0, 0], projection;
     var i = 0;
     while ((!outside) && (i<4)) {
-        //find the nearest face for center of circle        
+        //find the nearest face for center of CIRCLE
         circ2Pos = otherCir.getCenter();
         vec2.subtract(vToC, circ2Pos, this.mVertex[i]);
         projection = vec2.dot(vToC, this.mFaceNormal[i]);
@@ -62,7 +62,7 @@ RigidRectangle.prototype.collideRectCirc = function (otherCir, collisionInfo) {
     var ptAtCirc = [0, 0];
     
     if (!outside) { // inside
-        //the center of circle is inside of rectangle
+        //the center of CIRCLE is inside of rectangle
         vec2.scale(radiusVec, this.mFaceNormal[nearestEdge], otherCir.mRadius);
         dis = otherCir.mRadius - bestDistance; // bestDist is -ve
         vec2.subtract(ptAtCirc, circ2Pos, radiusVec);
@@ -70,9 +70,9 @@ RigidRectangle.prototype.collideRectCirc = function (otherCir, collisionInfo) {
         return true;
     }
     
-    //the center of circle is outside of rectangle
+    //the center of CIRCLE is outside of rectangle
 
-    //v1 is from left vertex of face to center of circle 
+    //v1 is from left vertex of face to center of CIRCLE
     //v2 is from left vertex of face to right vertex of face
     var v1 = [0, 0], v2 = [0, 0];
     vec2.subtract(v1, circ2Pos, this.mVertex[nearestEdge]);
@@ -82,9 +82,9 @@ RigidRectangle.prototype.collideRectCirc = function (otherCir, collisionInfo) {
     if (dot < 0) {
         return this.checkCircRecVertex(v1, circ2Pos, otherCir.mRadius, collisionInfo);
     } else {
-        //the center of circle is in corner region of mVertex[nearestEdge+1]
+        //the center of CIRCLE is in corner region of mVertex[nearestEdge+1]
         
-        //v1 is from right vertex of face to center of circle 
+        //v1 is from right vertex of face to center of CIRCLE
         //v2 is from right vertex of face to left vertex of face
         vec2.subtract(v1, circ2Pos, this.mVertex[(nearestEdge + 1) % 4]);
         vec2.scale(v2, v2, -1);
@@ -92,7 +92,7 @@ RigidRectangle.prototype.collideRectCirc = function (otherCir, collisionInfo) {
         if (dot < 0) {
             return this.checkCircRecVertex(v1, circ2Pos, otherCir.mRadius, collisionInfo);
         } else {
-            //the center of circle is in face region of face[nearestEdge]
+            //the center of CIRCLE is in face region of face[nearestEdge]
             if (bestDistance < otherCir.mRadius) {
                 vec2.scale(radiusVec, this.mFaceNormal[nearestEdge], otherCir.mRadius);
                 dis = otherCir.mRadius - bestDistance;

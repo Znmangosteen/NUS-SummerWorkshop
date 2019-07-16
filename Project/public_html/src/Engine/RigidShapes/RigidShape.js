@@ -300,7 +300,7 @@ RigidShape.kNumCircleSides = 16;
  * Draws the bounds of the Rigid Circle
  * @memberOf RigidShape
  * @param {Camera} aCamera The camera to draw the shape on
- * @param {float} r The radius of the circle
+ * @param {float} r The radius of the CIRCLE
  */
 RigidShape.prototype.drawCircle = function(aCamera, r) {
     var pos = this.mXform.getPosition();    

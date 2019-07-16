@@ -1,6 +1,6 @@
 /* 
  * File:RigidCircle.js
- *      define a circle
+ *      define a CIRCLE
  *     
  */
 /*jslint node: true, vars: true, evil: true, bitwise: true */
@@ -57,7 +57,7 @@ RigidCircle.prototype.incShapeSizeBy= function (dt) {
 RigidCircle.prototype.draw = function (aCamera) {
     RigidShape.prototype.draw.call(this, aCamera);
     
-    // kNumSides forms the circle.
+    // kNumSides forms the CIRCLE.
     this.mLine.setColor([0, 0, 0, 1]);
     this.drawCircle(aCamera, this.mRadius);
     
