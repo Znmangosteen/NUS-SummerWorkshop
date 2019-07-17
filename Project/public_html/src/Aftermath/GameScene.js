@@ -16,7 +16,7 @@ function GameScene() {
     this.kUIButton = "assets/UI/SimpleButton.png";
     this.kCue = "assets/AudioTest/BlueLevel_cue.wav";
     this.kMinionSprite = "assets/minion_sprite.png";
-    this.kTrap = "assets/trap.png";
+    this.kTrap = "assets/Trap.png";
     this.kSave = "assets/save.png";
 
 
