@@ -102,17 +102,15 @@ Barrage.prototype.update = function (aCamera, wing) {
     var i;
     for (i = 0; i < this.mSet.length; i++) {
         this.mSet[i].update(aCamera);
+
+    }
+
+    for (i = 0; i < this.mSet.length; i++) {
         var h = [];
         if (this.mSet[i].pixelTouches(wing,h)) {
             wing.hitTime += 1;
         }
-    }
 
-    for (i = 0; i < this.mSet.length; i++) {
-        // if (this.mSet[i].isDied()) {
-        //     this.mSet.splice(i, 1);
-        //     break;
-        // }
     }
 
 
