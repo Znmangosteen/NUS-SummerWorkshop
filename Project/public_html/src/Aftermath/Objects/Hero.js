@@ -20,6 +20,13 @@ function Hero(spriteTexture) {
     this.mDye.getXform().setSize(9, 12);
     this.mDye.setElementPixelPositions(0, 120, 0, 180);
 
+    this.mRDye = new SpriteRenderable(spriteTexture);
+    this.mRDye.setColor([1, 1, 1, 0]);
+    this.mRDye.getXform().setPosition(35, 50);
+    this.mRDye.getXform().setSize(9, 12);
+    // this.mDye.setElementPixelPositions(0, 120, 0, 180);
+    this.mRDye.setElementPixelPositions(120, 0, 0, 180);
+
     // this.mPackSet = new GameObjectSet();
     this.kMinionSprite = spriteTexture;
 
@@ -55,19 +62,26 @@ Hero.prototype.update = function (trap, savePoint) {
 
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
         this.mDye.getXform().getPosition()[0] -= 1;
+        this.mRDye.getXform().getPosition()[0] -= 1;
+        this.mRenderComponent = this.mRDye;
+
 
 
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
         this.mDye.getXform().getPosition()[0] += 1;
+        this.mRDye.getXform().getPosition()[0] += 1;
+        this.mRenderComponent = this.mDye;
 
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Up)) {
         this.mDye.getXform().getPosition()[1] += 1;
+        this.mRDye.getXform().getPosition()[1] += 1;
 
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Down)) {
         this.mDye.getXform().getPosition()[1] -= 1;
+        this.mRDye.getXform().getPosition()[1] -= 1;
 
     }
 
