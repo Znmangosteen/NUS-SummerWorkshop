@@ -17,7 +17,9 @@ function SavePoint(spriteTexture) {
     this.mSavePoint.setColor([1, 0, 0, 1]);
     this.mSavePoint.getXform().setPosition(20, 20);
     this.mSavePoint.getXform().setSize(7.5, 7.5);
-    this.mSavePoint.setElementPixelPositions(130, 310, 0, 180);
+    this.mSavePoint.setElementPixelPositions(0, 64, 0, 64);
+
+    // this.mSavePoint.setElementPixelPositions(130, 310, 0, 180);
 
     GameObject.call(this, this.mSavePoint);
 

@@ -16,6 +16,8 @@ function GameScene() {
     this.kUIButton = "assets/UI/SimpleButton.png";
     this.kCue = "assets/AudioTest/BlueLevel_cue.wav";
     this.kMinionSprite = "assets/minion_sprite.png";
+    this.kTrap = "assets/trap.png";
+    this.kSave = "assets/save.png";
 
 
     // The camera to view the scene
@@ -47,6 +49,8 @@ GameScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kUIButton);
     gEngine.AudioClips.loadAudio(this.kCue);
     gEngine.Textures.loadTexture(this.kMinionSprite);
+    gEngine.Textures.loadTexture(this.kTrap);
+    gEngine.Textures.loadTexture(this.kSave);
 
 
 };
@@ -54,6 +58,8 @@ GameScene.prototype.loadScene = function () {
 GameScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kUIButton);
     gEngine.Textures.unloadTexture(this.kMinionSprite);
+    gEngine.Textures.unloadTexture(this.kTrap);
+    gEngine.Textures.unloadTexture(this.kSave);
 
     // if(this.LevelSelect==="Particle"){
     //     gEngine.Core.startScene(new ParticleLevel());
@@ -91,8 +97,8 @@ GameScene.prototype.initialize = function () {
 
     // this.mWing = new Wing(this.kMinionSprite,50,20,0);
     this.mHero = new Hero(this.kMinionSprite);
-    this.mTrap = new Trap(this.kMinionSprite);
-    this.mSavePoint = new SavePoint(this.kMinionSprite);
+    this.mTrap = new Trap(this.kTrap);
+    this.mSavePoint = new SavePoint(this.kSave);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -127,7 +133,7 @@ GameScene.prototype.update = function () {
     // this.PhysicsButton.update();
     // this.UIButton.update();
 
-    this.mHero.update(this.mTrap,this.mSavePoint);
+    this.mHero.update(this.mTrap, this.mSavePoint);
     this.mTrap.update();
     this.mSavePoint.update();
 
@@ -161,8 +167,8 @@ GameScene.prototype.update = function () {
 
 };
 
-GameScene.prototype.gameSceneSelect = function(){
-    this.LevelSelect="Game";
+GameScene.prototype.gameSceneSelect = function () {
+    this.LevelSelect = "Game";
     gEngine.GameLoop.stop();
 };
 //
