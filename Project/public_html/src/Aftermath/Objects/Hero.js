@@ -38,12 +38,13 @@ function Hero(spriteTexture) {
 gEngine.Core.inheritPrototype(Hero, GameObject);
 
 Hero.prototype.draw = function (aCamera) {
-    this.mPackSet.draw(aCamera);
+    // this.mPackSet.draw(aCamera);
     GameObject.prototype.draw.call(this, aCamera);  // the default GameObject: only move forward
 
 };
 
-this.decreaseHealth = function () {
+Hero.prototype.decreaseHealth = function () {
+    this.mDye.setColor([1, 0, 0, 0.5]);
 //    TODO decrease
 
 //    TODO hero get red
@@ -52,17 +53,35 @@ this.decreaseHealth = function () {
 
 Hero.prototype.update = function (trap, savePoint) {
 
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
+        this.mDye.getXform().getPosition()[0] -= 1;
 
-    // control by WASD
-    // TODO hitbox with Trap
-    if (hit) {
-        this.decreaseHealth();
+
+    }
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
+        this.mDye.getXform().getPosition()[0] += 1;
+
+    }
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Up)) {
+        this.mDye.getXform().getPosition()[1] += 1;
+
+    }
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Down)) {
+        this.mDye.getXform().getPosition()[1] -= 1;
+
     }
 
+        // control by WASD
 
-    // TODO hitbox with SavePoint
-    if (hit) {
-        savePoint.save();
-    }
+        // // TODO hitbox with Trap
+        if (this.getBBox().intersectsBound(trap.getBBox())) {
+            this.decreaseHealth();
+        }
+        //
+        //
+        // // TODO hitbox with SavePoint
+        if (this.getBBox().intersectsBound(savePoint.getBBox())) {
+            savePoint.save();
+        }
 
-};
+    };

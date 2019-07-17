@@ -14,7 +14,7 @@ function SavePoint(spriteTexture) {
     //TODO get another texture
     this.mSavePoint = new SpriteRenderable(spriteTexture);
     //TODO set to red
-    this.mSavePoint.setColor([1, 1, 1, 0]);
+    this.mSavePoint.setColor([1, 0, 0, 1]);
     this.mSavePoint.getXform().setPosition(20, 20);
     this.mSavePoint.getXform().setSize(7.5, 7.5);
     this.mSavePoint.setElementPixelPositions(130, 310, 0, 180);
@@ -34,12 +34,12 @@ SavePoint.prototype.draw = function (aCamera) {
 
 SavePoint.prototype.save = function () {
     //TODO change from red to green
-    // this.setColor()
+    this.mSavePoint.setColor([0, 1, 0, 1]);
 
 
 };
 SavePoint.prototype.update = function (aCamera) {
-    GameObject.prototype.update.call(this);  // default moving forward
+    // GameObject.prototype.update.call(this);  // default moving forward
 
 
 };
