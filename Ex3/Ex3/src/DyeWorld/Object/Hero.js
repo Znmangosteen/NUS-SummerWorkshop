@@ -41,7 +41,7 @@ Hero.prototype.draw = function (aCamera) {
     GameObject.prototype.draw.call(this, aCamera);  // the default GameObject: only move forward
 
 };
-Hero.prototype.update = function () {
+Hero.prototype.update = function (patrolSet) {
     // control by WASD
     var xform = this.getXform();
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)) {
@@ -51,7 +51,7 @@ Hero.prototype.update = function () {
         }
     }
 
-    this.mPackSet.update();
+    this.mPackSet.update(patrolSet);
 
     // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
     //     xform.incYPosBy(this.kDelta);

@@ -55,13 +55,5 @@ Wing.prototype.update = function () {
     if (this.hitTime > 0) {
         this.hit();
     }
-    // // move towards the left and wraps
-    // var xform = this.getXform();
-    // xform.incXPosBy(-this.kDelta);
-    //
-    // // if fly off to the left, re-appear at the right
-    // if (xform.getXPos() < 0) {
-    //     xform.setXPos(100);
-    //     xform.setYPos(65 * Math.random());
-    // }
+
 };
