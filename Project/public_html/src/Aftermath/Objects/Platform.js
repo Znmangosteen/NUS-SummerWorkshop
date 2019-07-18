@@ -22,10 +22,10 @@ function Platform(texture, atX, atY) {
     // var rigidShape = new RigidRectangle(this.getXform(), 30, 3);
     var rigidShape = new RigidRectangle(this.getXform(), 30, 10);
     rigidShape.setMass(0);  // ensures no movements!
-    rigidShape.toggleDrawBound();
+    // rigidShape.toggleDrawBound();
     this.toggleDrawRigidShape();
 
-    // rigidShape.setDrawBounds(true);
+    rigidShape.setDrawBounds(true);
     // rigidShape.setColor([1, 0.2, 0.2, 1]);
     this.setRigidBody(rigidShape);
 

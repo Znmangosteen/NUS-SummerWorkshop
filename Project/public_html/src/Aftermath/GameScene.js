@@ -163,12 +163,13 @@ GameScene.prototype.update = function () {
     // this.PhysicsButton.update();
     // this.UIButton.update();
     this.mAllPlatforms.update();
+    this.reset=gEngine.Physics.processObjSet(this.mHero, this.mAllPlatforms);
 
-    this.mHero.update(this.mTrap, this.mSavePoint);
+    this.mHero.update(this.mTrap, this.mSavePoint,this.reset);
     this.mTrap.update();
     this.mSavePoint.update();
 
-    this.reset=gEngine.Physics.processObjSet(this.mHero, this.mAllPlatforms);
+    this.reset = false;
 
     // var num = 0;
     // for (let i = 0; i < this.mBarrageSet.length; i++) {

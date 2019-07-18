@@ -41,16 +41,18 @@ function Hero(spriteTexture) {
 
     var r = new RigidRectangle(this.getXform(), 10, 10);
     // r.setMass(.18);  // less dense than Minions
-    r.setMass(0.1);  // less dense than Minions
+    r.setMass(0.16);  // less dense than Minions
     r.setRestitution(0);
-    r.toggleDrawBound();
+    // r.toggleDrawBound();
     this.toggleDrawRigidShape();
     // r.setColor([0, 1, 0, 1]);
-    // r.setDrawBounds(true);
+    r.setDrawBounds(true);
     this.setRigidBody(r);
 
     this.setCurrentFrontDir(vec2.fromValues(0, 1));
     this.setSpeed(0);
+
+    this.jump = false;
 
 }
 
@@ -70,8 +72,14 @@ Hero.prototype.decreaseHealth = function () {
 
 };
 
-Hero.prototype.update = function (trap, savePoint) {
+Hero.prototype.update = function (trap, savePoint, reset) {
     GameObject.prototype.update.call(this);
+
+    // control by WASD
+    var v = this.getRigidBody().getVelocity();
+    if (reset === true) {
+        this.jump = true;
+    }
 
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.W)) {
         if (this.jump === true) {
