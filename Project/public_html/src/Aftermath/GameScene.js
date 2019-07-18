@@ -244,6 +244,10 @@ GameScene.prototype.update = function () {
 
         gEngine.GameLoop.stop();
     }
+    if (this.mBoss.death) {
+
+        gEngine.GameLoop.stop();
+    }
     // var num = 0;
     // for (let i = 0; i < this.mBarrageSet.length; i++) {
     //     this.mBarrageSet[i].update(this.mCamera,this.mWing);

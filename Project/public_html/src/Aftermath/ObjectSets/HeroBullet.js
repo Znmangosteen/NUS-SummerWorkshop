@@ -113,6 +113,7 @@ HeroBullet.prototype.update = function (aCamera, target) {
                 // if (this.mSet[i].pixelTouches(wing,h)) {
                 if (this.mSet[i].getBBox().intersectsBound(target.getBBox())) {
                     target.decreaseHealth();
+                    this.removeFromSet(this.mSet[i]);
                     // wing.hitTime += 1;
                 }
 

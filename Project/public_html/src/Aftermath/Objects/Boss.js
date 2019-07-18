@@ -62,7 +62,8 @@ function Boss(spriteTexture, bullet) {
     //Rate in per second
     this.kfireRate = 5;
 
-    this.health = 100;
+    this.health = 5;
+    this.death = false;
 
     GameObject.call(this, this.mBoss);
 
@@ -98,9 +99,13 @@ Boss.prototype.draw = function (aCamera) {
 };
 
 Boss.prototype.decreaseHealth = function () {
-    this.mBoss.setColor([1, 0, 0, 0.5]);
+    // this.mBoss.setColor([1, 0, 0, 0.5]);
     // this.mBoss.getColor()[1] = [1];
-    this.mBoss.getColor()[3] = [0.5];
+    // this.mBoss.getColor()[3] = [0.5];
+    this.health -= 1;
+    if (this.health <= 0) {
+        this.death = true;
+    }
 //    TODO decrease
 
 //    TODO Boss get red

@@ -18,6 +18,8 @@ function MyGame() {
     this.kMinionSprite = "assets/minion_sprite.png";
     this.kWawa = "assets/Character/3.png";
     this.kBg = "assets/Background/snow-bg.png";
+    this.kHeroBullet = "assets/Bullet/pink-bullet.png";
+
 
 
     // The camera to view the scene
@@ -49,6 +51,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kMinionSprite);
     gEngine.Textures.loadTexture(this.kWawa);
     gEngine.Textures.loadTexture(this.kBg);
+    gEngine.Textures.loadTexture(this.kHeroBullet);
 
 
 };
@@ -58,6 +61,7 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kMinionSprite);
     gEngine.Textures.unloadTexture(this.kWawa);
     gEngine.Textures.unloadTexture(this.kBg);
+    gEngine.Textures.unloadTexture(this.kHeroBullet);
 
     if (this.LevelSelect === "Game") {
         gEngine.Core.startScene(new GameScene());
@@ -105,7 +109,7 @@ MyGame.prototype.initialize = function () {
     this.mMsg.setTextHeight(3);
 
     // this.mWing = new Wing(this.kMinionSprite,50,20,0);
-    this.mHero = new Hero(this.kWawa, 50, 0, 0);
+    this.mHero = new Hero(this.kWawa, this.kHeroBullet);
     this.mHero.getRigidBody().setMass(0);
 
 };
