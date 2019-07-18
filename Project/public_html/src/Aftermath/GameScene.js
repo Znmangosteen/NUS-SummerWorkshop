@@ -23,8 +23,9 @@ function GameScene() {
     this.kHero = "assets/Character/3.png";
     this.kBg = "assets/Background/snow-bg.png";
     this.kBullet = "assets/Bullet/Yellow-Bullet.png";
+    this.kHeroBullet = "assets/Bullet/pink-bullet.png";
     // this.kBullet = "assets/Bullet/blue-bullet.png";
-    this.kBoss= "assets/Character/Boss.png";
+    this.kBoss = "assets/Character/Boss.png";
 
 
     // The camera to view the scene
@@ -67,6 +68,7 @@ GameScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kHero);
     gEngine.Textures.loadTexture(this.kBg);
     gEngine.Textures.loadTexture(this.kBullet);
+    gEngine.Textures.loadTexture(this.kHeroBullet);
     gEngine.Textures.loadTexture(this.kBoss);
 
 
@@ -80,6 +82,7 @@ GameScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kHero);
     gEngine.Textures.unloadTexture(this.kBg);
     gEngine.Textures.unloadTexture(this.kBullet);
+    gEngine.Textures.unloadTexture(this.kHeroBullet);
     gEngine.Textures.unloadTexture(this.kBoss);
 
     gEngine.Core.startScene(new MyGame());
@@ -131,7 +134,7 @@ GameScene.prototype.initialize = function () {
     // this.mMsg.setTextHeight(3);
 
     // this.mWing = new Wing(this.kMinionSprite,50,20,0);
-    this.mHero = new Hero(this.kHero);
+    this.mHero = new Hero(this.kHero, this.kHeroBullet);
     this.mTrap = new Trap(this.kTrap);
     this.mSavePoint = new SavePoint(this.kSave);
 
@@ -229,7 +232,7 @@ GameScene.prototype.update = function () {
     this.mAllPlatforms.update();
     this.reset = gEngine.Physics.processObjSet(this.mHero, this.mAllPlatforms);
 
-    this.mHero.update(this.mTrap, this.mSavePoint, this.reset);
+    this.mHero.update(this.mTrap, this.mSavePoint, this.reset, this.mCamera, this.mBoss);
     this.mTrap.update();
     this.mSavePoint.update();
 

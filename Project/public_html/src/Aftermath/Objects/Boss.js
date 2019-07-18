@@ -81,7 +81,7 @@ function Boss(spriteTexture, bullet) {
     this.setSpeed(0);
 
     this.jump = false;
-
+    this.invincible = false;
 
 }
 
@@ -105,6 +105,9 @@ Boss.prototype.decreaseHealth = function () {
 
 //    TODO Boss get red
 
+};
+Boss.prototype.isInvincible = function () {
+    return this.invincible;
 };
 
 Boss.prototype.update = function (aCamera, aHero) {

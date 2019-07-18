@@ -11,7 +11,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Hero(spriteTexture) {
+function Hero(spriteTexture, bulletTexture) {
     this.kDelta = 0.3;
     this.kYDelta = 130;
     this.kYMDelta = 180;
@@ -61,7 +61,7 @@ function Hero(spriteTexture) {
     this.health = 5;
     this.death = false;
 
-        GameObject.call(this, this.mDye);
+    GameObject.call(this, this.mDye);
 
     var r = new RigidRectangle(this.getXform(), this.kRwidth, this.kRheight);
     // r.setMass(.18);  // less dense than Minions
@@ -74,13 +74,14 @@ function Hero(spriteTexture) {
     // r.setDrawBounds(true);
     this.setRigidBody(r);
 
-    this.setCurrentFrontDir(vec2.fromValues(0, 1));
+    this.setCurrentFrontDir(vec2.fromValues(1, 0));
     this.setSpeed(0);
 
     this.jump = false;
     this.invincible = 0;
 
-
+    this.mBullets = new HeroBullet();
+    this.kBulletTexture = bulletTexture;
 }
 
 gEngine.Core.inheritPrototype(Hero, GameObject);
@@ -88,6 +89,7 @@ gEngine.Core.inheritPrototype(Hero, GameObject);
 Hero.prototype.draw = function (aCamera) {
     // this.mPackSet.draw(aCamera);
     GameObject.prototype.draw.call(this, aCamera);  // the default GameObject: only move forward
+    this.mBullets.draw(aCamera);
 
 };
 
@@ -116,7 +118,7 @@ Hero.prototype.isInvincible = function () {
     return this.invincible;
 };
 
-Hero.prototype.update = function (trap, savePoint, reset) {
+Hero.prototype.update = function (trap, savePoint, reset, aCamera, aBoss) {
     GameObject.prototype.update.call(this);
     // control by WASD
     var v = this.getRigidBody().getVelocity();
@@ -146,6 +148,7 @@ Hero.prototype.update = function (trap, savePoint, reset) {
             this.mDye.getXform().getPosition()[0] -= 1;
         }
         // this.mRDye.getXform().getPosition()[0] -= 1;
+        this.setCurrentFrontDir(vec2.fromValues(-1, 0));
 
         this.mRenderComponent = this.mRDye;
     }
@@ -157,8 +160,19 @@ Hero.prototype.update = function (trap, savePoint, reset) {
 
         }
         // this.mRDye.getXform().getPosition()[0] += 1;
+        this.setCurrentFrontDir(vec2.fromValues(1, 0));
+
         this.mRenderComponent = this.mDye;
     }
+
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
+        // this.mBullets.addToSet(new Bullet(this.mBullets, this.kBulletTexture, this.getXform().getPosition(), 1, vec2.fromValues(1, 0)));
+        this.mBullets.addToSet(new Bullet(this.mBullets, this.kBulletTexture, this.getXform().getPosition(), 1, this.getCurrentFrontDir()));
+
+
+    }
+
+    this.mBullets.update(aCamera, aBoss);
 
     if (this.invincible > 0) {
         this.invincible -= 1;
