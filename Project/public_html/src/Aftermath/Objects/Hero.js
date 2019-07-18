@@ -13,20 +13,37 @@
 
 function Hero(spriteTexture) {
     this.kDelta = 0.3;
-    this.kYDelta = 130;
+    this.kYDelta = 150;
 
-    this.mDye = new SpriteRenderable(spriteTexture);
+    this.mDye = new SpriteAnimateRenderable(spriteTexture);
     this.mDye.setColor([1, 1, 1, 0]);
     this.mDye.getXform().setPosition(35, 50);
-    this.mDye.getXform().setSize(9, 12);
-    this.mDye.setElementPixelPositions(0, 120, 0, 180);
+    this.mDye.getXform().setSize(12, 12);
+    // this.mDye.setElementPixelPositions(0, 120, 0, 180);
+    this.mDye.setSpriteSequence(1024, 0,     // first element pixel position: top-left 512 is top of image, 0 is left of image
+        566, 566,   // widthxheight in pixels
+        3,          // number of elements in this sequence
+        0);         // horizontal padding in between
+    this.mDye.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateSwing);
+    this.mDye.setAnimationSpeed(15);
 
-    this.mRDye = new SpriteRenderable(spriteTexture);
+    this.mRDye = new SpriteAnimateRenderable(spriteTexture);
     this.mRDye.setColor([1, 1, 1, 0]);
     this.mRDye.getXform().setPosition(35, 50);
-    this.mRDye.getXform().setSize(9, 12);
+    this.mRDye.getXform().setSize(12, 12);
     // this.mDye.setElementPixelPositions(0, 120, 0, 180);
-    this.mRDye.setElementPixelPositions(120, 0, 0, 180);
+    // this.mRDye.setElementPixelPositions(120, 0, 0, 180);
+    this.mRDye.setSpriteSequence(1024, 0,     // first element pixel position: top-left 512 is top of image, 0 is left of image
+        566, 566,   // widthxheight in pixels
+        3,          // number of elements in this sequence
+        0);         // horizontal padding in between
+    this.mRDye.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateSwing);
+    this.mRDye.setAnimationSpeed(15);
+
+
+
+    this.mRDye.mXform = this.mDye.getXform();
+    this.mRDye.mColor = this.mDye.getColor();
 
     // this.mPackSet = new GameObjectSet();
     this.kMinionSprite = spriteTexture;
@@ -42,6 +59,7 @@ function Hero(spriteTexture) {
     var r = new RigidRectangle(this.getXform(), 10, 10);
     // r.setMass(.18);  // less dense than Minions
     r.setMass(0.16);  // less dense than Minions
+    // r.setMass(0);  // less dense than Minions
     r.setRestitution(0);
     // r.toggleDrawBound();
     this.toggleDrawRigidShape();
@@ -53,6 +71,7 @@ function Hero(spriteTexture) {
     this.setSpeed(0);
 
     this.jump = false;
+
 
 }
 
@@ -66,6 +85,8 @@ Hero.prototype.draw = function (aCamera) {
 
 Hero.prototype.decreaseHealth = function () {
     this.mDye.setColor([1, 0, 0, 0.5]);
+    // this.mDye.getColor()[1] = [1];
+    this.mDye.getColor()[3] = [0.5];
 //    TODO decrease
 
 //    TODO hero get red
@@ -74,7 +95,6 @@ Hero.prototype.decreaseHealth = function () {
 
 Hero.prototype.update = function (trap, savePoint, reset) {
     GameObject.prototype.update.call(this);
-
     // control by WASD
     var v = this.getRigidBody().getVelocity();
     if (reset === true) {
@@ -85,7 +105,7 @@ Hero.prototype.update = function (trap, savePoint, reset) {
         if (this.jump === true) {
 
             // v[1] += this.kYDelta;
-            v[1] = Math.min(this.kYDelta + v[1], 1.2 * this.kYDelta);
+            v[1] = Math.min(this.kYDelta + v[1], 1.1 * this.kYDelta);
             this.jump = false;
         }
 
@@ -102,13 +122,19 @@ Hero.prototype.update = function (trap, savePoint, reset) {
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
         // v[0] -= this.kXDelta;
-        this.getXform().getPosition()[0] -= .5;
+        this.mDye.getXform().getPosition()[0] -= 1;
+        // this.mRDye.getXform().getPosition()[0] -= 1;
+
+        this.mRenderComponent = this.mRDye;
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
         // v[0] += this.kXDelta;
-        this.getXform().getPosition()[0] += .5;
+        this.mDye.getXform().getPosition()[0] += 1;
+        // this.mRDye.getXform().getPosition()[0] += 1;
+        this.mRenderComponent = this.mDye;
     }
 
+    this.mRenderComponent.updateAnimation();
     //
     // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
     //     this.mDye.getXform().getPosition()[0] -= 1;

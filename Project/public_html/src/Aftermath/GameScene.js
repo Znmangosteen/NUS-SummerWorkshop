@@ -19,7 +19,7 @@ function GameScene() {
     this.kTrap = "assets/Trap.png";
     this.kSave = "assets/save.png";
     this.kPlatformTexture = "assets/BlockUnit/green-platform2.png";
-
+    this.kHero = "assets/Character/2.png";
 
 
     // The camera to view the scene
@@ -58,6 +58,7 @@ GameScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kTrap);
     gEngine.Textures.loadTexture(this.kSave);
     gEngine.Textures.loadTexture(this.kPlatformTexture);
+    gEngine.Textures.loadTexture(this.kHero);
 
 
 };
@@ -68,6 +69,7 @@ GameScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kTrap);
     gEngine.Textures.unloadTexture(this.kSave);
     gEngine.Textures.unloadTexture(this.kPlatformTexture);
+    gEngine.Textures.unloadTexture(this.kHero);
 
     // if(this.LevelSelect==="Particle"){
     //     gEngine.Core.startScene(new ParticleLevel());
@@ -110,14 +112,14 @@ GameScene.prototype.initialize = function () {
     // this.mMsg.setTextHeight(3);
 
     // this.mWing = new Wing(this.kMinionSprite,50,20,0);
-    this.mHero = new Hero(this.kMinionSprite);
+    this.mHero = new Hero(this.kHero);
     this.mTrap = new Trap(this.kTrap);
     this.mSavePoint = new SavePoint(this.kSave);
 
     var i, j, rx, ry, obj, dy, dx;
 
     rx = -15;
-    for (i = 0; i<9; i++) {
+    for (i = 0; i < 9; i++) {
         obj = new Platform(this.kPlatformTexture, rx, 5);
         this.mAllPlatforms.addToSet(obj);
 
@@ -163,9 +165,9 @@ GameScene.prototype.update = function () {
     // this.PhysicsButton.update();
     // this.UIButton.update();
     this.mAllPlatforms.update();
-    this.reset=gEngine.Physics.processObjSet(this.mHero, this.mAllPlatforms);
+    this.reset = gEngine.Physics.processObjSet(this.mHero, this.mAllPlatforms);
 
-    this.mHero.update(this.mTrap, this.mSavePoint,this.reset);
+    this.mHero.update(this.mTrap, this.mSavePoint, this.reset);
     this.mTrap.update();
     this.mSavePoint.update();
 

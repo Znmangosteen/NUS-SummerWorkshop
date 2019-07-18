@@ -16,6 +16,7 @@ function MyGame() {
     this.kUIButton = "assets/UI/SimpleButton.png";
     this.kCue = "assets/AudioTest/BlueLevel_cue.wav";
     this.kMinionSprite = "assets/minion_sprite.png";
+    this.kWawa = "assets/Character/2.png";
 
 
     // The camera to view the scene
@@ -43,6 +44,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kUIButton);
     gEngine.AudioClips.loadAudio(this.kCue);
     gEngine.Textures.loadTexture(this.kMinionSprite);
+    gEngine.Textures.loadTexture(this.kWawa);
 
 
 };
@@ -50,6 +52,7 @@ MyGame.prototype.loadScene = function () {
 MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kUIButton);
     gEngine.Textures.unloadTexture(this.kMinionSprite);
+    gEngine.Textures.unloadTexture(this.kWawa);
 
     if(this.LevelSelect==="Game"){
         gEngine.Core.startScene(new GameScene());
@@ -91,7 +94,8 @@ MyGame.prototype.initialize = function () {
     this.mMsg.getXform().setPosition(5, 5);
     this.mMsg.setTextHeight(3);
 
-    this.mWing = new Wing(this.kMinionSprite,50,20,0);
+    // this.mWing = new Wing(this.kMinionSprite,50,20,0);
+    this.mWing = new Wing(this.kWawa,50,20,0);
 
 };
 
