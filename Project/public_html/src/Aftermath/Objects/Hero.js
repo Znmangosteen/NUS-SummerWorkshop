@@ -77,7 +77,7 @@ function Hero(spriteTexture) {
     this.setSpeed(0);
 
     this.jump = false;
-    this.invincible = false;
+    this.invincible = 0;
 
 
 }
@@ -91,19 +91,22 @@ Hero.prototype.draw = function (aCamera) {
 };
 
 Hero.prototype.decreaseHealth = function () {
-    this.mDye.setColor([1, 0, 0, 0.5]);
+    // this.mDye.setColor([1, 0, 0, 0.5]);
     // this.mDye.getColor()[1] = [1];
     this.mDye.getColor()[3] = [0.5];
+    this.invincible = 180;
 //    TODO decrease
 
 //    TODO hero get red
 
 };
 
-// Hero.prototype.getBBox = function () {
-//
-//
-// };
+Hero.prototype.getBBox = function () {
+    var xform = this.mDye.getXform();
+    var b = new BoundingBox(xform.getPosition(), xform.getWidth() / 5, xform.getHeight() / 5);
+    return b;
+
+};
 Hero.prototype.isInvincible = function () {
     return this.invincible;
 };
@@ -133,7 +136,7 @@ Hero.prototype.update = function (trap, savePoint, reset) {
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
         // v[0] -= this.kXDelta;
-        if (this.mDye.getXform().getPosition()[0]>0) {
+        if (this.mDye.getXform().getPosition()[0] > 0) {
 
             this.mDye.getXform().getPosition()[0] -= 1;
         }
@@ -148,10 +151,17 @@ Hero.prototype.update = function (trap, savePoint, reset) {
             this.mDye.getXform().getPosition()[0] += 1;
 
         }
-            // this.mRDye.getXform().getPosition()[0] += 1;
-            this.mRenderComponent = this.mDye;
-        }
+        // this.mRDye.getXform().getPosition()[0] += 1;
+        this.mRenderComponent = this.mDye;
+    }
 
+    if (this.invincible > 0) {
+        this.invincible -= 1;
+    } else {
+        this.invincible = 0;
+        this.mDye.getColor()[3] = [0];
+
+    }
     this.mRenderComponent.updateAnimation();
     //
     // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {

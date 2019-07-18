@@ -118,6 +118,7 @@ Barrage.prototype.update = function (aCamera, target) {
             var h = [];
             // if (this.mSet[i].pixelTouches(wing,h)) {
             if (this.mSet[i].getBBox().intersectsBound(target.getBBox())) {
+                target.decreaseHealth();
                 // wing.hitTime += 1;
             }
 

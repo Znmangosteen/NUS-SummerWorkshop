@@ -23,6 +23,7 @@ function GameScene() {
     this.kHero = "assets/Character/3.png";
     this.kBg = "assets/Background/snow-bg.png";
     this.kBullet = "assets/Bullet/Yellow-Bullet.png";
+    // this.kBullet = "assets/Bullet/blue-bullet.png";
     this.kBoss= "assets/Character/Boss.png";
 
 
