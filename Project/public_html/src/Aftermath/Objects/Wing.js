@@ -28,6 +28,7 @@ function Wing(spriteTexture, atX, atY, speed) {
     this.setSpeed(speed);
 
     this.hitTime = 0;
+    this.invincible = false;
 
 }
 
@@ -44,6 +45,10 @@ Wing.prototype.draw = function (aCamera, boxActivity) {
 Wing.prototype.hit = function () {
     this.hitTime -= 1;
     this.mMinion.getColor()[3] += 0.2;
+    this.invincible = true;
+};
+Wing.prototype.isInvincible=function () {
+    return this.invincible
 };
 
 Wing.prototype.update = function () {

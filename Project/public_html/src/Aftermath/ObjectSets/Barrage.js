@@ -104,14 +104,16 @@ Barrage.prototype.update = function (aCamera, wing) {
         this.mSet[i].update(aCamera);
 
     }
+    if (!wing.isInvincible()) {
+        for (i = 0; i < this.mSet.length; i++) {
+            var h = [];
+            if (this.mSet[i].pixelTouches(wing,h)) {
+                wing.hitTime += 1;
+            }
 
-    for (i = 0; i < this.mSet.length; i++) {
-        var h = [];
-        if (this.mSet[i].pixelTouches(wing,h)) {
-            wing.hitTime += 1;
         }
-
     }
+
 
 
 };

@@ -15,13 +15,19 @@ function Hero(spriteTexture) {
     this.kDelta = 0.3;
     this.kYDelta = 150;
 
+    this.width = 18;
+    this.height = 18;
+    this.kRwidth = 10;
+    this.kRheight = 18;
+
+
     this.mDye = new SpriteAnimateRenderable(spriteTexture);
     this.mDye.setColor([1, 1, 1, 0]);
     this.mDye.getXform().setPosition(35, 50);
-    this.mDye.getXform().setSize(12, 12);
+    this.mDye.getXform().setSize(this.width, this.height);
     // this.mDye.setElementPixelPositions(0, 120, 0, 180);
-    this.mDye.setSpriteSequence(1024, 0,     // first element pixel position: top-left 512 is top of image, 0 is left of image
-        566, 566,   // widthxheight in pixels
+    this.mDye.setSpriteSequence(512, 0,     // first element pixel position: top-left 512 is top of image, 0 is left of image
+        566, 512,   // widthxheight in pixels
         3,          // number of elements in this sequence
         0);         // horizontal padding in between
     this.mDye.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateSwing);
@@ -30,16 +36,15 @@ function Hero(spriteTexture) {
     this.mRDye = new SpriteAnimateRenderable(spriteTexture);
     this.mRDye.setColor([1, 1, 1, 0]);
     this.mRDye.getXform().setPosition(35, 50);
-    this.mRDye.getXform().setSize(12, 12);
+    this.mRDye.getXform().setSize(this.width, this.height);
     // this.mDye.setElementPixelPositions(0, 120, 0, 180);
     // this.mRDye.setElementPixelPositions(120, 0, 0, 180);
     this.mRDye.setSpriteSequence(1024, 0,     // first element pixel position: top-left 512 is top of image, 0 is left of image
-        566, 566,   // widthxheight in pixels
+        566, 512,   // widthxheight in pixels
         3,          // number of elements in this sequence
         0);         // horizontal padding in between
     this.mRDye.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateSwing);
     this.mRDye.setAnimationSpeed(15);
-
 
 
     this.mRDye.mXform = this.mDye.getXform();
@@ -56,7 +61,7 @@ function Hero(spriteTexture) {
 
     GameObject.call(this, this.mDye);
 
-    var r = new RigidRectangle(this.getXform(), 10, 10);
+    var r = new RigidRectangle(this.getXform(), this.kRwidth, this.kRheight);
     // r.setMass(.18);  // less dense than Minions
     r.setMass(0.16);  // less dense than Minions
     // r.setMass(0);  // less dense than Minions

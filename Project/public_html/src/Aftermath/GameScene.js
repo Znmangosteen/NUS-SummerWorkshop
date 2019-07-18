@@ -19,7 +19,7 @@ function GameScene() {
     this.kTrap = "assets/Trap.png";
     this.kSave = "assets/save.png";
     this.kPlatformTexture = "assets/BlockUnit/green-platform2.png";
-    this.kHero = "assets/Character/2.png";
+    this.kHero = "assets/Character/3.png";
 
 
     // The camera to view the scene
