@@ -16,8 +16,8 @@ function Boss(spriteTexture, bullet) {
     this.kYDelta = 130;
     this.kYMDelta = 180;
 
-    this.width = 8;
-    this.height = 8;
+    this.width = 10;
+    this.height = 10;
     this.kRwidth = 6;
     this.kRheight = 8;
 
@@ -27,7 +27,8 @@ function Boss(spriteTexture, bullet) {
     this.mBoss.setColor([1, 1, 1, 0]);
     this.mBoss.getXform().setPosition(55, 50);
     this.mBoss.getXform().setSize(this.width, this.height);
-    this.mBoss.setElementPixelPositions(0, 120, 0, 180);
+    // this.mBoss.setElementPixelPositions(0, 120, 0, 180);
+    this.mBoss.setElementPixelPositions(0,64,0,64);
 
     // this.mBoss.setSpriteSequence(512, 0,     // first element pixel position: top-left 512 is top of image, 0 is left of image
     //     566, 512,   // widthxheight in pixels
@@ -65,16 +66,16 @@ function Boss(spriteTexture, bullet) {
 
     GameObject.call(this, this.mBoss);
 
-    var r = new RigidRectangle(this.getXform(), this.kRwidth, this.kRheight);
-    // r.setMass(.18);  // less dense than Minions
-    // r.setMass(0.16);  // less dense than Minions
-    r.setMass(0);  // less dense than Minions
-    r.setRestitution(0);
-    // r.toggleDrawBound();
-    this.toggleDrawRigidShape();
-    // r.setColor([0, 1, 0, 1]);
-    // r.setDrawBounds(true);
-    this.setRigidBody(r);
+    // var r = new RigidRectangle(this.getXform(), this.kRwidth, this.kRheight);
+    // // r.setMass(.18);  // less dense than Minions
+    // // r.setMass(0.16);  // less dense than Minions
+    // r.setMass(0);  // less dense than Minions
+    // r.setRestitution(0);
+    // // r.toggleDrawBound();
+    // this.toggleDrawRigidShape();
+    // // r.setColor([0, 1, 0, 1]);
+    // // r.setDrawBounds(true);
+    // this.setRigidBody(r);
 
     this.setCurrentFrontDir(vec2.fromValues(0, 1));
     this.setSpeed(0);

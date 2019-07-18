@@ -23,6 +23,7 @@ function GameScene() {
     this.kHero = "assets/Character/3.png";
     this.kBg = "assets/Background/snow-bg.png";
     this.kBullet = "assets/Bullet/Yellow-Bullet.png";
+    this.kBoss= "assets/Character/Boss.png";
 
 
     // The camera to view the scene
@@ -66,6 +67,7 @@ GameScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kHero);
     gEngine.Textures.loadTexture(this.kBg);
     gEngine.Textures.loadTexture(this.kBullet);
+    gEngine.Textures.loadTexture(this.kBoss);
 
 
 };
@@ -79,6 +81,7 @@ GameScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kHero);
     gEngine.Textures.unloadTexture(this.kBg);
     gEngine.Textures.unloadTexture(this.kBullet);
+    gEngine.Textures.unloadTexture(this.kBoss);
 
     // if(this.LevelSelect==="Particle"){
     //     gEngine.Core.startScene(new ParticleLevel());
@@ -114,7 +117,7 @@ GameScene.prototype.initialize = function () {
     this.bg.getXform().setSize(200, 112.5);
     this.bg.getXform().setPosition(100, 56.25);
 
-    this.mBoss = new Boss(this.kMinionSprite, this.kBullet);
+    this.mBoss = new Boss(this.kBoss, this.kBullet);
     // this.ParticleButton = new UIButton(this.particleSelect,this,[400,400],[600,100],"Particle Demos",8);
     // this.PhysicsButton = new UIButton(this.physicsSelect,this,[400,300],[500,100],"Physics Demo",8);
     // this.UIButton =  new UIButton(this.uiSelect,this,[400,200],[320,100],"UI Demo",8);
