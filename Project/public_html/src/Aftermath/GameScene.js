@@ -59,7 +59,6 @@ gEngine.Core.inheritPrototype(GameScene, Scene);
 
 
 GameScene.prototype.loadScene = function () {
-    gEngine.Textures.loadTexture(this.kUIButton);
     gEngine.AudioClips.loadAudio(this.kCue);
     gEngine.Textures.loadTexture(this.kMinionSprite);
     gEngine.Textures.loadTexture(this.kTrap);
@@ -74,7 +73,6 @@ GameScene.prototype.loadScene = function () {
 };
 
 GameScene.prototype.unloadScene = function () {
-    gEngine.Textures.unloadTexture(this.kUIButton);
     gEngine.Textures.unloadTexture(this.kMinionSprite);
     gEngine.Textures.unloadTexture(this.kTrap);
     gEngine.Textures.unloadTexture(this.kSave);
@@ -83,6 +81,8 @@ GameScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBg);
     gEngine.Textures.unloadTexture(this.kBullet);
     gEngine.Textures.unloadTexture(this.kBoss);
+
+    gEngine.Core.startScene(new MyGame());
 
     // if(this.LevelSelect==="Particle"){
     //     gEngine.Core.startScene(new ParticleLevel());
@@ -237,6 +237,10 @@ GameScene.prototype.update = function () {
 
     this.reset = false;
 
+    if (this.mHero.death) {
+
+        gEngine.GameLoop.stop();
+    }
     // var num = 0;
     // for (let i = 0; i < this.mBarrageSet.length; i++) {
     //     this.mBarrageSet[i].update(this.mCamera,this.mWing);

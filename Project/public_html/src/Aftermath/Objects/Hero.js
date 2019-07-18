@@ -58,9 +58,10 @@ function Hero(spriteTexture) {
     //Rate in per second
     this.kfireRate = 5;
 
-    this.health = 100;
+    this.health = 5;
+    this.death = false;
 
-    GameObject.call(this, this.mDye);
+        GameObject.call(this, this.mDye);
 
     var r = new RigidRectangle(this.getXform(), this.kRwidth, this.kRheight);
     // r.setMass(.18);  // less dense than Minions
@@ -93,6 +94,10 @@ Hero.prototype.draw = function (aCamera) {
 Hero.prototype.decreaseHealth = function () {
     // this.mDye.setColor([1, 0, 0, 0.5]);
     // this.mDye.getColor()[1] = [1];
+    this.health -= 1;
+    if (this.health <= 0) {
+        this.death = true;
+    }
     this.mDye.getColor()[3] = [0.5];
     this.invincible = 180;
 //    TODO decrease
