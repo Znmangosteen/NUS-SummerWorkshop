@@ -136,16 +136,16 @@ MyGame.prototype.update = function () {
 
 
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
-        this.mBarrageSet.push(new Barrage(this.kMinionSprite, vec2.fromValues(50, 50), 0.8, BARRAGE_TYPE.CIRCLE, 30));
+        this.mBarrageSet.push(new Barrage(this.kMinionSprite, vec2.fromValues(50, 50), 0.8, BARRAGE_TYPE.CIRCLE, 30,0));
     }
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.W)) {
-        this.mBarrageSet.push(new Barrage(this.kMinionSprite, vec2.fromValues(50, 50), 0.8, BARRAGE_TYPE.D_SECTOR, 10));
+        this.mBarrageSet.push(new Barrage(this.kMinionSprite, vec2.fromValues(50, 50), 0.8, BARRAGE_TYPE.D_SECTOR, 10,0));
     }
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.E)) {
-        this.mBarrageSet.push(new Barrage(this.kMinionSprite, vec2.fromValues(50, 50), 0.8, BARRAGE_TYPE.LINE, 30));
+        this.mBarrageSet.push(new Barrage(this.kMinionSprite, vec2.fromValues(50, 50), 0.8, BARRAGE_TYPE.LINE, 30,0));
     }
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.R)) {
-        this.mBarrageSet.push(new Barrage(this.kMinionSprite, vec2.fromValues(50, 50), 0.8, BARRAGE_TYPE.CROSS, 30));
+        this.mBarrageSet.push(new Barrage(this.kMinionSprite, vec2.fromValues(50, 50), 0.8, BARRAGE_TYPE.CROSS, 30,0));
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
         gEngine.AudioClips.playACue(this.kCue, 0.1);

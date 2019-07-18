@@ -15,43 +15,52 @@
  * @returns {Barrage} New instance of Barrage
  * @class Barrage
  */
-function Barrage(spriteTexture, spawnPos, speed, type, num) {
+function Barrage(spriteTexture, spawnPos, speed, type, num, rotate) {
     GameObjectSet.call(this);
     var i = 0;
 
     this.barrageNum = num ? num : 100;
     var unit = 1;
+    var theta = 0;
 
     switch (type) {
         case BARRAGE_TYPE.CIRCLE:
             unit = 2 * Math.PI / this.barrageNum;
             for (i = 0; i < this.barrageNum; i++) {
-                this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(Math.cos(i * unit), Math.sin(i * unit))));
+                theta = rotate + i * unit;
+                this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(Math.cos(theta), Math.sin(theta))));
+                this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(Math.cos(i * unit), Math.sin(theta))));
             }
             break;
         case BARRAGE_TYPE.SECTOR:
             unit = Math.PI / (2 * this.barrageNum);
             for (i = 0; i < this.barrageNum; i++) {
-                this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(Math.cos((i - this.barrageNum / 2) * unit), Math.sin((i - this.barrageNum / 2) * unit))));
+                theta = rotate + (i - this.barrageNum / 2) * unit;
+                this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(Math.cos(theta), Math.sin(theta))));
             }
             break;
         case BARRAGE_TYPE.D_SECTOR:
             unit = Math.PI / (2 * this.barrageNum);
             for (i = 0; i < this.barrageNum; i++) {
-                this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(Math.cos((i - this.barrageNum / 2) * unit), Math.sin((i - this.barrageNum / 2) * unit))));
-                this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(-Math.cos((i - this.barrageNum / 2) * unit), -Math.sin((i - this.barrageNum / 2) * unit))));
+                theta = rotate + (i - this.barrageNum / 2) * unit;
+                this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(Math.cos(theta), Math.sin(theta))));
+                this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(-Math.cos(theta), -Math.sin(theta))));
             }
             break;
         case BARRAGE_TYPE.LINE:
-            this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(1, 0)));
-
+            theta += rotate;
+            this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(Math.cos(theta), Math.sin(theta))));
 
             break;
         case BARRAGE_TYPE.CROSS:
-            this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(1, 0)));
-            this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(-1, 0)));
-            this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(0, 1)));
-            this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(0, -1)));
+            theta += rotate;
+            this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(Math.cos(theta), Math.sin(theta))));
+            theta += Math.PI/2;
+            this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(Math.cos(theta), Math.sin(theta))));
+            theta += Math.PI/2;
+            this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(Math.cos(theta), Math.sin(theta))));
+            theta += Math.PI/2;
+            this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(Math.cos(theta), Math.sin(theta))));
 
             break;
 
@@ -107,13 +116,13 @@ Barrage.prototype.update = function (aCamera, wing) {
     if (!wing.isInvincible()) {
         for (i = 0; i < this.mSet.length; i++) {
             var h = [];
-            if (this.mSet[i].pixelTouches(wing,h)) {
+            // if (this.mSet[i].pixelTouches(wing,h)) {
+            if (this.mSet[i].getBBox().intersectsBound(wing.getBBox())) {
                 wing.hitTime += 1;
             }
 
         }
     }
-
 
 
 };
