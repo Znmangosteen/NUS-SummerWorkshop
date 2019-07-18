@@ -136,6 +136,7 @@
     <script type="text/javascript" src="src/Aftermath/Objects/Hero.js"></script>
     <script type="text/javascript" src="src/Aftermath/Objects/Trap.js"></script>
     <script type="text/javascript" src="src/Aftermath/Objects/SavePoint.js"></script>
+    <script type="text/javascript" src="src/Aftermath/Objects/Platform.js"></script>
 
     <!--<script type="text/javascript" src="src/MyGame/MyGame.js"></script>-->
     <!--<script type="text/javascript" src="src/MyGame/ParticleLevel.js"></script>-->
@@ -160,8 +161,9 @@
         var myGame = new MyGame();
         gEngine.Core.initializeEngineCore('GLCanvas', myGame);
      ">
-<div id="LoadingIconParent" style="width: 800px; height:600px;">
-    <canvas id="GLCanvas">
+<div id="LoadingIconParent" style="width: 1280px; height:720px;margin: auto ;left: 0;right: 0;top:0;bottom: 0">
+    <canvas id="GLCanvas" width="1280" height="720" style="">
+
         <!-- GLCanvas is the area we will draw in: a 640x480 area. -->
         Your browser does not support the HTML5 canvas.
         <!-- this message will show only if WebGL clearing failed -->
