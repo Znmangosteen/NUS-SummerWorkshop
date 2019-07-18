@@ -11,7 +11,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function MyGame() {
+function MyGame(previousWork) {
     //this.kUIButton = "assets/UI/button.png";
     this.kUIButton = "assets/UI/SimpleButton.png";
     this.kCue = "assets/AudioTest/BlueLevel_cue.wav";
@@ -19,7 +19,6 @@ function MyGame() {
     this.kWawa = "assets/Character/3.png";
     this.kBg = "assets/Background/snow-bg.png";
     this.kHeroBullet = "assets/Bullet/pink-bullet.png";
-
 
 
     // The camera to view the scene
@@ -33,6 +32,7 @@ function MyGame() {
     this.mBarrageSet = null;
 
     this.mMsg = null;
+    this.mMsg2 = null;
 
 //    FIXME debug thing
     this.mHero = null;
@@ -40,6 +40,13 @@ function MyGame() {
     this.LevelSelect = null;
 
     this.bg = null;
+
+    if (previousWork !== undefined) {
+        this.stateWord = previousWork;
+    } else {
+        this.stateWord = "";
+
+    }
 }
 
 gEngine.Core.inheritPrototype(MyGame, Scene);
@@ -96,6 +103,7 @@ MyGame.prototype.initialize = function () {
     // this.PhysicsButton = new UIButton(this.physicsSelect,this,[400,300],[500,100],"Physics Demo",8);
     // this.UIButton =  new UIButton(this.uiSelect,this,[400,200],[320,100],"UI Demo",8);
     this.UIText = new UIText("Press \"S\" to Play", [600, 220], 8, 1, 0, [0, 0, 0, 1]);
+    this.mMsg2 = new UIText(this.stateWord, [600, 400], 8, 1, 0, [1, 0, 0, 1]);
     this.mBarrageSet = [];
 
     this.bg = new TextureRenderable(this.kBg);
@@ -107,6 +115,7 @@ MyGame.prototype.initialize = function () {
     this.mMsg.setColor([1, 1, 1, 1]);
     this.mMsg.getXform().setPosition(5, 5);
     this.mMsg.setTextHeight(3);
+
 
     // this.mWing = new Wing(this.kMinionSprite,50,20,0);
     this.mHero = new Hero(this.kWawa, this.kHeroBullet);
@@ -121,12 +130,12 @@ MyGame.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
 
 
-
     this.mCamera.setupViewProjection();
     // this.ParticleButton.draw(this.mCamera);
     // this.PhysicsButton.draw(this.mCamera);
     // this.UIButton.draw(this.mCamera);
     this.UIText.draw(this.mCamera);
+    this.mMsg2.draw(this.mCamera);
 
     this.bg.draw(this.mCamera);
     //

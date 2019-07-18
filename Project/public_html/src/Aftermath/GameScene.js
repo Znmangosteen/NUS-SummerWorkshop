@@ -54,6 +54,8 @@ function GameScene() {
     this.mSavePoint = null;
 
     this.reset = false;
+
+    this.finState = "";
 }
 
 gEngine.Core.inheritPrototype(GameScene, Scene);
@@ -85,7 +87,7 @@ GameScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kHeroBullet);
     gEngine.Textures.unloadTexture(this.kBoss);
 
-    gEngine.Core.startScene(new MyGame());
+    gEngine.Core.startScene(new MyGame(this.finState));
 
     // if(this.LevelSelect==="Particle"){
     //     gEngine.Core.startScene(new ParticleLevel());
@@ -242,9 +244,11 @@ GameScene.prototype.update = function () {
 
     if (this.mHero.death) {
 
+        this.finState="You Died"
         gEngine.GameLoop.stop();
     }
     if (this.mBoss.death) {
+        this.finState="You Win"
 
         gEngine.GameLoop.stop();
     }
