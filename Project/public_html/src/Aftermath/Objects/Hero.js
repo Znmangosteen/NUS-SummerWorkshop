@@ -13,6 +13,7 @@
 
 function Hero(spriteTexture) {
     this.kDelta = 0.3;
+    this.kYDelta = 130;
 
     this.mDye = new SpriteRenderable(spriteTexture);
     this.mDye.setColor([1, 1, 1, 0]);
@@ -38,7 +39,18 @@ function Hero(spriteTexture) {
 
     GameObject.call(this, this.mDye);
 
-    this.setSpeed(0.5);
+    var r = new RigidRectangle(this.getXform(), 10, 10);
+    // r.setMass(.18);  // less dense than Minions
+    r.setMass(0.1);  // less dense than Minions
+    r.setRestitution(0);
+    r.toggleDrawBound();
+    this.toggleDrawRigidShape();
+    // r.setColor([0, 1, 0, 1]);
+    // r.setDrawBounds(true);
+    this.setRigidBody(r);
+
+    this.setCurrentFrontDir(vec2.fromValues(0, 1));
+    this.setSpeed(0);
 
 }
 
@@ -59,43 +71,72 @@ Hero.prototype.decreaseHealth = function () {
 };
 
 Hero.prototype.update = function (trap, savePoint) {
+    GameObject.prototype.update.call(this);
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
-        this.mDye.getXform().getPosition()[0] -= 1;
-        this.mRDye.getXform().getPosition()[0] -= 1;
-        this.mRenderComponent = this.mRDye;
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.W)) {
+        if (this.jump === true) {
 
-
-
-    }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
-        this.mDye.getXform().getPosition()[0] += 1;
-        this.mRDye.getXform().getPosition()[0] += 1;
-        this.mRenderComponent = this.mDye;
-
-    }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Up)) {
-        this.mDye.getXform().getPosition()[1] += 1;
-        this.mRDye.getXform().getPosition()[1] += 1;
-
-    }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Down)) {
-        this.mDye.getXform().getPosition()[1] -= 1;
-        this.mRDye.getXform().getPosition()[1] -= 1;
-
-    }
-
-        // control by WASD
-
-        // // TODO hitbox with Trap
-        if (this.getBBox().intersectsBound(trap.getBBox())) {
-            this.decreaseHealth();
-        }
-        //
-        //
-        // // TODO hitbox with SavePoint
-        if (this.getBBox().intersectsBound(savePoint.getBBox())) {
-            savePoint.save();
+            // v[1] += this.kYDelta;
+            v[1] = Math.min(this.kYDelta + v[1], 1.2 * this.kYDelta);
+            this.jump = false;
         }
 
-    };
+        // this.setSpeed(1);
+
+    }
+    // if (gEngine.Input.isKeyReleased(gEngine.Input.keys.W)) {
+    //     // v[1] += this.kYDelta;
+    //     this.setSpeed(0);
+    //
+    // }
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.S)) {
+        v[1] -= this.kYDelta;
+    }
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
+        // v[0] -= this.kXDelta;
+        this.getXform().getPosition()[0] -= .5;
+    }
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
+        // v[0] += this.kXDelta;
+        this.getXform().getPosition()[0] += .5;
+    }
+
+    //
+    // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
+    //     this.mDye.getXform().getPosition()[0] -= 1;
+    //     this.mRDye.getXform().getPosition()[0] -= 1;
+    //     this.mRenderComponent = this.mRDye;
+    //
+    //
+    // }
+    // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
+    //     this.mDye.getXform().getPosition()[0] += 1;
+    //     this.mRDye.getXform().getPosition()[0] += 1;
+    //     this.mRenderComponent = this.mDye;
+    //
+    // }
+    // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Up)) {
+    //     this.mDye.getXform().getPosition()[1] += 1;
+    //     this.mRDye.getXform().getPosition()[1] += 1;
+    //
+    // }
+    // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Down)) {
+    //     this.mDye.getXform().getPosition()[1] -= 1;
+    //     this.mRDye.getXform().getPosition()[1] -= 1;
+    //
+    // }
+
+    // control by WASD
+
+    // // TODO hitbox with Trap
+    if (this.getBBox().intersectsBound(trap.getBBox())) {
+        this.decreaseHealth();
+    }
+    //
+    //
+    // // TODO hitbox with SavePoint
+    if (this.getBBox().intersectsBound(savePoint.getBBox())) {
+        savePoint.save();
+    }
+
+};

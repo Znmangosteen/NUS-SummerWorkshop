@@ -32,7 +32,18 @@ gEngine.Physics = (function () {
     
     var mCorrectPosition  = true;
     var mHasMotion = true;
-    
+
+    var mRelaxationLoopCount = 0;               // the current relaxation count
+
+    var mHasOneCollision = false;               // detect the first collision
+
+    var mCollisionInfo = null;
+
+
+    var initialize = function() {
+        mCollisionInfo = new CollisionInfo(); // to avoid allocating this constantly
+    };
+
     /**
      * Return Acceleration
      * @memberOf gEngine.Physics
@@ -237,9 +248,52 @@ gEngine.Physics = (function () {
             }
         }
     };
-    
-    
+
+    /**
+     * Rigid Shape interactions: a game object and a game object set
+     * @memberOf gEngine.Physics
+     * @param {GameObject} obj GameObject
+     * @param {GameObjectSet} set GameObjectSet
+     * @returns {void}
+     */
+    var processObjSet = function(obj, set) {
+        var s1 = obj.getRigidBody();
+        var i, s2;
+        beginRelaxation();
+        while (continueRelaxation()) {
+            for (i=0; i<set.size(); i++) {
+                s2 = set.getObjectAt(i).getRigidBody();
+                if ((s1 !== s2) && (s1.collisionTest(s2, mCollisionInfo))) {
+                    resolveCollision(s1, s2, mCollisionInfo);
+                }
+            }
+        }
+    };
+
+    /**
+     * Start Relaxation
+     * @memberOf gEngine.Physics
+     * @returns {void}
+     */
+    var beginRelaxation = function() {
+        mRelaxationLoopCount = mRelaxationCount;
+        mHasOneCollision = true;
+    };
+
+    /**
+     * Continue Relaxation
+     * @memberOf gEngine.Physics
+     * @returns {Boolean} true if Relaxation is active
+     */
+    var continueRelaxation = function() {
+        var oneCollision = mHasOneCollision;
+        mHasOneCollision = false;
+        mRelaxationLoopCount = mRelaxationLoopCount - 1;
+        return ((mRelaxationLoopCount > 0) && oneCollision);
+    };
+
     var mPublic = {
+        initialize: initialize,
         getSystemAcceleration: getSystemtAcceleration,
         processCollision: processCollision,
         togglePositionalCorrection: togglePositionalCorrection,
@@ -247,7 +301,9 @@ gEngine.Physics = (function () {
         incRelaxationCount: incRelaxationCount,
         getRelaxationCount: getRelaxationCount,
         getHasMotion: getHasMotion,
-        toggleHasMotion: toggleHasMotion
+        toggleHasMotion: toggleHasMotion,
+        processObjSet: processObjSet
+
     };
     return mPublic;
 }());

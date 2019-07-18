@@ -16,7 +16,7 @@
  * @class RigidRectangle
  * @type RigidRectangle
  */
-var RigidRectangle = function (xf, width, height) {
+function RigidRectangle  (xf, width, height) {
     RigidShape.call(this, xf);
     this.mType = "RigidRectangle";
     this.mWidth = width;
@@ -24,12 +24,12 @@ var RigidRectangle = function (xf, width, height) {
     this.mBoundRadius = Math.sqrt(width * width + height * height) / 2;
     this.mVertex = [];
     this.mFaceNormal = [];
-    
+
     this.setVertices();
     this.computeFaceNormals();
-    
+
     this.updateInertia();
-};
+}
 gEngine.Core.inheritPrototype(RigidRectangle, RigidShape);
 
 /**
@@ -81,7 +81,7 @@ RigidRectangle.prototype.setVertices = function () {
     this.mVertex[0] = vec2.fromValues(center[0] - hw, center[1] - hh);
     this.mVertex[1] = vec2.fromValues(center[0] + hw, center[1] - hh);
     this.mVertex[2] = vec2.fromValues(center[0] + hw, center[1] + hh);
-    this.mVertex[3] = vec2.fromValues(center[0] - hw, center[1] + hh);    
+    this.mVertex[3] = vec2.fromValues(center[0] - hw, center[1] + hh);
 };
 
 /**
@@ -90,7 +90,7 @@ RigidRectangle.prototype.setVertices = function () {
  */
 RigidRectangle.prototype.computeFaceNormals = function () {
     //0--Top;1--Right;2--Bottom;3--Left
-    //mFaceNormal is normal of face toward outside of rectangle    
+    //mFaceNormal is normal of face toward outside of rectangle
     for (var i = 0; i<4; i++) {
         var v = (i+1) % 4;
         var nv = (i+2) % 4;
@@ -114,15 +114,15 @@ RigidRectangle.prototype.rotateVertices = function () {
 };
 
 /**
- * Draws a line 
+ * Draws a line
  * @memberOf RigidRectangle
  * @param {float} i1 The start point
  * @param {float} i2 The end point
  * @param {Camera} aCamera The camera to draw it on
  */
 RigidRectangle.prototype.drawAnEdge = function (i1, i2, aCamera) {
-    this.mLine.setFirstVertex(this.mVertex[i1][0], this.mVertex[i1][1]);  
-    this.mLine.setSecondVertex(this.mVertex[i2][0], this.mVertex[i2][1]); 
+    this.mLine.setFirstVertex(this.mVertex[i1][0], this.mVertex[i1][1]);
+    this.mLine.setSecondVertex(this.mVertex[i2][0], this.mVertex[i2][1]);
     this.mLine.draw(aCamera);
 };
 
@@ -138,11 +138,11 @@ RigidRectangle.prototype.draw = function (aCamera) {
     for (i=0; i<4; i++) {
         this.drawAnEdge(i, (i+1)%4, aCamera);
     }
-    
-    if (this.mDrawBounds) {
-        this.mLine.setColor([1, 1, 1, 1]);
-        this.drawCircle(aCamera, this.mBoundRadius);
-    }
+
+    // if (this.mDrawBounds) {
+    //     this.mLine.setColor([1, 0, 0, 1]);
+    //     this.drawCircle(aCamera, this.mBoundRadius);
+    // }
 };
 
 /**
@@ -152,5 +152,5 @@ RigidRectangle.prototype.draw = function (aCamera) {
 RigidRectangle.prototype.update = function () {
     RigidShape.prototype.update.call(this);
     this.setVertices();
-    this.rotateVertices();
+    // this.rotateVertices();
 };

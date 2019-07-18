@@ -285,7 +285,7 @@ RigidShape.prototype.draw = function(aCamera) {
     var x = this.mXform.getXPos();
     var y = this.mXform.getYPos();
     
-    this.mLine.setColor([1, 1, 1, 1]);
+    this.mLine.setColor([1, 0, 0, 1]);
     this.mLine.setFirstVertex(x - len, y);  //Horizontal
     this.mLine.setSecondVertex(x + len, y); //
     this.mLine.draw(aCamera);

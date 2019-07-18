@@ -18,6 +18,8 @@ function GameScene() {
     this.kMinionSprite = "assets/minion_sprite.png";
     this.kTrap = "assets/Trap.png";
     this.kSave = "assets/save.png";
+    this.kPlatformTexture = "assets/BlockUnit/green-platform2.png";
+
 
 
     // The camera to view the scene
@@ -32,6 +34,8 @@ function GameScene() {
 
     this.mMsg = null;
 
+    this.mAllPlatforms = new GameObjectSet();
+
 //    FIXME debug thing
     this.mWing = null;
 
@@ -40,6 +44,8 @@ function GameScene() {
     this.mHero = null;
     this.mTrap = null;
     this.mSavePoint = null;
+
+    this.reset = false;
 }
 
 gEngine.Core.inheritPrototype(GameScene, Scene);
@@ -51,6 +57,7 @@ GameScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kMinionSprite);
     gEngine.Textures.loadTexture(this.kTrap);
     gEngine.Textures.loadTexture(this.kSave);
+    gEngine.Textures.loadTexture(this.kPlatformTexture);
 
 
 };
@@ -60,6 +67,7 @@ GameScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kMinionSprite);
     gEngine.Textures.unloadTexture(this.kTrap);
     gEngine.Textures.unloadTexture(this.kSave);
+    gEngine.Textures.unloadTexture(this.kPlatformTexture);
 
     // if(this.LevelSelect==="Particle"){
     //     gEngine.Core.startScene(new ParticleLevel());
@@ -75,10 +83,16 @@ GameScene.prototype.unloadScene = function () {
 
 GameScene.prototype.initialize = function () {
     // Step A: set up the cameras
+    // this.mCamera = new Camera(
+    //     vec2.fromValues(50, 40), // position of the camera
+    //     100,                     // width of camera
+    //     [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
+    // );
+
     this.mCamera = new Camera(
-        vec2.fromValues(50, 40), // position of the camera
-        100,                     // width of camera
-        [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
+        vec2.fromValues(100, 56.25), // position of the camera
+        200,                         // width of camera
+        [0, 0, 1280, 720]            // viewport (orgX, orgY, width, height)
     );
     this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
     // sets the background to gray
@@ -99,6 +113,19 @@ GameScene.prototype.initialize = function () {
     this.mHero = new Hero(this.kMinionSprite);
     this.mTrap = new Trap(this.kTrap);
     this.mSavePoint = new SavePoint(this.kSave);
+
+    var i, j, rx, ry, obj, dy, dx;
+
+    rx = -15;
+    for (i = 0; i<9; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, 5);
+        this.mAllPlatforms.addToSet(obj);
+
+        obj = new Platform(this.kPlatformTexture, rx, 112);
+        this.mAllPlatforms.addToSet(obj);
+        rx += 30;
+    }
+
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -113,6 +140,9 @@ GameScene.prototype.draw = function () {
     this.mHero.draw(this.mCamera);
     this.mTrap.draw(this.mCamera);
     this.mSavePoint.draw(this.mCamera);
+
+    this.mAllPlatforms.draw(this.mCamera);
+
     // this.ParticleButton.draw(this.mCamera);
     // this.PhysicsButton.draw(this.mCamera);
     // this.UIButton.draw(this.mCamera);
@@ -132,10 +162,13 @@ GameScene.prototype.update = function () {
     // this.ParticleButton.update();
     // this.PhysicsButton.update();
     // this.UIButton.update();
+    this.mAllPlatforms.update();
 
     this.mHero.update(this.mTrap, this.mSavePoint);
     this.mTrap.update();
     this.mSavePoint.update();
+
+    this.reset=gEngine.Physics.processObjSet(this.mHero, this.mAllPlatforms);
 
     // var num = 0;
     // for (let i = 0; i < this.mBarrageSet.length; i++) {
