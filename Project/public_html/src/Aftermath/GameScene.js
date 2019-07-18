@@ -12,24 +12,21 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function GameScene() {
-    //this.kUIButton = "assets/UI/button.png";
+    
     this.kUIButton = "assets/UI/SimpleButton.png";
     this.kCue = "assets/AudioTest/BlueLevel_cue.wav";
     this.kMinionSprite = "assets/minion_sprite.png";
     this.kTrap = "assets/Trap.png";
     this.kSave = "assets/save.png";
-
+    this.kPlatformTexture = "assets/plat1.png";
+    this.kPlatformTexture2 = "assets/plat2.png";
 
     // The camera to view the scene
     this.mCamera = null;
-    // this.ParticleButton = null;
-    // this.PhysicsButton = null;
-    // this.UIButton = null;
     this.UIText = null;
     this.LevelSelect = null;
     this.mBarrage = null;
     this.mBarrageSet = null;
-
     this.mMsg = null;
 
 //    FIXME debug thing
@@ -40,6 +37,8 @@ function GameScene() {
     this.mHero = null;
     this.mTrap = null;
     this.mSavePoint = null;
+    this.mAllPlatforms = new GameObjectSet();
+    this.mAllRigidShapes = new GameObjectSet();
 }
 
 gEngine.Core.inheritPrototype(GameScene, Scene);
@@ -51,6 +50,7 @@ GameScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kMinionSprite);
     gEngine.Textures.loadTexture(this.kTrap);
     gEngine.Textures.loadTexture(this.kSave);
+    gEngine.Textures.loadTexture(this.kPlatformTexture);
 
 
 };
@@ -60,6 +60,7 @@ GameScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kMinionSprite);
     gEngine.Textures.unloadTexture(this.kTrap);
     gEngine.Textures.unloadTexture(this.kSave);
+    gEngine.Textures.unloadTexture(this.kPlatformTexture);
 
     // if(this.LevelSelect==="Particle"){
     //     gEngine.Core.startScene(new ParticleLevel());
@@ -99,12 +100,28 @@ GameScene.prototype.initialize = function () {
     this.mHero = new Hero(this.kMinionSprite);
     this.mTrap = new Trap(this.kTrap);
     this.mSavePoint = new SavePoint(this.kSave);
+
+    //dx = 80;
+    //ry = Math.random() * 5 + 20;
+    var obj,j,rx,ry;
+    //obj = new Platform(this.kPlatformTexture, 40, 40);
+    //this.mAllPlatforms.addToSet(obj);
+    //this.mAllPlatforms = new Platform(this.kPlatformTexture,40, 40);
+        //this.mAllPlatforms.addToSet(obj);
+        rx = [10,70];
+        ry = [15,25];
+    for (j=0; j<2; j++) {
+        
+        obj = new Platform(this.kPlatformTexture, rx[j], ry[j]);
+        this.mAllPlatforms.addToSet(obj);
+    }
+    
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
 // importantly, make sure to _NOT_ change any state.
 GameScene.prototype.draw = function () {
-    // Step A: clear the canvas
+    // Step A: clear the canasdvas
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
 
 
@@ -113,6 +130,7 @@ GameScene.prototype.draw = function () {
     this.mHero.draw(this.mCamera);
     this.mTrap.draw(this.mCamera);
     this.mSavePoint.draw(this.mCamera);
+    this.mAllPlatforms.draw(this.mCamera);
     // this.ParticleButton.draw(this.mCamera);
     // this.PhysicsButton.draw(this.mCamera);
     // this.UIButton.draw(this.mCamera);
@@ -125,6 +143,7 @@ GameScene.prototype.draw = function () {
     // this.mMsg.draw(this.mCamera);
     //
     // this.mWing.draw(this.mCamera);
+    this.mAllRigidShapes.draw(this.mCamera);
 
 };
 
@@ -136,6 +155,9 @@ GameScene.prototype.update = function () {
     this.mHero.update(this.mTrap, this.mSavePoint);
     this.mTrap.update();
     this.mSavePoint.update();
+    this.mAllPlatforms.update();
+    //this._physicsSimulation();
+
 
     // var num = 0;
     // for (let i = 0; i < this.mBarrageSet.length; i++) {

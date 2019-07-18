@@ -17,7 +17,7 @@ function Bullet(bulletSet, spriteTexture, spawnPos, speed, dir, target) {
     this.mBullet.setColor([1, 1, 1, 0.1]);
     this.mBullet.getXform().setPosition(spawnPos[0], spawnPos[1]);
     this.mBullet.getXform().setSize(this.kRefWidth / 50, this.kRefHeight / 50);
-    this.mBullet.setElementPixelPositions(510, 595, 23, 153);
+    this.mBullet.setElementPixelPositions(0, 32, 0, 32);
 
     this.mbulletSet = bulletSet;
 

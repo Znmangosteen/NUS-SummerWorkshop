@@ -13,13 +13,15 @@
 function Wing(spriteTexture, atX, atY, speed) {
     this.kDelta = 0.2;
     this.mMinion = new SpriteAnimateRenderable(spriteTexture);
-    this.mMinion.setColor([1, 1, 1, 0]);
+    this.mMinion.setColor([0, 0, 0, 0]);
     this.mMinion.getXform().setPosition(atX, atY);
-    this.mMinion.getXform().setSize(10, 8);
-    this.mMinion.setSpriteSequence(512, 0,      // first element pixel position: top-left 512 is top of image, 0 is left of image
-        204, 164,   // widthxheight in pixels
-        5,          // number of elements in this sequence
+    this.mMinion.getXform().setSize(5, 5);
+    //512,0,204,164,5,0
+    this.mMinion.setSpriteSequence(1024,0,      // first element pixel position: top-left 512 is top of image, 0 is left of image
+        566, 566,   // widthxheight in pixels
+        3,          // number of elements in this sequence
         0);         // horizontal padding in between
+        
     this.mMinion.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateSwing);
     this.mMinion.setAnimationSpeed(15);
     // show each element for mAnimSpeed updates
@@ -38,8 +40,9 @@ Wing.prototype.draw = function (aCamera, boxActivity) {
     if (boxActivity) {
         GameObject.prototype.drawBBox.call(this, aCamera);  // default moving forward
     }
-
+    
 };
+
 
 Wing.prototype.hit = function () {
     this.hitTime -= 1;
@@ -54,6 +57,22 @@ Wing.prototype.update = function () {
 
     if (this.hitTime > 0) {
         this.hit();
+    }
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
+        this.mMinion.getXform().getPosition()[0] -= 1;
+
+    }
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
+        this.mMinion.getXform().getPosition()[0] += 1;
+
+    }
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Up)) {
+        this.mMinion.getXform().getPosition()[1] += 1;
+        
+    }
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Down)) {
+        this.mMinion.getXform().getPosition()[1] -= 1;
+
     }
 
 };
