@@ -16,7 +16,8 @@ function MyGame() {
     this.kUIButton = "assets/UI/SimpleButton.png";
     this.kCue = "assets/AudioTest/BlueLevel_cue.wav";
     this.kMinionSprite = "assets/minion_sprite.png";
-    this.kWawa = "assets/Character/2.png";
+    this.kWawa = "assets/Character/3.png";
+    this.kBg = "assets/Background/snow-bg.png";
 
 
     // The camera to view the scene
@@ -32,9 +33,11 @@ function MyGame() {
     this.mMsg = null;
 
 //    FIXME debug thing
-    this.mWing = null;
+    this.mHero = null;
 
     this.LevelSelect = null;
+
+    this.bg = null;
 }
 
 gEngine.Core.inheritPrototype(MyGame, Scene);
@@ -45,6 +48,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.AudioClips.loadAudio(this.kCue);
     gEngine.Textures.loadTexture(this.kMinionSprite);
     gEngine.Textures.loadTexture(this.kWawa);
+    gEngine.Textures.loadTexture(this.kBg);
 
 
 };
@@ -53,8 +57,9 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kUIButton);
     gEngine.Textures.unloadTexture(this.kMinionSprite);
     gEngine.Textures.unloadTexture(this.kWawa);
+    gEngine.Textures.unloadTexture(this.kBg);
 
-    if(this.LevelSelect==="Game"){
+    if (this.LevelSelect === "Game") {
         gEngine.Core.startScene(new GameScene());
     }
     // else if(this.LevelSelect==="Physics"){
@@ -86,8 +91,13 @@ MyGame.prototype.initialize = function () {
     // this.ParticleButton = new UIButton(this.particleSelect,this,[400,400],[600,100],"Particle Demos",8);
     // this.PhysicsButton = new UIButton(this.physicsSelect,this,[400,300],[500,100],"Physics Demo",8);
     // this.UIButton =  new UIButton(this.uiSelect,this,[400,200],[320,100],"UI Demo",8);
-    this.UIText = new UIText("Demo", [400, 600], 8, 1, 0, [0, 0, 0, 1]);
+    this.UIText = new UIText("Press Space to Play", [600, 220], 8, 1, 0, [0, 0, 0, 1]);
     this.mBarrageSet = [];
+
+    this.bg = new TextureRenderable(this.kBg);
+    this.bg.getXform().setSize(200, 112.5);
+    this.bg.getXform().setPosition(100, 56.25);
+
 
     this.mMsg = new FontRenderable("Status Message");
     this.mMsg.setColor([1, 1, 1, 1]);
@@ -95,7 +105,8 @@ MyGame.prototype.initialize = function () {
     this.mMsg.setTextHeight(3);
 
     // this.mWing = new Wing(this.kMinionSprite,50,20,0);
-    this.mWing = new Wing(this.kWawa,50,20,0);
+    this.mHero = new Hero(this.kWawa, 50, 0, 0);
+    this.mHero.getRigidBody().setMass(0);
 
 };
 
@@ -106,19 +117,23 @@ MyGame.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
 
 
+
     this.mCamera.setupViewProjection();
     // this.ParticleButton.draw(this.mCamera);
     // this.PhysicsButton.draw(this.mCamera);
     // this.UIButton.draw(this.mCamera);
     this.UIText.draw(this.mCamera);
-    for (let i = 0; i < this.mBarrageSet.length; i++) {
-        this.mBarrageSet[i].draw(this.mCamera);
-    }
+
+    this.bg.draw(this.mCamera);
+    //
+    // for (let i = 0; i < this.mBarrageSet.length; i++) {
+    //     this.mBarrageSet[i].draw(this.mCamera);
+    // }
 
 
-    this.mMsg.draw(this.mCamera);
+    // this.mMsg.draw(this.mCamera);
 
-    this.mWing.draw(this.mCamera);
+    this.mHero.draw(this.mCamera);
 
 };
 
@@ -129,39 +144,39 @@ MyGame.prototype.update = function () {
 
     var num = 0;
     for (let i = 0; i < this.mBarrageSet.length; i++) {
-        this.mBarrageSet[i].update(this.mCamera,this.mWing);
+        // this.mBarrageSet[i].update(this.mCamera, this.mHero);
         // FIXME debug thing
         num += this.mBarrageSet[i].size();
     }
 
 
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
-        this.mBarrageSet.push(new Barrage(this.kMinionSprite, vec2.fromValues(50, 50), 0.8, BARRAGE_TYPE.CIRCLE, 30,0));
-    }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.W)) {
-        this.mBarrageSet.push(new Barrage(this.kMinionSprite, vec2.fromValues(50, 50), 0.8, BARRAGE_TYPE.D_SECTOR, 10,0));
-    }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.E)) {
-        this.mBarrageSet.push(new Barrage(this.kMinionSprite, vec2.fromValues(50, 50), 0.8, BARRAGE_TYPE.LINE, 30,0));
-    }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.R)) {
-        this.mBarrageSet.push(new Barrage(this.kMinionSprite, vec2.fromValues(50, 50), 0.8, BARRAGE_TYPE.CROSS, 30,0));
-    }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
-        gEngine.AudioClips.playACue(this.kCue, 0.1);
-    }
+    // if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
+    //     this.mBarrageSet.push(new Barrage(this.kMinionSprite, vec2.fromValues(50, 50), 0.8, BARRAGE_TYPE.CIRCLE, 30, 0));
+    // }
+    // if (gEngine.Input.isKeyClicked(gEngine.Input.keys.W)) {
+    //     this.mBarrageSet.push(new Barrage(this.kMinionSprite, vec2.fromValues(50, 50), 0.8, BARRAGE_TYPE.D_SECTOR, 10, 0));
+    // }
+    // if (gEngine.Input.isKeyClicked(gEngine.Input.keys.E)) {
+    //     this.mBarrageSet.push(new Barrage(this.kMinionSprite, vec2.fromValues(50, 50), 0.8, BARRAGE_TYPE.LINE, 30, 0));
+    // }
+    // if (gEngine.Input.isKeyClicked(gEngine.Input.keys.R)) {
+    //     this.mBarrageSet.push(new Barrage(this.kMinionSprite, vec2.fromValues(50, 50), 0.8, BARRAGE_TYPE.CROSS, 30, 0));
+    // }
+    // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
+    //     gEngine.AudioClips.playACue(this.kCue, 0.1);
+    // }
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Z)) {
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)) {
         this.gameSceneSelect();
     }
 
-    this.mWing.update();
+    this.mHero.update();
     this.mMsg.setText("Bullet Num: " + num);
 
 };
 
-MyGame.prototype.gameSceneSelect = function(){
-    this.LevelSelect="Game";
+MyGame.prototype.gameSceneSelect = function () {
+    this.LevelSelect = "Game";
     gEngine.GameLoop.stop();
 };
 //

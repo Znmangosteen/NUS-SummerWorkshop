@@ -13,12 +13,13 @@
 
 function Hero(spriteTexture) {
     this.kDelta = 0.3;
-    this.kYDelta = 150;
+    this.kYDelta = 130;
+    this.kYMDelta = 180;
 
-    this.width = 18;
-    this.height = 18;
-    this.kRwidth = 10;
-    this.kRheight = 18;
+    this.width = 8;
+    this.height = 8;
+    this.kRwidth = 6;
+    this.kRheight = 8;
 
 
     this.mDye = new SpriteAnimateRenderable(spriteTexture);
@@ -69,13 +70,14 @@ function Hero(spriteTexture) {
     // r.toggleDrawBound();
     this.toggleDrawRigidShape();
     // r.setColor([0, 1, 0, 1]);
-    r.setDrawBounds(true);
+    // r.setDrawBounds(true);
     this.setRigidBody(r);
 
     this.setCurrentFrontDir(vec2.fromValues(0, 1));
     this.setSpeed(0);
 
     this.jump = false;
+    this.invincible = false;
 
 
 }
@@ -98,6 +100,14 @@ Hero.prototype.decreaseHealth = function () {
 
 };
 
+// Hero.prototype.getBBox = function () {
+//
+//
+// };
+Hero.prototype.isInvincible = function () {
+    return this.invincible;
+};
+
 Hero.prototype.update = function (trap, savePoint, reset) {
     GameObject.prototype.update.call(this);
     // control by WASD
@@ -106,7 +116,7 @@ Hero.prototype.update = function (trap, savePoint, reset) {
         this.jump = true;
     }
 
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.W)) {
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Up)) {
         if (this.jump === true) {
 
             // v[1] += this.kYDelta;
@@ -117,27 +127,30 @@ Hero.prototype.update = function (trap, savePoint, reset) {
         // this.setSpeed(1);
 
     }
-    // if (gEngine.Input.isKeyReleased(gEngine.Input.keys.W)) {
-    //     // v[1] += this.kYDelta;
-    //     this.setSpeed(0);
-    //
-    // }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.S)) {
-        v[1] -= this.kYDelta;
+
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Down)) {
+        v[1] -= this.kYMDelta;
     }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
         // v[0] -= this.kXDelta;
-        this.mDye.getXform().getPosition()[0] -= 1;
+        if (this.mDye.getXform().getPosition()[0]>0) {
+
+            this.mDye.getXform().getPosition()[0] -= 1;
+        }
         // this.mRDye.getXform().getPosition()[0] -= 1;
 
         this.mRenderComponent = this.mRDye;
     }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
-        // v[0] += this.kXDelta;
-        this.mDye.getXform().getPosition()[0] += 1;
-        // this.mRDye.getXform().getPosition()[0] += 1;
-        this.mRenderComponent = this.mDye;
-    }
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
+        if (this.mDye.getXform().getPosition()[0] < 200) {
+
+            // v[0] += this.kXDelta;
+            this.mDye.getXform().getPosition()[0] += 1;
+
+        }
+            // this.mRDye.getXform().getPosition()[0] += 1;
+            this.mRenderComponent = this.mDye;
+        }
 
     this.mRenderComponent.updateAnimation();
     //
@@ -167,15 +180,15 @@ Hero.prototype.update = function (trap, savePoint, reset) {
 
     // control by WASD
 
-    // // TODO hitbox with Trap
-    if (this.getBBox().intersectsBound(trap.getBBox())) {
-        this.decreaseHealth();
-    }
+    // // // TODO hitbox with Trap
+    // if (this.getBBox().intersectsBound(trap.getBBox())) {
+    //     this.decreaseHealth();
+    // }
     //
     //
-    // // TODO hitbox with SavePoint
-    if (this.getBBox().intersectsBound(savePoint.getBBox())) {
-        savePoint.save();
-    }
+    // // // TODO hitbox with SavePoint
+    // if (this.getBBox().intersectsBound(savePoint.getBBox())) {
+    //     savePoint.save();
+    // }
 
 };

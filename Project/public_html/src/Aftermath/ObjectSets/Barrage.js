@@ -107,18 +107,18 @@ Barrage.prototype.draw = function (aCamera) {
  * @returns {void}
  * @memberOf Barrage
  */
-Barrage.prototype.update = function (aCamera, wing) {
+Barrage.prototype.update = function (aCamera, target) {
     var i;
     for (i = 0; i < this.mSet.length; i++) {
         this.mSet[i].update(aCamera);
 
     }
-    if (!wing.isInvincible()) {
+    if (!target.isInvincible()) {
         for (i = 0; i < this.mSet.length; i++) {
             var h = [];
             // if (this.mSet[i].pixelTouches(wing,h)) {
-            if (this.mSet[i].getBBox().intersectsBound(wing.getBBox())) {
-                wing.hitTime += 1;
+            if (this.mSet[i].getBBox().intersectsBound(target.getBBox())) {
+                // wing.hitTime += 1;
             }
 
         }

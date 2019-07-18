@@ -18,8 +18,11 @@ function GameScene() {
     this.kMinionSprite = "assets/minion_sprite.png";
     this.kTrap = "assets/Trap.png";
     this.kSave = "assets/save.png";
-    this.kPlatformTexture = "assets/BlockUnit/green-platform2.png";
+    // this.kPlatformTexture = "assets/BlockUnit/green-platform2.png";
+    this.kPlatformTexture = "assets/BlockUnit/snow-platform.png";
     this.kHero = "assets/Character/3.png";
+    this.kBg = "assets/Background/snow-bg.png";
+    this.kBullet = "assets/Bullet/Yellow-Bullet.png";
 
 
     // The camera to view the scene
@@ -35,6 +38,8 @@ function GameScene() {
     this.mMsg = null;
 
     this.mAllPlatforms = new GameObjectSet();
+
+    this.mBoss = null;
 
 //    FIXME debug thing
     this.mWing = null;
@@ -59,6 +64,8 @@ GameScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kSave);
     gEngine.Textures.loadTexture(this.kPlatformTexture);
     gEngine.Textures.loadTexture(this.kHero);
+    gEngine.Textures.loadTexture(this.kBg);
+    gEngine.Textures.loadTexture(this.kBullet);
 
 
 };
@@ -70,6 +77,8 @@ GameScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kSave);
     gEngine.Textures.unloadTexture(this.kPlatformTexture);
     gEngine.Textures.unloadTexture(this.kHero);
+    gEngine.Textures.unloadTexture(this.kBg);
+    gEngine.Textures.unloadTexture(this.kBullet);
 
     // if(this.LevelSelect==="Particle"){
     //     gEngine.Core.startScene(new ParticleLevel());
@@ -100,6 +109,12 @@ GameScene.prototype.initialize = function () {
     // sets the background to gray
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
 
+
+    this.bg = new TextureRenderable(this.kBg);
+    this.bg.getXform().setSize(200, 112.5);
+    this.bg.getXform().setPosition(100, 56.25);
+
+    this.mBoss = new Boss(this.kMinionSprite, this.kBullet);
     // this.ParticleButton = new UIButton(this.particleSelect,this,[400,400],[600,100],"Particle Demos",8);
     // this.PhysicsButton = new UIButton(this.physicsSelect,this,[400,300],[500,100],"Physics Demo",8);
     // this.UIButton =  new UIButton(this.uiSelect,this,[400,200],[320,100],"UI Demo",8);
@@ -118,14 +133,53 @@ GameScene.prototype.initialize = function () {
 
     var i, j, rx, ry, obj, dy, dx;
 
-    rx = -15;
-    for (i = 0; i < 9; i++) {
+    rx = -5;
+    for (i = 0; i < 45; i++) {
         obj = new Platform(this.kPlatformTexture, rx, 5);
         this.mAllPlatforms.addToSet(obj);
 
-        obj = new Platform(this.kPlatformTexture, rx, 112);
+        // obj = new Platform(this.kPlatformTexture, rx, 112);
+        // this.mAllPlatforms.addToSet(obj);
+        rx += 5;
+    }
+
+    rx = -0;
+    for (i = 0; i < 5; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, 40);
         this.mAllPlatforms.addToSet(obj);
-        rx += 30;
+
+        // obj = new Platform(this.kPlatformTexture, rx, 112);
+        // this.mAllPlatforms.addToSet(obj);
+        rx += 5;
+    }
+    rx = 200;
+    for (i = 0; i < 5; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, 40);
+        this.mAllPlatforms.addToSet(obj);
+
+        // obj = new Platform(this.kPlatformTexture, rx, 112);
+        // this.mAllPlatforms.addToSet(obj);
+        rx -= 5;
+    }
+
+    rx = 50;
+    for (i = 0; i < 20; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, 80);
+        this.mAllPlatforms.addToSet(obj);
+
+        // obj = new Platform(this.kPlatformTexture, rx, 112);
+        // this.mAllPlatforms.addToSet(obj);
+        rx += 5;
+    }
+
+    rx = 0;
+    for (i = 0; i < 45; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, 120);
+        this.mAllPlatforms.addToSet(obj);
+
+        // obj = new Platform(this.kPlatformTexture, rx, 112);
+        // this.mAllPlatforms.addToSet(obj);
+        rx += 5;
     }
 
 };
@@ -139,9 +193,13 @@ GameScene.prototype.draw = function () {
 
     this.mCamera.setupViewProjection();
 
+    this.bg.draw(this.mCamera);
+
+    this.mBoss.draw(this.mCamera);
+
     this.mHero.draw(this.mCamera);
-    this.mTrap.draw(this.mCamera);
-    this.mSavePoint.draw(this.mCamera);
+    // this.mTrap.draw(this.mCamera);
+    // this.mSavePoint.draw(this.mCamera);
 
     this.mAllPlatforms.draw(this.mCamera);
 
@@ -170,6 +228,8 @@ GameScene.prototype.update = function () {
     this.mHero.update(this.mTrap, this.mSavePoint, this.reset);
     this.mTrap.update();
     this.mSavePoint.update();
+
+    this.mBoss.update(this.mCamera, this.mHero);
 
     this.reset = false;
 

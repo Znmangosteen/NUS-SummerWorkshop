@@ -10,14 +10,15 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function Bullet(bulletSet, spriteTexture, spawnPos, speed, dir, target) {
-    this.kRefWidth = 80;
-    this.kRefHeight = 130;
+    this.kRefWidth = 130;
+    this.kRefHeight = 150;
 
     this.mBullet = new SpriteRenderable(spriteTexture);
     this.mBullet.setColor([1, 1, 1, 0.1]);
     this.mBullet.getXform().setPosition(spawnPos[0], spawnPos[1]);
     this.mBullet.getXform().setSize(this.kRefWidth / 50, this.kRefHeight / 50);
-    this.mBullet.setElementPixelPositions(510, 595, 23, 153);
+    // this.mBullet.setElementPixelPositions(510, 595, 23, 153);
+    this.mBullet.setElementPixelPositions(0,64,0,64);
 
     this.mbulletSet = bulletSet;
 
