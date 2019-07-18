@@ -26,6 +26,7 @@ function GameScene() {
     this.kHeroBullet = "assets/Bullet/pink-bullet.png";
     // this.kBullet = "assets/Bullet/blue-bullet.png";
     this.kBoss = "assets/Character/Boss.png";
+    this.kHeart = "assets/Character/heart.png";
 
 
     // The camera to view the scene
@@ -56,6 +57,8 @@ function GameScene() {
     this.reset = false;
 
     this.finState = "";
+
+    this.hearts = [];
 }
 
 gEngine.Core.inheritPrototype(GameScene, Scene);
@@ -72,6 +75,7 @@ GameScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kBullet);
     gEngine.Textures.loadTexture(this.kHeroBullet);
     gEngine.Textures.loadTexture(this.kBoss);
+    gEngine.Textures.loadTexture(this.kHeart);
 
 
 };
@@ -86,6 +90,7 @@ GameScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBullet);
     gEngine.Textures.unloadTexture(this.kHeroBullet);
     gEngine.Textures.unloadTexture(this.kBoss);
+    gEngine.Textures.unloadTexture(this.kHeart);
 
     gEngine.Core.startScene(new MyGame(this.finState));
 
@@ -191,6 +196,11 @@ GameScene.prototype.initialize = function () {
         rx += 5;
     }
 
+    rx = 10;
+    for (i = 0; i < this.mHero.health; i++) {
+        this.hearts[i] = new Heart(this.kHeart, rx);
+        rx += 7;
+    }
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -212,6 +222,9 @@ GameScene.prototype.draw = function () {
 
     this.mAllPlatforms.draw(this.mCamera);
 
+    for (let i = 0; i < this.mHero.health; i++) {
+        this.hearts[i].draw(this.mCamera);
+    }
     // this.ParticleButton.draw(this.mCamera);
     // this.PhysicsButton.draw(this.mCamera);
     // this.UIButton.draw(this.mCamera);
@@ -244,11 +257,11 @@ GameScene.prototype.update = function () {
 
     if (this.mHero.death) {
 
-        this.finState="You Died"
+        this.finState = "You Died"
         gEngine.GameLoop.stop();
     }
     if (this.mBoss.death) {
-        this.finState="You Win"
+        this.finState = "You Win"
 
         gEngine.GameLoop.stop();
     }
