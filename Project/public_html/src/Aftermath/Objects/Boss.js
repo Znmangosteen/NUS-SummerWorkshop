@@ -62,7 +62,7 @@ function Boss(spriteTexture, bullet) {
     //Rate in per second
     this.kfireRate = 5;
 
-    this.health = 5;
+    this.health = 40;
     this.death = false;
 
     GameObject.call(this, this.mBoss);
@@ -88,6 +88,7 @@ function Boss(spriteTexture, bullet) {
     this.stay = 0;
     this.nextPos = this.getXform().getPosition();
 
+    this.currentBarrageType = BARRAGE_TYPE.CIRCLE;
 
 }
 
@@ -140,18 +141,45 @@ Boss.prototype.update = function (aCamera, aHero) {
 
     if (this.reach) {
         this.stay -= 1;
-        if (this.stay <= 0) {
 
-            this.setSpeed(2);
+        if (this.stay % 60 === 0) {
+            if (Math.random() < 0.1) {
+                this.currentBarrageType = BARRAGE_TYPE.CIRCLE;
+            }
+            this.currentBarrageType = Math.floor(Math.random() * 4)+1;
+        }
+
+        if (this.stay <= 200) {
+            if (this.currentBarrageType === BARRAGE_TYPE.LINE) {
+                if (this.stay % 5 === 0) {
+                    var bossPos = this.mBoss.getXform().getPosition();
+                    var heroPos = aHero.getXform().getPosition();
+                    this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, BARRAGE_TYPE.LINE, 30, Math.atan2((heroPos[1] - bossPos[1]), (heroPos[0] - bossPos[0]))));
+
+                }
+            }else {
+
+                if (this.stay % 20 === 0) {
+                    this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, this.currentBarrageType, 20, Math.random()*Math.PI/2));
+                }
+            }
+        }
+
+        if (this.stay <= 0) {
+            this.reach = false;
+            this.setSpeed(1.3);
 
         }
     } else {
+        if (Date.now() % 20 === 0) {
+            this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, this.currentBarrageType, 25, Math.random()*Math.PI/2));
 
+        }
     }
 
     if (vec2.distance(this.nextPos, this.getXform().getPosition()) < 4) {
         this.reach = true;
-        this.stay = 60;
+        this.stay = 120;
         var x = (Math.floor(Math.random() * 3)) * 60 + 40;
         var y = (Math.floor(Math.random() * 3)) * 40 + 10;
 
@@ -161,16 +189,16 @@ Boss.prototype.update = function (aCamera, aHero) {
     this.rotateObjPointTo(this.nextPos, .5);
 
 
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
-        // this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, BARRAGE_TYPE.CIRCLE, 25,  Math.random()*Math.PI/2));
-        // this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, BARRAGE_TYPE.CROSS, 30, Math.random()*Math.PI/2));
-
-        this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, BARRAGE_TYPE.D_SECTOR, 10, Math.random() > 0.5 ? 0 : Math.PI / 2));
-
-        var bossPos = this.mBoss.getXform().getPosition();
-        var heroPos = aHero.getXform().getPosition();
-        this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, BARRAGE_TYPE.LINE, 30, Math.atan2((heroPos[1] - bossPos[1]), (heroPos[0] - bossPos[0]))));
-    }
+    // if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
+    //     this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, BARRAGE_TYPE.CIRCLE, 25,  Math.random()*Math.PI/2));
+    //     this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, BARRAGE_TYPE.CROSS, 30, Math.random()*Math.PI/2));
+    //
+    //     this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, BARRAGE_TYPE.D_SECTOR, 10, Math.random() > 0.5 ? 0 : Math.PI / 2));
+    //
+    //     var bossPos = this.mBoss.getXform().getPosition();
+    //     var heroPos = aHero.getXform().getPosition();
+    //     this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, BARRAGE_TYPE.LINE, 30, Math.atan2((heroPos[1] - bossPos[1]), (heroPos[0] - bossPos[0]))));
+    // }
 
     // var v = this.getRigidBody().getVelocity();
     // if (reset === true) {

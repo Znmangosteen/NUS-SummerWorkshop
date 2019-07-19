@@ -58,7 +58,7 @@ function Hero(spriteTexture, bulletTexture) {
     //Rate in per second
     this.kfireRate = 5;
 
-    this.health = 3;
+    this.health = 5;
     this.death = false;
 
     GameObject.call(this, this.mDye);
@@ -94,6 +94,9 @@ Hero.prototype.draw = function (aCamera) {
 };
 
 Hero.prototype.decreaseHealth = function () {
+    if (this.isInvincible()) {
+        return;
+    }
     // this.mDye.setColor([1, 0, 0, 0.5]);
     // this.mDye.getColor()[1] = [1];
     this.health -= 1;
@@ -110,7 +113,7 @@ Hero.prototype.decreaseHealth = function () {
 
 Hero.prototype.getBBox = function () {
     var xform = this.mDye.getXform();
-    var b = new BoundingBox(xform.getPosition(), xform.getWidth() / 5, xform.getHeight() / 5);
+    var b = new BoundingBox(xform.getPosition(), xform.getWidth() / 8, xform.getHeight() / 8);
     return b;
 
 };

@@ -32,15 +32,15 @@ function Barrage(spriteTexture, spawnPos, speed, type, num, rotate) {
             }
             break;
         case BARRAGE_TYPE.SECTOR:
-            unit = Math.PI / (2 * this.barrageNum);
-            for (i = 0; i < this.barrageNum; i++) {
+            unit = 0.8*Math.PI /   this.barrageNum;
+            for (i = 0; i < this.barrageNum/4; i++) {
                 theta = rotate + (i - this.barrageNum / 2) * unit;
                 this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(Math.cos(theta), Math.sin(theta))));
             }
             break;
         case BARRAGE_TYPE.D_SECTOR:
-            unit = Math.PI / (2 * this.barrageNum);
-            for (i = 0; i < this.barrageNum; i++) {
+            unit = 0.8*Math.PI /   this.barrageNum;
+            for (i = 0; i < this.barrageNum/4; i++) {
                 theta = rotate + (i - this.barrageNum / 2) * unit;
                 this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(Math.cos(theta), Math.sin(theta))));
                 this.addToSet(new Bullet(this, spriteTexture, spawnPos, speed, vec2.fromValues(-Math.cos(theta), -Math.sin(theta))));
