@@ -167,7 +167,7 @@ Hero.prototype.update = function (trap, savePoint, reset, aCamera, aBoss) {
 
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
         // this.mBullets.addToSet(new Bullet(this.mBullets, this.kBulletTexture, this.getXform().getPosition(), 1, vec2.fromValues(1, 0)));
-        this.mBullets.addToSet(new Bullet(this.mBullets, this.kBulletTexture, this.getXform().getPosition(), 1, this.getCurrentFrontDir()));
+        this.mBullets.addToSet(new Bullet(this.mBullets, this.kBulletTexture, this.getXform().getPosition(), 2, this.getCurrentFrontDir()));
 
 
     }

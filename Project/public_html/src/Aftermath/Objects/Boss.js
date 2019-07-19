@@ -25,10 +25,10 @@ function Boss(spriteTexture, bullet) {
 
     this.mBoss = new SpriteAnimateRenderable(spriteTexture);
     this.mBoss.setColor([1, 1, 1, 0]);
-    this.mBoss.getXform().setPosition(55, 50);
+    this.mBoss.getXform().setPosition(150, 45);
     this.mBoss.getXform().setSize(this.width, this.height);
     // this.mBoss.setElementPixelPositions(0, 120, 0, 180);
-    this.mBoss.setElementPixelPositions(0,64,0,64);
+    this.mBoss.setElementPixelPositions(0, 64, 0, 64);
 
     // this.mBoss.setSpriteSequence(512, 0,     // first element pixel position: top-left 512 is top of image, 0 is left of image
     //     566, 512,   // widthxheight in pixels
@@ -84,7 +84,21 @@ function Boss(spriteTexture, bullet) {
     this.jump = false;
     this.invincible = false;
 
+    this.reach = true;
+    this.stay = 0;
+    this.nextPos = this.getXform().getPosition();
+
+
 }
+
+var BOSS_BEHAVIOR = {
+    GO_AROUND: 0,
+    STAY_MM: 1,
+    STAY_TM: 2,
+    STAY_BM: 3,
+    WALK: 4,
+};
+
 
 gEngine.Core.inheritPrototype(Boss, GameObject);
 
@@ -124,8 +138,38 @@ Boss.prototype.update = function (aCamera, aHero) {
         // FIXME debug thing
     }
 
+    if (this.reach) {
+        this.stay -= 1;
+        if (this.stay <= 0) {
+
+            this.setSpeed(2);
+
+        }
+    } else {
+
+    }
+
+    if (vec2.distance(this.nextPos, this.getXform().getPosition()) < 4) {
+        this.reach = true;
+        this.stay = 60;
+        var x = (Math.floor(Math.random() * 3)) * 60 + 40;
+        var y = (Math.floor(Math.random() * 3)) * 40 + 10;
+
+        this.nextPos = vec2.fromValues(x, y);
+        this.setSpeed(0);
+    }
+    this.rotateObjPointTo(this.nextPos, .5);
+
+
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
-        this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, BARRAGE_TYPE.CIRCLE, 30, 0));
+        // this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, BARRAGE_TYPE.CIRCLE, 25,  Math.random()*Math.PI/2));
+        // this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, BARRAGE_TYPE.CROSS, 30, Math.random()*Math.PI/2));
+
+        this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, BARRAGE_TYPE.D_SECTOR, 10, Math.random() > 0.5 ? 0 : Math.PI / 2));
+
+        var bossPos = this.mBoss.getXform().getPosition();
+        var heroPos = aHero.getXform().getPosition();
+        this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, BARRAGE_TYPE.LINE, 30, Math.atan2((heroPos[1] - bossPos[1]), (heroPos[0] - bossPos[0]))));
     }
 
     // var v = this.getRigidBody().getVelocity();
@@ -148,19 +192,19 @@ Boss.prototype.update = function (aCamera, aHero) {
     // if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Down)) {
     //     v[1] -= this.kYMDelta;
     // }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
-        // v[0] -= this.kXDelta;
-        this.mBoss.getXform().getPosition()[0] -= 1;
-        // this.mRDye.getXform().getPosition()[0] -= 1;
-
-        // this.mRenderComponent = this.mRDye;
-    }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
-        // v[0] += this.kXDelta;
-        this.mBoss.getXform().getPosition()[0] += 1;
-        // this.mRDye.getXform().getPosition()[0] += 1;
-        // this.mRenderComponent = this.mBoss;
-    }
+    // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
+    //     // v[0] -= this.kXDelta;
+    //     this.mBoss.getXform().getPosition()[0] -= 1;
+    //     // this.mRDye.getXform().getPosition()[0] -= 1;
+    //
+    //     // this.mRenderComponent = this.mRDye;
+    // }
+    // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
+    //     // v[0] += this.kXDelta;
+    //     this.mBoss.getXform().getPosition()[0] += 1;
+    //     // this.mRDye.getXform().getPosition()[0] += 1;
+    //     // this.mRenderComponent = this.mBoss;
+    // }
 
     // this.mRenderComponent.updateAnimation();
     //
