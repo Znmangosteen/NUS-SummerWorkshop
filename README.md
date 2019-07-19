@@ -8,4 +8,4 @@
 
 
 
-[Game Link](Game Link: https://znmangosteen.github.io/NUS-SummerWorkshop/Project/public_html/index.html): https://znmangosteen.github.io/NUS-SummerWorkshop/Project/public_html/index.html
+Game Link: https://znmangosteen.github.io/NUS-SummerWorkshop/Project/public_html/index.html
