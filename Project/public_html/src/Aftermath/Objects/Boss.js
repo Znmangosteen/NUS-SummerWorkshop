@@ -143,7 +143,7 @@ Boss.prototype.update = function (aCamera, aHero) {
         this.stay -= 1;
 
         if (this.stay % 60 === 0) {
-            if (Math.random() < 0.1) {
+            if (Math.random() < 0.2) {
                 this.currentBarrageType = BARRAGE_TYPE.CIRCLE;
             }
             this.currentBarrageType = Math.floor(Math.random() * 4)+1;
@@ -160,7 +160,7 @@ Boss.prototype.update = function (aCamera, aHero) {
             }else {
 
                 if (this.stay % 20 === 0) {
-                    this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, this.currentBarrageType, 20, Math.random()*Math.PI/2));
+                    this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, this.currentBarrageType, 26, Math.random()*Math.PI/2));
                 }
             }
         }

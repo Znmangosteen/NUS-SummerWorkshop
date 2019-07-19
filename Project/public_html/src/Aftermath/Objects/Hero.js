@@ -58,7 +58,7 @@ function Hero(spriteTexture, bulletTexture) {
     //Rate in per second
     this.kfireRate = 5;
 
-    this.health = 5;
+    this.health = 3;
     this.death = false;
 
     GameObject.call(this, this.mDye);
