@@ -122,6 +122,7 @@ Hero.prototype.isInvincible = function () {
 };
 
 Hero.prototype.update = function (trap, savePoint, reset, aCamera, aBoss) {
+    var m = gEngine.GameLoop.mMyGame;
     GameObject.prototype.update.call(this);
     // control by WASD
     var v = this.getRigidBody().getVelocity();

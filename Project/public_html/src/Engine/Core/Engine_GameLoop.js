@@ -110,11 +110,16 @@ gEngine.GameLoop = (function () {
     var getUpdateIntervalInSeconds = function () {
         return kFrameTime;
     };
+
+    var getCurrentScene = function () {
+        return mMyGame;
+    };
     
     var mPublic = {
         start: start,
         stop: stop,
-        getUpdateIntervalInSeconds: getUpdateIntervalInSeconds
+        getUpdateIntervalInSeconds: getUpdateIntervalInSeconds,
+        getCurrentScene:getCurrentScene
     };
     return mPublic;
 }());
