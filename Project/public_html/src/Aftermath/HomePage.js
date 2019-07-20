@@ -13,6 +13,7 @@
 
 function HomePage() {
     this.kBg = "assets/Background/snow-bg.png";
+    this.kControlGuide = "assets/UI/control-guide.png";
 
 
     // The camera to view the scene
@@ -43,21 +44,20 @@ gEngine.Core.inheritPrototype(HomePage, Scene);
 
 HomePage.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kBg);
+    gEngine.Textures.loadTexture(this.kControlGuide);
 
 };
 
 HomePage.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBg);
+    gEngine.Textures.unloadTexture(this.kControlGuide);
 
     if (this.NextScene === "Game") {
         gEngine.Core.startScene(new GameScene());
+    }else if (this.NextScene = "contGame") {
+
     }
-    else if (this.LevelSelect === "Physics") {
-        gEngine.Core.startScene(new RigidShapeDemo());
-    }
-    else if (this.LevelSelect === "UI") {
-        gEngine.Core.startScene(new UIDemo());
-    }
+
 };
 
 HomePage.prototype.initialize = function () {
@@ -78,11 +78,11 @@ HomePage.prototype.initialize = function () {
     this.ButtonPosition[1] -= (1 + this.ButtonHeight);
     this.PlayButton = new UIButton(this.gameSceneSelect, this, this.ButtonPosition, this.ButtonSize, "Play", this.ButtonFontSize);
     this.ButtonPosition[1] -= (1 + this.ButtonHeight);
-    this.ControlButton = new UIButton(this.physicsSelect, this, this.ButtonPosition, this.ButtonSize, "Control", this.ButtonFontSize);
+    this.ControlButton = new UIButton(this.controlInfo, this, this.ButtonPosition, this.ButtonSize, "Control", this.ButtonFontSize);
     this.ButtonPosition[1] -= (1 + this.ButtonHeight);
-    this.TrophyButton = new UIButton(this.uiSelect, this, this.ButtonPosition, this.ButtonSize, "Trophy", this.ButtonFontSize);
+    this.TrophyButton = new UIButton(this.trophyInfo, this, this.ButtonPosition, this.ButtonSize, "Trophy", this.ButtonFontSize);
     this.ButtonPosition[1] -= (1 + this.ButtonHeight);
-    this.AcknowledgeButton = new UIButton(this.uiSelect, this, this.ButtonPosition, this.ButtonSize, "Acknowledgement", this.ButtonFontSize);
+    this.AcknowledgeButton = new UIButton(this.acknowledgeInfo, this, this.ButtonPosition, this.ButtonSize, "Acknowledgement", this.ButtonFontSize);
 
     this.bg = new TextureRenderable(this.kBg);
     this.bg.getXform().setSize(200, 112.5);
@@ -129,12 +129,13 @@ HomePage.prototype.gameSceneSelect = function () {
     gEngine.GameLoop.stop();
 };
 
-HomePage.prototype.physicsSelect = function () {
-    this.NextScene = "Physics";
-    gEngine.GameLoop.stop();
+HomePage.prototype.controlInfo = function () {
+    this.NextScene = "control";
 };
 
-HomePage.prototype.uiSelect = function () {
-    this.NextScene = "UI";
-    gEngine.GameLoop.stop();
+HomePage.prototype.trophyInfo = function () {
+    this.NextScene = "trophy";
+};
+HomePage.prototype.acknowledgeInfo = function () {
+    this.NextScene = "acknowledge";
 };
