@@ -54,8 +54,10 @@ HomePage.prototype.unloadScene = function () {
 
     if (this.NextScene === "Game") {
         gEngine.Core.startScene(new GameScene());
-    }else if (this.NextScene = "contGame") {
+    } else if (this.NextScene === "contGame") {
 
+    } else if (this.NextScene === "hidden") {
+        gEngine.Core.startScene(new HiddenLevel());
     }
 
 };
@@ -119,9 +121,18 @@ HomePage.prototype.update = function () {
     this.AcknowledgeButton.update();
 
 
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
+        this.hiddenLevel();
+    }
     // if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
 
 
+};
+
+// FIXME debug thing
+HomePage.prototype.hiddenLevel = function () {
+    this.NextScene = "hidden";
+    gEngine.GameLoop.stop();
 };
 
 HomePage.prototype.gameSceneSelect = function () {
