@@ -35,9 +35,18 @@ function HomePage() {
 
 
     //next
-    this.NextScene = null;
+    this.State = null;
 
 }
+
+var STATE = {
+    HOME: 0,
+    PLAY: 1,
+    CONTROL: 2,
+    TROPHY: 3,
+    ACKNOWLEDGE: 4,
+    HIDDEN: 1000
+};
 
 gEngine.Core.inheritPrototype(HomePage, Scene);
 
@@ -52,11 +61,11 @@ HomePage.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBg);
     gEngine.Textures.unloadTexture(this.kControlGuide);
 
-    if (this.NextScene === "Game") {
+    if (this.State === STATE.PLAY) {
         gEngine.Core.startScene(new GameScene());
-    } else if (this.NextScene === "contGame") {
+    } else if (this.State === "contGame") {
 
-    } else if (this.NextScene === "hidden") {
+    } else if (this.State === STATE.HIDDEN) {
         gEngine.Core.startScene(new HiddenLevel());
     }
 
@@ -76,6 +85,21 @@ HomePage.prototype.initialize = function () {
     // sets the background to gray
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
 
+    this.initButton();
+    this.initControlInfo();
+    this.initTrophyInfo();
+    this.initAcknowledgementInfo();
+
+    this.bg = new TextureRenderable(this.kBg);
+    this.bg.getXform().setSize(200, 112.5);
+    this.bg.getXform().setPosition(100, 56.25);
+
+
+};
+
+
+
+HomePage.prototype.initButton = function () {
     this.ContinueButton = new UIButton(this.gameSceneSelect, this, this.ButtonPosition, this.ButtonSize, "Continue", this.ButtonFontSize);
     this.ButtonPosition[1] -= (1 + this.ButtonHeight);
     this.PlayButton = new UIButton(this.gameSceneSelect, this, this.ButtonPosition, this.ButtonSize, "Play", this.ButtonFontSize);
@@ -86,32 +110,43 @@ HomePage.prototype.initialize = function () {
     this.ButtonPosition[1] -= (1 + this.ButtonHeight);
     this.AcknowledgeButton = new UIButton(this.acknowledgeInfo, this, this.ButtonPosition, this.ButtonSize, "Acknowledgement", this.ButtonFontSize);
 
-    this.bg = new TextureRenderable(this.kBg);
-    this.bg.getXform().setSize(200, 112.5);
-    this.bg.getXform().setPosition(100, 56.25);
-
 
 };
-
 // This is the draw function, make sure to setup proper drawing environment, and more
 // importantly, make sure to _NOT_ change any state.
+
 HomePage.prototype.draw = function () {
     // Step A: clear the canvas
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
 
-
     this.mCamera.setupViewProjection();
 
+    this.bg.draw(this.mCamera);
+    this.drawButton();
+
+    switch (this.State) {
+        case STATE.CONTROL:
+            this.drawControlInfo();
+            break;
+        case STATE.TROPHY:
+            this.drawTrophyInfo();
+            break;
+        case STATE.ACKNOWLEDGE:
+            this.drawAcknowledgementInfo();
+            break;
+
+    }
+
+    };
+
+HomePage.prototype.drawButton = function () {
     this.ContinueButton.draw(this.mCamera);
     this.PlayButton.draw(this.mCamera);
     this.ControlButton.draw(this.mCamera);
     this.TrophyButton.draw(this.mCamera);
     this.AcknowledgeButton.draw(this.mCamera);
-
-    this.bg.draw(this.mCamera);
-
-
 };
+
 
 HomePage.prototype.update = function () {
     this.ContinueButton.update();
@@ -131,22 +166,22 @@ HomePage.prototype.update = function () {
 
 // FIXME debug thing
 HomePage.prototype.hiddenLevel = function () {
-    this.NextScene = "hidden";
+    this.State = STATE.HIDDEN;
     gEngine.GameLoop.stop();
 };
 
 HomePage.prototype.gameSceneSelect = function () {
-    this.NextScene = "Game";
+    this.State = STATE.PLAY;
     gEngine.GameLoop.stop();
 };
 
 HomePage.prototype.controlInfo = function () {
-    this.NextScene = "control";
+    this.State = STATE.CONTROL;
 };
 
 HomePage.prototype.trophyInfo = function () {
-    this.NextScene = "trophy";
+    this.State = STATE.TROPHY;
 };
 HomePage.prototype.acknowledgeInfo = function () {
-    this.NextScene = "acknowledge";
+    this.State = STATE.ACKNOWLEDGE;
 };
