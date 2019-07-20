@@ -28,6 +28,9 @@ function GameScene() {
     this.kBoss = "assets/Character/Boss.png";
     this.kHeart = "assets/Character/heart.png";
 
+    this.kBgm = "assets/Music/BGM/bgm.mp3";
+    this.kShoot = "assets/Music/Cue/shoot1.wav";
+
 
     // The camera to view the scene
     this.mCamera = null;
@@ -66,6 +69,8 @@ gEngine.Core.inheritPrototype(GameScene, Scene);
 
 GameScene.prototype.loadScene = function () {
     gEngine.AudioClips.loadAudio(this.kCue);
+    gEngine.AudioClips.loadAudio(this.kBgm);
+    gEngine.AudioClips.loadAudio(this.kShoot);
     gEngine.Textures.loadTexture(this.kMinionSprite);
     gEngine.Textures.loadTexture(this.kTrap);
     gEngine.Textures.loadTexture(this.kSave);
@@ -81,6 +86,9 @@ GameScene.prototype.loadScene = function () {
 };
 
 GameScene.prototype.unloadScene = function () {
+    gEngine.AudioClips.unloadAudio(this.kBgm);
+    gEngine.AudioClips.unloadAudio(this.kShoot);
+
     gEngine.Textures.unloadTexture(this.kMinionSprite);
     gEngine.Textures.unloadTexture(this.kTrap);
     gEngine.Textures.unloadTexture(this.kSave);
@@ -201,6 +209,9 @@ GameScene.prototype.initialize = function () {
         this.hearts[i] = new Heart(this.kHeart, rx);
         rx += 7;
     }
+
+    gEngine.AudioClips.playBackgroundAudio(this.kBgm);
+
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -257,11 +268,11 @@ GameScene.prototype.update = function () {
 
     if (this.mHero.death) {
 
-        this.finState = "You Died"
+        this.finState = "You Died";
         gEngine.GameLoop.stop();
     }
     if (this.mBoss.death) {
-        this.finState = "You Win"
+        this.finState = "You Win";
 
         gEngine.GameLoop.stop();
     }
