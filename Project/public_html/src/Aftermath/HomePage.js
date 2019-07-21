@@ -74,7 +74,8 @@ HomePage.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kHeroBullet);
 
     if (this.State === STATE.PLAY) {
-        gEngine.Core.startScene(new GameScene());
+        // gEngine.Core.startScene(new GameScene());
+        gEngine.Core.startScene(new LevelSelect());
     } else if (this.State === "contGame") {
 
     } else if (this.State === STATE.HIDDEN) {
