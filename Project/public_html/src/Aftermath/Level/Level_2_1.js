@@ -28,7 +28,7 @@ Level_2_1.prototype.initialize = function () {
     ry = 5;
 
 
-    rx += 20;
+    rx += 2 * dx;
     for (j = 0; j < 12; j++) {
         obj = new Platform(this.kPlatformTexture, rx, ry);
         this.mAllPlatforms.addToSet(obj);
@@ -52,6 +52,50 @@ Level_2_1.prototype.initialize = function () {
 
     }
 
+    rx += 4 * dx;
+    ry = 5 + 4 * dy;
+
+    for (i = 0; i < 5; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, ry);
+        this.mAllPlatforms.addToSet(obj);
+        rx += 1.6 * dx;
+
+    }
+
+    rx = 7 * dx;
+    ry = 5 + 8 * dy;
+
+    for (i = 0; i < 10; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, ry);
+        this.mAllPlatforms.addToSet(obj);
+        rx += dx;
+
+    }
+    for (i = 0; i < 6; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, ry);
+        this.mAllPlatforms.addToSet(obj);
+        ry += dy;
+
+    }
+
+    rx = 22 * dx;
+    ry = 5 + dy;
+
+    for (i = 0; i < 11; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, ry);
+        this.mAllPlatforms.addToSet(obj);
+        ry += dy;
+
+    }
+
+    rx = 24.5 * dx;
+    ry = 5 + 2 * dy;
+    for (i = 0; i < 12; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, ry);
+        this.mAllPlatforms.addToSet(obj);
+        ry += dy;
+
+    }
 
 };
 Level_2_1.prototype.draw = function () {
