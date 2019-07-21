@@ -14,9 +14,28 @@
 function Level_1_2(aHero) {
     LevelScene.call(this,aHero);
 }
-
-
 gEngine.Core.inheritPrototype(Level_1_2, LevelScene);
+
+Level_1_2.prototype.initialize = function () {
+    LevelScene.prototype.initialize.call(this);
+    var rx, ry, obj;
+    rx = [15,20,25,
+          60,
+         90,90,90,90,90,90,90,
+         135,
+         195];
+    ry = [40,40,40,
+         70,
+         50,55,60,65,70,75,80,
+         60,
+         60];
+    for (i = 0; i < 20; i++){
+        obj = new Platform(this.kPlatformTexture, rx[i], ry[i]);
+        this.mAllPlatforms.addToSet(obj);
+    }
+
+};
+
 
 Level_1_2.prototype.draw = function () {
     LevelScene.prototype.draw.call(this, this.mCamera);
