@@ -11,16 +11,29 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Level_1_3() {
-    LevelScene.call(this);
+function Level_1_3(aHero) {
+    LevelScene.call(this, aHero);
     this.Bar = new UIBar([600, 10], [1000, 20]);
     this.Bar.setMidElemColor([0.6, 0, 0, 1]);
-    this.Bar.setMaxValue(100);
+
+    this.mBoss = null;
 
 }
 
 
 gEngine.Core.inheritPrototype(Level_1_3, LevelScene);
+
+Level_1_3.prototype.initialize = function () {
+    LevelScene.prototype.initialize.call(this);
+
+
+    this.mBoss = new Boss(this.kBoss, this.kBullet);
+    this.mBoss.setTarget(this.mHero);
+    this.mNPCs.push(this.mBoss);
+
+    this.Bar.setMaxValue(this.mBoss.health);
+
+};
 
 Level_1_3.prototype.draw = function () {
     LevelScene.prototype.draw.call(this, this.mCamera);
@@ -30,7 +43,7 @@ Level_1_3.prototype.draw = function () {
 
 Level_1_3.prototype.update = function () {
     LevelScene.prototype.update.call(this);
-    this.Bar.incCurrentValue(-3);
+    this.Bar.setCurrentValue(this.mBoss.health);
     // this.Bar.setCurrentValue(-3);
     this.Bar.update();
 };

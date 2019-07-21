@@ -70,31 +70,32 @@ LoseScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kHeroBullet);
 
     if (this.LevelSelect === "Game") {
-        switch (CURRENT_LEVEL) {
-            case SELECT.L_1_1:
-                gEngine.Core.startScene(new Level_1_1());
-                break;
-            case SELECT.L_1_2:
-                gEngine.Core.startScene(new Level_1_2());
-                break;
-            case SELECT.L_1_3:
-                gEngine.Core.startScene(new Level_1_3());
-                break;
-            case SELECT.L_2_1:
-                gEngine.Core.startScene(new Level_2_1());
-                break;
-            case SELECT.L_2_2:
-                gEngine.Core.startScene(new Level_2_2());
-                break;
-            case SELECT.L_2_3:
-                gEngine.Core.startScene(new Level_2_3());
-                break;
-
-
-
-
-
-        }
+        startNextLevel();
+        // switch (CURRENT_LEVEL) {
+        //     case SELECT.L_1_1:
+        //         gEngine.Core.startScene(new Level_1_1());
+        //         break;
+        //     case SELECT.L_1_2:
+        //         gEngine.Core.startScene(new Level_1_2());
+        //         break;
+        //     case SELECT.L_1_3:
+        //         gEngine.Core.startScene(new Level_1_3());
+        //         break;
+        //     case SELECT.L_2_1:
+        //         gEngine.Core.startScene(new Level_2_1());
+        //         break;
+        //     case SELECT.L_2_2:
+        //         gEngine.Core.startScene(new Level_2_2());
+        //         break;
+        //     case SELECT.L_2_3:
+        //         gEngine.Core.startScene(new Level_2_3());
+        //         break;
+        //
+        //
+        //
+        //
+        //
+        // }
     }
     // else if(this.LevelSelect==="Physics"){
     //     gEngine.Core.startScene(new RigidShapeDemo());

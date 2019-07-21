@@ -43,7 +43,6 @@ function LevelScene(aHero) {
 
     this.mAllPlatforms = new GameObjectSet();
 
-    this.mBoss = null;
 
     this.mNPCs = [];
 //    FIXME debug thing
@@ -61,12 +60,19 @@ function LevelScene(aHero) {
     this.reset = false;
 
     this.finState = "";
+    this.levelClear = false;
 
     this.hearts = [];
 }
 
 gEngine.Core.inheritPrototype(LevelScene, Scene);
 
+var GAME_STATE = {
+    DEFAULT: 0,
+    LEVEL_CLEAR: 1,
+    LOSE: 2,
+
+};
 
 LevelScene.prototype.loadScene = function () {
     gEngine.AudioClips.loadAudio(this.kCue);
@@ -101,8 +107,12 @@ LevelScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBoss);
     gEngine.Textures.unloadTexture(this.kHeart);
 
-    gEngine.Core.startScene(new LoseScene(this.finState));
+    if (this.levelClear) {
 
+        startNextLevel();
+    } else {
+        gEngine.Core.startScene(new LoseScene("You Died"));
+    }
     // if(this.LevelSelect==="Particle"){
     //     gEngine.Core.startScene(new ParticleLevel());
     // }
@@ -125,8 +135,6 @@ LevelScene.prototype.initialize = function () {
     this.bg.getXform().setSize(200, 112.5);
     this.bg.getXform().setPosition(100, 56.25);
 
-    this.mBoss = new Boss(this.kBoss, this.kBullet);
-    this.mNPCs.push(this.mBoss);
 
     if (this.mHero === null) {
         this.mHero = new Hero(this.kHero, this.kHeroBullet);
@@ -178,7 +186,7 @@ LevelScene.prototype.draw = function () {
     this.bg.draw(this.mCamera);
 
     for (let i = 0; i < this.mNPCs.length; i++) {
-        this.mBoss.draw(this.mCamera);
+        this.mNPCs[i].draw(this.mCamera);
     }
 
     this.mHero.draw(this.mCamera);
@@ -213,7 +221,8 @@ LevelScene.prototype.update = function () {
 
     if (this.mHero.death) {
 
-        this.finState = "You Died";
+        // CURRENT_LEVEL = SELECT.LOSE;
+        this.levelClear = false;
         gEngine.GameLoop.stop();
     }
     for (let i = 0; i < this.mNPCs.length; i++) {
@@ -226,7 +235,12 @@ LevelScene.prototype.update = function () {
 
     if (this.mNPCs.length <= 0) {
         this.finState = "You Win";
+        this.levelClear = true;
+        // gEngine.GameLoop.stop();
+    }
 
+    if (this.levelClear && this.mCamera.collideWCBound(this.mHero.getXform(), 1) === 2) {
+        CURRENT_LEVEL += 1;
         gEngine.GameLoop.stop();
     }
     // var num = 0;

@@ -34,7 +34,7 @@ function Hero(characterTexture, bulletTexture, position) {
 
     } else {
 
-        this.mDye.getXform().setPosition(35, 50);
+        this.mDye.getXform().setPosition(0, 10);
     }
     this.mDye.getXform().setSize(this.width, this.height);
     // this.mDye.setElementPixelPositions(0, 120, 0, 180);

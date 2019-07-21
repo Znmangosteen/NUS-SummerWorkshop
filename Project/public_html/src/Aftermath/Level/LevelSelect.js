@@ -59,7 +59,8 @@ var SELECT = {
     L_2_1: 4,
     L_2_2: 5,
     L_2_3: 6,
-    HIDDEN: 1000
+    HIDDEN: 1000,
+
 };
 
 var CURRENT_LEVEL = SELECT.L_1_1;
@@ -77,13 +78,7 @@ LevelSelect.prototype.loadScene = function () {
 
 };
 
-LevelSelect.prototype.unloadScene = function () {
-    gEngine.Textures.unloadTexture(this.kBg);
-    gEngine.Textures.unloadTexture(this.kControlGuide);
-    gEngine.Textures.unloadTexture(this.kPlatformTexture);
-    gEngine.Textures.unloadTexture(this.kHero);
-    gEngine.Textures.unloadTexture(this.kHeroBullet);
-
+function startNextLevel() {
     switch (CURRENT_LEVEL) {
         case SELECT.BACK:
             gEngine.Core.startScene(new HomePage());
@@ -113,8 +108,16 @@ LevelSelect.prototype.unloadScene = function () {
 
 
 
-
     }
+}
+
+LevelSelect.prototype.unloadScene = function () {
+    gEngine.Textures.unloadTexture(this.kBg);
+    gEngine.Textures.unloadTexture(this.kControlGuide);
+    gEngine.Textures.unloadTexture(this.kPlatformTexture);
+    gEngine.Textures.unloadTexture(this.kHero);
+    gEngine.Textures.unloadTexture(this.kHeroBullet);
+    startNextLevel();
 
 
 };

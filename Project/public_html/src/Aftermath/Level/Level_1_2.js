@@ -11,8 +11,8 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Level_1_2() {
-    LevelScene.call(this);
+function Level_1_2(aHero) {
+    LevelScene.call(this,aHero);
 }
 
 
