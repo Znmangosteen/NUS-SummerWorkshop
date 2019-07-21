@@ -235,8 +235,8 @@ LevelSelect.prototype.goBack = function () {
     gEngine.GameLoop.stop();
 };
 LevelSelect.prototype.hiddenLevel = function () {
-    CURRENT_LEVEL = SELECT.HIDDEN;
-    gEngine.GameLoop.stop();
+    // CURRENT_LEVEL = SELECT.HIDDEN;
+    // gEngine.GameLoop.stop();
 };
 
 LevelSelect.prototype.select_1_1 = function () {
