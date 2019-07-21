@@ -4,9 +4,73 @@ HomePage.prototype.initControlInfo = function () {
     this.mControlInfo.getXform().setPosition(150, 50);
     this.mControlInfo.getXform().setSize(5, 5);
     this.mControlInfo.setElementPixelPositions(0, 64, 0, 64);
+
+    this.mAllPlatforms = new GameObjectSet();
+    this.mHero = new Hero(this.kHero, this.kHeroBullet, vec2.fromValues(120, 60));
+
+
+    var i, j, rx, ry, obj, dy, dx;
+
+    rx = 85;
+    for (i = 0; i < 22; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, 50);
+        this.mAllPlatforms.addToSet(obj);
+
+        // obj = new Platform(this.kPlatformTexture, rx, 112);
+        // this.mAllPlatforms.addToSet(obj);
+        rx += 5;
+    }
+    rx = 130;
+    ry = 80;
+    for (i = 0; i < 5; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, ry);
+        this.mAllPlatforms.addToSet(obj);
+
+        // obj = new Platform(this.kPlatformTexture, rx, 112);
+        // this.mAllPlatforms.addToSet(obj);
+        rx += 5;
+    }
+    rx = 85;
+    for (i = 0; i < 23; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, 112);
+        this.mAllPlatforms.addToSet(obj);
+
+        rx += 5;
+    }
+    rx = 85;
+    ry = 50;
+    for (i = 0; i < 30; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, ry);
+        this.mAllPlatforms.addToSet(obj);
+
+        ry += 2;
+    }
+    rx = 195;
+    ry = 50;
+    for (i = 0; i < 30; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, ry);
+        this.mAllPlatforms.addToSet(obj);
+
+        ry += 2;
+    }
+
+
 };
 
 HomePage.prototype.drawControlInfo = function () {
     this.mControlInfo.draw(this.mCamera);
+    this.mAllPlatforms.draw(this.mCamera);
+    this.mHero.draw(this.mCamera);
+
 
 };
+
+HomePage.prototype.updateControlInfo = function () {
+
+    this.reset = gEngine.Physics.processObjSet(this.mHero, this.mAllPlatforms);
+    this.mHero.update(this.reset, this.mCamera);
+
+
+};
+
+

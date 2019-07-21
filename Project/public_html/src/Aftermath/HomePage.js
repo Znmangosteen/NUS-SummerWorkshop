@@ -14,6 +14,12 @@
 function HomePage() {
     this.kBg = "assets/Background/snow-bg.png";
     this.kControlGuide = "assets/UI/control-guide.png";
+    this.kPlatformTexture = "assets/BlockUnit/snow-platform.png";
+    this.kHero = "assets/Character/3.png";
+    this.kHeroBullet = "assets/Bullet/pink-bullet.png";
+
+
+
 
 
     // The camera to view the scene
@@ -54,12 +60,18 @@ gEngine.Core.inheritPrototype(HomePage, Scene);
 HomePage.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kBg);
     gEngine.Textures.loadTexture(this.kControlGuide);
+    gEngine.Textures.loadTexture(this.kPlatformTexture);
+    gEngine.Textures.loadTexture(this.kHero);
+    gEngine.Textures.loadTexture(this.kHeroBullet);
 
 };
 
 HomePage.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBg);
     gEngine.Textures.unloadTexture(this.kControlGuide);
+    gEngine.Textures.unloadTexture(this.kPlatformTexture);
+    gEngine.Textures.unloadTexture(this.kHero);
+    gEngine.Textures.unloadTexture(this.kHeroBullet);
 
     if (this.State === STATE.PLAY) {
         gEngine.Core.startScene(new GameScene());
@@ -155,6 +167,11 @@ HomePage.prototype.update = function () {
     this.TrophyButton.update();
     this.AcknowledgeButton.update();
 
+    switch (this.State) {
+        case STATE.CONTROL:
+            this.updateControlInfo();
+            break;
+    }
 
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
         this.hiddenLevel();

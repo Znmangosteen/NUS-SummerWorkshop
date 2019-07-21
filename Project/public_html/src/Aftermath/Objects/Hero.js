@@ -11,7 +11,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Hero(characterTexture, bulletTexture) {
+function Hero(characterTexture, bulletTexture, position) {
     this.kYDelta = 130;
     this.kYMDelta = 180;
 
@@ -23,7 +23,13 @@ function Hero(characterTexture, bulletTexture) {
 
     this.mDye = new SpriteAnimateRenderable(characterTexture);
     this.mDye.setColor([1, 1, 1, 0]);
-    this.mDye.getXform().setPosition(35, 50);
+    if (position !== undefined) {
+        this.mDye.getXform().setPosition(position[0], position[1]);
+
+    } else {
+
+        this.mDye.getXform().setPosition(35, 50);
+    }
     this.mDye.getXform().setSize(this.width, this.height);
     // this.mDye.setElementPixelPositions(0, 120, 0, 180);
     this.mDye.setSpriteSequence(512, 0,     // first element pixel position: top-left 512 is top of image, 0 is left of image
@@ -119,7 +125,7 @@ Hero.prototype.isInvincible = function () {
 };
 
 Hero.prototype.setTarget = function (target) {
-    this.target=target
+    this.target = target
 };
 
 Hero.prototype.update = function (reset, aCamera) {
