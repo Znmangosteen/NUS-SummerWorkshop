@@ -21,9 +21,30 @@ gEngine.Core.inheritPrototype(Level_2_1, LevelScene);
 Level_2_1.prototype.initialize = function () {
     LevelScene.prototype.initialize.call(this);
 
+    this.addTopWall();
+    // this.addGround();
     var i, j, k, rx, ry, obj, dx, dy;
     dx = 8;
     dy = 8;
+
+    rx = 0;
+    for (i = 0; i < 9; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, 5);
+        this.mAllPlatforms.addToSet(obj);
+
+
+        rx += dx;
+    }
+
+    rx = 19 * dx;
+    for (i = 0; i < 9; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, 5);
+        this.mAllPlatforms.addToSet(obj);
+
+
+        rx += dx;
+    }
+
     rx = 5;
     ry = 5;
 

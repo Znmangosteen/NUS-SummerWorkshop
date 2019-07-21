@@ -109,14 +109,10 @@ LevelScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kHeart);
 
     if (this.levelClear) {
-
         startNextLevel();
     } else {
         gEngine.Core.startScene(new LoseScene("You Died"));
     }
-    // if(this.LevelSelect==="Particle"){
-    //     gEngine.Core.startScene(new ParticleLevel());
-    // }
 
 };
 
@@ -156,25 +152,22 @@ LevelScene.prototype.initialize = function () {
     dx = 8;
     dy = 8;
 
-    rx = -5;
-    for (i = 0; i < 45; i++) {
-        obj = new Platform(this.kPlatformTexture, rx, 5);
-        this.mAllPlatforms.addToSet(obj);
-
-        // obj = new Platform(this.kPlatformTexture, rx, 112);
-        // this.mAllPlatforms.addToSet(obj);
-        rx += dx;
-    }
-    rx = 0;
-    ry = 120;
-    for (i = 0; i < 45; i++) {
-        obj = new Platform(this.kPlatformTexture, rx, ry);
-        this.mAllPlatforms.addToSet(obj);
-
-        // obj = new Platform(this.kPlatformTexture, rx, 112);
-        // this.mAllPlatforms.addToSet(obj);
-        rx += dx;
-    }
+    // rx = 0;
+    // for (i = 0; i < 26; i++) {
+    //     obj = new Platform(this.kPlatformTexture, rx, 5);
+    //     this.mAllPlatforms.addToSet(obj);
+    //
+    //
+    //     rx += dx;
+    // }
+    // rx = 0;
+    // ry = 120;
+    // for (i = 0; i < 27; i++) {
+    //     obj = new Platform(this.kPlatformTexture, rx, ry);
+    //     this.mAllPlatforms.addToSet(obj);
+    //
+    //     rx += dx;
+    // }
 
     rx = 10;
     for (i = 0; i < this.mHero.health; i++) {
@@ -233,10 +226,7 @@ LevelScene.prototype.update = function () {
     this.reset = false;
 
     if (this.mHero.death) {
-
-        // CURRENT_LEVEL = SELECT.LOSE;
-        this.levelClear = false;
-        gEngine.GameLoop.stop();
+        this.goLose();
     }
     for (let i = 0; i < this.mNPCs.length; i++) {
         NPC = this.mNPCs[i];
@@ -252,9 +242,13 @@ LevelScene.prototype.update = function () {
         // gEngine.GameLoop.stop();
     }
 
-    if (this.levelClear && this.mCamera.collideWCBound(this.mHero.getXform(), 1) === 2) {
+    if (this.levelClear && (this.mCamera.collideWCBound(this.mHero.getXform(), 1) === 2)) {
         CURRENT_LEVEL += 1;
         gEngine.GameLoop.stop();
+    }
+
+    if (this.mCamera.collideWCBound(this.mHero.getXform(), 1) === 8) {
+        this.goLose();
     }
     // var num = 0;
     // for (let i = 0; i < this.mBarrageSet.length; i++) {
@@ -286,6 +280,39 @@ LevelScene.prototype.update = function () {
 
 };
 
+LevelScene.prototype.addGround = function () {
+    var i, j, rx, ry, obj, dy, dx;
+    dx = 8;
+    dy = 8;
+
+    rx = 0;
+    for (i = 0; i < 26; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, 5);
+        this.mAllPlatforms.addToSet(obj);
+
+        rx += dx;
+    }
+
+
+};
+LevelScene.prototype.addTopWall = function () {
+    var i, j, rx, ry, obj, dy, dx;
+    dx = 8;
+    dy = 8;
+
+    rx = 0;
+    ry = 120;
+    for (i = 0; i < 27; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, ry);
+        this.mAllPlatforms.addToSet(obj);
+
+        rx += dx;
+    }
+};
+LevelScene.prototype.goLose = function () {
+    this.levelClear = false;
+    gEngine.GameLoop.stop();
+};
 LevelScene.prototype.LevelSceneSelect = function () {
     this.LevelSelect = "Game";
     gEngine.GameLoop.stop();
