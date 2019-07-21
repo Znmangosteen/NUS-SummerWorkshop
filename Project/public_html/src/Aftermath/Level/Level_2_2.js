@@ -19,7 +19,7 @@ function Level_2_2(aHero) {
 gEngine.Core.inheritPrototype(Level_2_2, LevelScene);
 
 
-Level_2_1.prototype.initialize = function () {
+Level_2_2.prototype.initialize = function () {
     LevelScene.prototype.initialize.call(this);
 
     var i, j, k, rx, ry, obj, dx, dy;
