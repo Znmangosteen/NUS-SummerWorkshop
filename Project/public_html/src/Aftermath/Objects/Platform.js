@@ -15,12 +15,12 @@ function Platform(texture, atX, atY) {
     this.mPlatform.setColor([1, 1, 1, 0]);
     this.mPlatform.getXform().setPosition(atX, atY);
     // this.mPlatform.getXform().setSize(30, 3.75);
-    this.mPlatform.getXform().setSize(5, 3.75);
+    this.mPlatform.getXform().setSize(8, 8);
                                 // show each element for mAnimSpeed updates
     GameObject.call(this, this.mPlatform);
 
     // var rigidShape = new RigidRectangle(this.getXform(), 30, 3);
-    var rigidShape = new RigidRectangle(this.getXform(), 5, 5);
+    var rigidShape = new RigidRectangle(this.getXform(), 8, 6);
     rigidShape.setMass(0);  // ensures no movements!
     // rigidShape.toggleDrawBound();
     this.toggleDrawRigidShape();

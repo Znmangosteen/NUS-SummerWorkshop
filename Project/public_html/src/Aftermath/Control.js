@@ -11,6 +11,9 @@ HomePage.prototype.initControlInfo = function () {
 
     var i, j, rx, ry, obj, dy, dx;
 
+    dx = 8;
+    dy = 8;
+
     rx = 85;
     for (i = 0; i < 22; i++) {
         obj = new Platform(this.kPlatformTexture, rx, 50);
@@ -18,7 +21,7 @@ HomePage.prototype.initControlInfo = function () {
 
         // obj = new Platform(this.kPlatformTexture, rx, 112);
         // this.mAllPlatforms.addToSet(obj);
-        rx += 5;
+        rx += dx;
     }
     rx = 130;
     ry = 80;
@@ -28,14 +31,14 @@ HomePage.prototype.initControlInfo = function () {
 
         // obj = new Platform(this.kPlatformTexture, rx, 112);
         // this.mAllPlatforms.addToSet(obj);
-        rx += 5;
+        rx += dx;
     }
     rx = 85;
     for (i = 0; i < 23; i++) {
         obj = new Platform(this.kPlatformTexture, rx, 112);
         this.mAllPlatforms.addToSet(obj);
 
-        rx += 5;
+        rx += dx;
     }
     rx = 85;
     ry = 50;
@@ -43,7 +46,7 @@ HomePage.prototype.initControlInfo = function () {
         obj = new Platform(this.kPlatformTexture, rx, ry);
         this.mAllPlatforms.addToSet(obj);
 
-        ry += 2;
+        ry += dy;
     }
     rx = 195;
     ry = 50;
@@ -51,7 +54,7 @@ HomePage.prototype.initControlInfo = function () {
         obj = new Platform(this.kPlatformTexture, rx, ry);
         this.mAllPlatforms.addToSet(obj);
 
-        ry += 2;
+        ry += dy;
     }
 
 

@@ -153,6 +153,8 @@ LevelScene.prototype.initialize = function () {
     this.mSavePoint = new SavePoint(this.kSave);
 
     var i, j, rx, ry, obj, dy, dx;
+    dx = 8;
+    dy = 8;
 
     rx = -5;
     for (i = 0; i < 45; i++) {
@@ -161,7 +163,17 @@ LevelScene.prototype.initialize = function () {
 
         // obj = new Platform(this.kPlatformTexture, rx, 112);
         // this.mAllPlatforms.addToSet(obj);
-        rx += 5;
+        rx += dx;
+    }
+    rx = 0;
+    ry = 120;
+    for (i = 0; i < 45; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, ry);
+        this.mAllPlatforms.addToSet(obj);
+
+        // obj = new Platform(this.kPlatformTexture, rx, 112);
+        // this.mAllPlatforms.addToSet(obj);
+        rx += dx;
     }
 
     rx = 10;
@@ -189,12 +201,12 @@ LevelScene.prototype.draw = function () {
     for (let i = 0; i < this.mNPCs.length; i++) {
         this.mNPCs[i].draw(this.mCamera);
     }
+    this.mAllPlatforms.draw(this.mCamera);
 
     this.mHero.draw(this.mCamera);
     // this.mTrap.draw(this.mCamera);
     // this.mSavePoint.draw(this.mCamera);
 
-    this.mAllPlatforms.draw(this.mCamera);
 
     for (let i = 0; i < this.mHero.health; i++) {
         this.hearts[i].draw(this.mCamera);
