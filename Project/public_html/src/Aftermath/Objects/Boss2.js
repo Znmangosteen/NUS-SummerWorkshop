@@ -1,6 +1,6 @@
-/* File: Boss.js
+/* File: Boss2.js
  *
- * Creates and initializes the Boss (Dye)
+ * Creates and initializes the Boss2 (Dye)
  * overrides the update function of GameObject to define
  * simple Dye behavior
  */
@@ -11,7 +11,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Boss(spriteTexture, bullet) {
+function Boss2(spriteTexture, bullet) {
     this.kDelta = 0.3;
     this.kYDelta = 130;
     this.kYMDelta = 180;
@@ -24,25 +24,25 @@ function Boss(spriteTexture, bullet) {
     this.mBarrageSet = [];
     this.target = null;
 
-    this.mBoss = new SpriteAnimateRenderable(spriteTexture);
-    this.mBoss.setColor([1, 1, 1, 0]);
-    this.mBoss.getXform().setPosition(150, 45);
-    this.mBoss.getXform().setSize(this.width, this.height);
-    // this.mBoss.setElementPixelPositions(0, 120, 0, 180);
-    this.mBoss.setElementPixelPositions(0, 64, 0, 64);
+    this.mBoss2 = new SpriteAnimateRenderable(spriteTexture);
+    this.mBoss2.setColor([1, 1, 1, 0]);
+    this.mBoss2.getXform().setPosition(150, 45);
+    this.mBoss2.getXform().setSize(this.width, this.height);
+    // this.mBoss2.setElementPixelPositions(0, 120, 0, 180);
+    this.mBoss2.setElementPixelPositions(0, 512, 2950, 3562);
 
-    // this.mBoss.setSpriteSequence(512, 0,     // first element pixel position: top-left 512 is top of image, 0 is left of image
+    // this.mBoss2.setSpriteSequence(512, 0,     // first element pixel position: top-left 512 is top of image, 0 is left of image
     //     566, 512,   // widthxheight in pixels
     //     3,          // number of elements in this sequence
     //     0);         // horizontal padding in between
-    // this.mBoss.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateSwing);
-    // this.mBoss.setAnimationSpeed(15);
+    // this.mBoss2.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateSwing);
+    // this.mBoss2.setAnimationSpeed(15);
 
     // this.mRDye = new SpriteAnimateRenderable(spriteTexture);
     // this.mRDye.setColor([1, 1, 1, 0]);
     // this.mRDye.getXform().setPosition(35, 50);
     // this.mRDye.getXform().setSize(this.width, this.height);
-    // // this.mBoss.setElementPixelPositions(0, 120, 0, 180);
+    // // this.mBoss2.setElementPixelPositions(0, 120, 0, 180);
     // // this.mRDye.setElementPixelPositions(120, 0, 0, 180);
     // this.mRDye.setSpriteSequence(1024, 0,     // first element pixel position: top-left 512 is top of image, 0 is left of image
     //     566, 512,   // widthxheight in pixels
@@ -52,8 +52,8 @@ function Boss(spriteTexture, bullet) {
     // this.mRDye.setAnimationSpeed(15);
     //
     //
-    // this.mRDye.mXform = this.mBoss.getXform();
-    // this.mRDye.mColor = this.mBoss.getColor();
+    // this.mRDye.mXform = this.mBoss2.getXform();
+    // this.mRDye.mColor = this.mBoss2.getColor();
 
     // this.mPackSet = new GameObjectSet();
     this.kMinionSprite = spriteTexture;
@@ -66,7 +66,7 @@ function Boss(spriteTexture, bullet) {
     this.health = 40;
     this.death = false;
 
-    GameObject.call(this, this.mBoss);
+    GameObject.call(this, this.mBoss2);
 
     // var r = new RigidRectangle(this.getXform(), this.kRwidth, this.kRheight);
     // // r.setMass(.18);  // less dense than Minions
@@ -93,7 +93,7 @@ function Boss(spriteTexture, bullet) {
 
 }
 
-var BOSS_BEHAVIOR = {
+var Boss2_BEHAVIOR = {
     GO_AROUND: 0,
     STAY_MM: 1,
     STAY_TM: 2,
@@ -102,13 +102,13 @@ var BOSS_BEHAVIOR = {
 };
 
 
-gEngine.Core.inheritPrototype(Boss, GameObject);
+gEngine.Core.inheritPrototype(Boss2, GameObject);
 
-Boss.prototype.setTarget = function (target) {
+Boss2.prototype.setTarget = function (target) {
     this.target = target;
 };
 
-Boss.prototype.draw = function (aCamera) {
+Boss2.prototype.draw = function (aCamera) {
     // this.mPackSet.draw(aCamera);
     GameObject.prototype.draw.call(this, aCamera);  // the default GameObject: only move forward
 
@@ -118,24 +118,24 @@ Boss.prototype.draw = function (aCamera) {
 
 };
 
-Boss.prototype.decreaseHealth = function () {
-    // this.mBoss.setColor([1, 0, 0, 0.5]);
-    // this.mBoss.getColor()[1] = [1];
-    // this.mBoss.getColor()[3] = [0.5];
+Boss2.prototype.decreaseHealth = function () {
+    // this.mBoss2.setColor([1, 0, 0, 0.5]);
+    // this.mBoss2.getColor()[1] = [1];
+    // this.mBoss2.getColor()[3] = [0.5];
     this.health -= 1;
     if (this.health <= 0) {
         this.death = true;
     }
 //    TODO decrease
 
-//    TODO Boss get red
+//    TODO Boss2 get red
 
 };
-Boss.prototype.isInvincible = function () {
+Boss2.prototype.isInvincible = function () {
     return this.invincible;
 };
 
-Boss.prototype.update = function (aCamera) {
+Boss2.prototype.update = function (aCamera) {
     GameObject.prototype.update.call(this);
     // control by WASD
 
@@ -157,15 +157,15 @@ Boss.prototype.update = function (aCamera) {
         if (this.stay <= 200) {
             if (this.currentBarrageType === BARRAGE_TYPE.LINE) {
                 if (this.stay % 5 === 0) {
-                    var bossPos = this.mBoss.getXform().getPosition();
+                    var Boss2Pos = this.mBoss2.getXform().getPosition();
                     var heroPos = this.target.getXform().getPosition();
-                    this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, BARRAGE_TYPE.LINE, 30, Math.atan2((heroPos[1] - bossPos[1]), (heroPos[0] - bossPos[0]))));
+                    this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss2.getXform().getPosition(), 0.8, BARRAGE_TYPE.LINE, 30, Math.atan2((heroPos[1] - Boss2Pos[1]), (heroPos[0] - Boss2Pos[0]))));
 
                 }
             } else {
 
                 if (this.stay % 20 === 0) {
-                    this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, this.currentBarrageType, 26, Math.random() * Math.PI / 2));
+                    this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss2.getXform().getPosition(), 0.8, this.currentBarrageType, 26, Math.random() * Math.PI / 2));
                 }
             }
         }
@@ -177,7 +177,7 @@ Boss.prototype.update = function (aCamera) {
         }
     } else {
         if (Date.now() % 20 === 0) {
-            this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, this.currentBarrageType, 25, Math.random() * Math.PI / 2));
+            this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss2.getXform().getPosition(), 0.8, this.currentBarrageType, 25, Math.random() * Math.PI / 2));
 
         }
     }
@@ -200,14 +200,14 @@ Boss.prototype.update = function (aCamera) {
     }
 
     // if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
-    //     this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, BARRAGE_TYPE.CIRCLE, 25,  Math.random()*Math.PI/2));
-    //     this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, BARRAGE_TYPE.CROSS, 30, Math.random()*Math.PI/2));
+    //     this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss2.getXform().getPosition(), 0.8, BARRAGE_TYPE.CIRCLE, 25,  Math.random()*Math.PI/2));
+    //     this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss2.getXform().getPosition(), 0.8, BARRAGE_TYPE.CROSS, 30, Math.random()*Math.PI/2));
     //
-    //     this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, BARRAGE_TYPE.D_SECTOR, 10, Math.random() > 0.5 ? 0 : Math.PI / 2));
+    //     this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss2.getXform().getPosition(), 0.8, BARRAGE_TYPE.D_SECTOR, 10, Math.random() > 0.5 ? 0 : Math.PI / 2));
     //
-    //     var bossPos = this.mBoss.getXform().getPosition();
+    //     var Boss2Pos = this.mBoss2.getXform().getPosition();
     //     var heroPos = aHero.getXform().getPosition();
-    //     this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, BARRAGE_TYPE.LINE, 30, Math.atan2((heroPos[1] - bossPos[1]), (heroPos[0] - bossPos[0]))));
+    //     this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss2.getXform().getPosition(), 0.8, BARRAGE_TYPE.LINE, 30, Math.atan2((heroPos[1] - Boss2Pos[1]), (heroPos[0] - Boss2Pos[0]))));
     // }
 
     // var v = this.getRigidBody().getVelocity();
@@ -232,40 +232,40 @@ Boss.prototype.update = function (aCamera) {
     // }
     // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
     //     // v[0] -= this.kXDelta;
-    //     this.mBoss.getXform().getPosition()[0] -= 1;
+    //     this.mBoss2.getXform().getPosition()[0] -= 1;
     //     // this.mRDye.getXform().getPosition()[0] -= 1;
     //
     //     // this.mRenderComponent = this.mRDye;
     // }
     // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
     //     // v[0] += this.kXDelta;
-    //     this.mBoss.getXform().getPosition()[0] += 1;
+    //     this.mBoss2.getXform().getPosition()[0] += 1;
     //     // this.mRDye.getXform().getPosition()[0] += 1;
-    //     // this.mRenderComponent = this.mBoss;
+    //     // this.mRenderComponent = this.mBoss2;
     // }
 
     // this.mRenderComponent.updateAnimation();
     //
     // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
-    //     this.mBoss.getXform().getPosition()[0] -= 1;
+    //     this.mBoss2.getXform().getPosition()[0] -= 1;
     //     this.mRDye.getXform().getPosition()[0] -= 1;
     //     this.mRenderComponent = this.mRDye;
     //
     //
     // }
     // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
-    //     this.mBoss.getXform().getPosition()[0] += 1;
+    //     this.mBoss2.getXform().getPosition()[0] += 1;
     //     this.mRDye.getXform().getPosition()[0] += 1;
-    //     this.mRenderComponent = this.mBoss;
+    //     this.mRenderComponent = this.mBoss2;
     //
     // }
     // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Up)) {
-    //     this.mBoss.getXform().getPosition()[1] += 1;
+    //     this.mBoss2.getXform().getPosition()[1] += 1;
     //     this.mRDye.getXform().getPosition()[1] += 1;
     //
     // }
     // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Down)) {
-    //     this.mBoss.getXform().getPosition()[1] -= 1;
+    //     this.mBoss2.getXform().getPosition()[1] -= 1;
     //     this.mRDye.getXform().getPosition()[1] -= 1;
     //
     // }

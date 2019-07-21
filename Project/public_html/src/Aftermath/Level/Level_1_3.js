@@ -33,6 +33,50 @@ Level_1_3.prototype.initialize = function () {
 
     this.Bar.setMaxValue(this.mBoss.health);
 
+
+    this.addTopWall();
+    this.addGround();
+
+    var i, j, k, rx, ry, obj, dx, dy;
+    dx = 8;
+    dy = 8;
+
+    rx = -0;
+    for (i = 0; i < 5; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, 40);
+        this.mAllPlatforms.addToSet(obj);
+
+        // obj = new Platform(this.kPlatformTexture, rx, 112);
+        // this.mAllPlatforms.addToSet(obj);
+        rx += 5;
+    }
+    rx = 200;
+    for (i = 0; i < 5; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, 40);
+        this.mAllPlatforms.addToSet(obj);
+
+        // obj = new Platform(this.kPlatformTexture, rx, 112);
+        // this.mAllPlatforms.addToSet(obj);
+        rx -= 5;
+    }
+
+    rx = 50;
+    for (i = 0; i < 20; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, 80);
+        this.mAllPlatforms.addToSet(obj);
+
+        // obj = new Platform(this.kPlatformTexture, rx, 112);
+        // this.mAllPlatforms.addToSet(obj);
+        rx += 5;
+    }
+
+
+    rx = 10;
+    for (i = 0; i < this.mHero.health; i++) {
+        this.hearts[i] = new Heart(this.kHeart, rx);
+        rx += 7;
+    }
+
 };
 
 Level_1_3.prototype.draw = function () {

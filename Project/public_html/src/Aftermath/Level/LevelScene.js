@@ -18,11 +18,11 @@ function LevelScene(aHero) {
     this.kTrap = "assets/Trap.png";
     this.kSave = "assets/save.png";
     this.kPlatformTexture = "assets/BlockUnit/snow-platform.png";
-    // this.kHero = "assets/Character/3.png";
-    this.kHero = "assets/Character/characters.png";
+    // this.kCharacters = "assets/Character/3.png";
+    this.kCharacters = "assets/Character/characters.png";
     this.kBg = "assets/Background/snow-bg.png";
     this.kBullet = "assets/Bullet/Yellow-Bullet.png";
-    this.kHeroBullet = "assets/Bullet/pink-bullet.png";
+    this.kCharactersBullet = "assets/Bullet/pink-bullet.png";
     this.kBoss = "assets/Character/Boss.png";
     this.kHeart = "assets/Character/heart.png";
 
@@ -83,10 +83,10 @@ LevelScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kTrap);
     gEngine.Textures.loadTexture(this.kSave);
     gEngine.Textures.loadTexture(this.kPlatformTexture);
-    gEngine.Textures.loadTexture(this.kHero);
+    gEngine.Textures.loadTexture(this.kCharacters);
     gEngine.Textures.loadTexture(this.kBg);
     gEngine.Textures.loadTexture(this.kBullet);
-    gEngine.Textures.loadTexture(this.kHeroBullet);
+    gEngine.Textures.loadTexture(this.kCharactersBullet);
     gEngine.Textures.loadTexture(this.kBoss);
     gEngine.Textures.loadTexture(this.kHeart);
 
@@ -101,10 +101,10 @@ LevelScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kTrap);
     gEngine.Textures.unloadTexture(this.kSave);
     gEngine.Textures.unloadTexture(this.kPlatformTexture);
-    gEngine.Textures.unloadTexture(this.kHero);
+    gEngine.Textures.unloadTexture(this.kCharacters);
     gEngine.Textures.unloadTexture(this.kBg);
     gEngine.Textures.unloadTexture(this.kBullet);
-    gEngine.Textures.unloadTexture(this.kHeroBullet);
+    gEngine.Textures.unloadTexture(this.kCharactersBullet);
     gEngine.Textures.unloadTexture(this.kBoss);
     gEngine.Textures.unloadTexture(this.kHeart);
 
@@ -134,7 +134,7 @@ LevelScene.prototype.initialize = function () {
 
 
     if (this.mHero === null) {
-        this.mHero = new Hero(this.kHero, this.kHeroBullet);
+        this.mHero = new Hero(this.kCharacters, this.kCharactersBullet);
     }
 
     this.mHero.setTarget(this.mNPCs);
