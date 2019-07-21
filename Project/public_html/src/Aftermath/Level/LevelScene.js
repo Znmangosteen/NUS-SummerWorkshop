@@ -18,7 +18,8 @@ function LevelScene(aHero) {
     this.kTrap = "assets/Trap.png";
     this.kSave = "assets/save.png";
     this.kPlatformTexture = "assets/BlockUnit/snow-platform.png";
-    this.kHero = "assets/Character/3.png";
+    // this.kHero = "assets/Character/3.png";
+    this.kHero = "assets/Character/characters.png";
     this.kBg = "assets/Background/snow-bg.png";
     this.kBullet = "assets/Bullet/Yellow-Bullet.png";
     this.kHeroBullet = "assets/Bullet/pink-bullet.png";

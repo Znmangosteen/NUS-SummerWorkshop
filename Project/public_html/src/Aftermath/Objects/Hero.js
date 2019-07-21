@@ -21,7 +21,7 @@ function Hero(characterTexture, bulletTexture, position) {
     this.boxHeight = this.height / 6;
 
     this.kRwidth = 6;
-    this.kRheight = 8;
+    this.kRheight = 7.5;
 
     this.mSides = new LineRenderable();
 
@@ -38,8 +38,8 @@ function Hero(characterTexture, bulletTexture, position) {
     }
     this.mDye.getXform().setSize(this.width, this.height);
     // this.mDye.setElementPixelPositions(0, 120, 0, 180);
-    this.mDye.setSpriteSequence(512, 0,     // first element pixel position: top-left 512 is top of image, 0 is left of image
-        566, 512,   // widthxheight in pixels
+    this.mDye.setSpriteSequence(2396, 0,     // first element pixel position: top-left 512 is top of image, 0 is left of image
+        566, 520,   // widthxheight in pixels
         3,          // number of elements in this sequence
         0);         // horizontal padding in between
     this.mDye.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateSwing);
@@ -51,8 +51,8 @@ function Hero(characterTexture, bulletTexture, position) {
     this.mRDye.getXform().setSize(this.width, this.height);
     // this.mDye.setElementPixelPositions(0, 120, 0, 180);
     // this.mRDye.setElementPixelPositions(120, 0, 0, 180);
-    this.mRDye.setSpriteSequence(1024, 0,     // first element pixel position: top-left 512 is top of image, 0 is left of image
-        566, 512,   // widthxheight in pixels
+    this.mRDye.setSpriteSequence(2948, 0,     // first element pixel position: top-left 512 is top of image, 0 is left of image
+        566, 520,   // widthxheight in pixels
         3,          // number of elements in this sequence
         0);         // horizontal padding in between
     this.mRDye.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateSwing);

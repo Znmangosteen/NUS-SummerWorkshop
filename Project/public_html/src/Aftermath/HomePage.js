@@ -15,7 +15,7 @@ function HomePage() {
     this.kBg = "assets/Background/snow-bg.png";
     this.kControlGuide = "assets/UI/control-guide.png";
     this.kPlatformTexture = "assets/BlockUnit/snow-platform.png";
-    this.kHero = "assets/Character/3.png";
+    this.kHero = "assets/Character/characters.png";
     this.kHeroBullet = "assets/Bullet/pink-bullet.png";
 
 
