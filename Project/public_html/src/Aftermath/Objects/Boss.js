@@ -22,6 +22,7 @@ function Boss(spriteTexture, bullet) {
     this.kRheight = 8;
 
     this.mBarrageSet = [];
+    this.target = null;
 
     this.mBoss = new SpriteAnimateRenderable(spriteTexture);
     this.mBoss.setColor([1, 1, 1, 0]);
@@ -62,7 +63,7 @@ function Boss(spriteTexture, bullet) {
     //Rate in per second
     this.kfireRate = 5;
 
-    this.health = 40;
+    this.health = 1;
     this.death = false;
 
     GameObject.call(this, this.mBoss);
@@ -103,6 +104,10 @@ var BOSS_BEHAVIOR = {
 
 gEngine.Core.inheritPrototype(Boss, GameObject);
 
+Boss.prototype.setTarget = function (target) {
+    this.target = target;
+};
+
 Boss.prototype.draw = function (aCamera) {
     // this.mPackSet.draw(aCamera);
     GameObject.prototype.draw.call(this, aCamera);  // the default GameObject: only move forward
@@ -130,14 +135,14 @@ Boss.prototype.isInvincible = function () {
     return this.invincible;
 };
 
-Boss.prototype.update = function (aCamera, aHero) {
+Boss.prototype.update = function (aCamera) {
     GameObject.prototype.update.call(this);
     // control by WASD
 
-    for (let i = 0; i < this.mBarrageSet.length; i++) {
-        this.mBarrageSet[i].update(aCamera, aHero);
-        // FIXME debug thing
-    }
+    // for (let i = 0; i < this.mBarrageSet.length; i++) {
+    //     this.mBarrageSet[i].update(aCamera, aHero);
+    //     // FIXME debug thing
+    // }
 
     if (this.reach) {
         this.stay -= 1;
@@ -146,21 +151,21 @@ Boss.prototype.update = function (aCamera, aHero) {
             if (Math.random() < 0.2) {
                 this.currentBarrageType = BARRAGE_TYPE.CIRCLE;
             }
-            this.currentBarrageType = Math.floor(Math.random() * 4)+1;
+            this.currentBarrageType = Math.floor(Math.random() * 4) + 1;
         }
 
         if (this.stay <= 200) {
             if (this.currentBarrageType === BARRAGE_TYPE.LINE) {
                 if (this.stay % 5 === 0) {
                     var bossPos = this.mBoss.getXform().getPosition();
-                    var heroPos = aHero.getXform().getPosition();
+                    var heroPos = this.target.getXform().getPosition();
                     this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, BARRAGE_TYPE.LINE, 30, Math.atan2((heroPos[1] - bossPos[1]), (heroPos[0] - bossPos[0]))));
 
                 }
-            }else {
+            } else {
 
                 if (this.stay % 20 === 0) {
-                    this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, this.currentBarrageType, 26, Math.random()*Math.PI/2));
+                    this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, this.currentBarrageType, 26, Math.random() * Math.PI / 2));
                 }
             }
         }
@@ -172,7 +177,7 @@ Boss.prototype.update = function (aCamera, aHero) {
         }
     } else {
         if (Date.now() % 20 === 0) {
-            this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, this.currentBarrageType, 25, Math.random()*Math.PI/2));
+            this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, this.currentBarrageType, 25, Math.random() * Math.PI / 2));
 
         }
     }
@@ -188,6 +193,11 @@ Boss.prototype.update = function (aCamera, aHero) {
     }
     this.rotateObjPointTo(this.nextPos, .5);
 
+    for (let i = 0; i < this.mBarrageSet.length; i++) {
+        this.mBarrageSet[i].setTarget(this.target);
+        this.mBarrageSet[i].update(aCamera);
+
+    }
 
     // if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
     //     this.mBarrageSet.push(new Barrage(this.kBullet, this.mBoss.getXform().getPosition(), 0.8, BARRAGE_TYPE.CIRCLE, 25,  Math.random()*Math.PI/2));

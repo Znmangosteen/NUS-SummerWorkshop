@@ -17,6 +17,7 @@
  */
 function HeroBullet() {
     GameObjectSet.call(this);
+    this.target = [];
     // var i = 0;
     //
     // this.HeroBulletNum = num ? num : 100;
@@ -94,27 +95,31 @@ HeroBullet.prototype.draw = function (aCamera) {
     GameObjectSet.prototype.draw.call(this, aCamera);
 };
 
+
+HeroBullet.prototype.setTarget = function (target) {
+    this.target = target;
+
+};
+
 /**
  * Update Function called by GameLoop
  * @returns {void}
  * @memberOf HeroBullet
  */
-HeroBullet.prototype.update = function (aCamera, target) {
+HeroBullet.prototype.update = function (aCamera) {
     var i;
     for (i = 0; i < this.mSet.length; i++) {
         this.mSet[i].update(aCamera);
 
     }
-    if (target !== undefined) {
 
-        if (!target.isInvincible()) {
+    for (let j = 0; j < this.target.length; j++) {
+        var currentT = this.target[j];
+        if (!currentT.isInvincible()) {
             for (i = 0; i < this.mSet.length; i++) {
-                var h = [];
-                // if (this.mSet[i].pixelTouches(wing,h)) {
-                if (this.mSet[i].getBBox().intersectsBound(target.getBBox())) {
-                    target.decreaseHealth();
+                if (this.mSet[i].getBBox().intersectsBound(currentT.getBBox())) {
+                    currentT.decreaseHealth();
                     this.removeFromSet(this.mSet[i]);
-                    // wing.hitTime += 1;
                 }
 
             }

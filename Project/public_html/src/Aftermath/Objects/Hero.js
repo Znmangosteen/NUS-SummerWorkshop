@@ -11,8 +11,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Hero(spriteTexture, bulletTexture) {
-    this.kDelta = 0.3;
+function Hero(characterTexture, bulletTexture) {
     this.kYDelta = 130;
     this.kYMDelta = 180;
 
@@ -22,7 +21,7 @@ function Hero(spriteTexture, bulletTexture) {
     this.kRheight = 8;
 
 
-    this.mDye = new SpriteAnimateRenderable(spriteTexture);
+    this.mDye = new SpriteAnimateRenderable(characterTexture);
     this.mDye.setColor([1, 1, 1, 0]);
     this.mDye.getXform().setPosition(35, 50);
     this.mDye.getXform().setSize(this.width, this.height);
@@ -34,7 +33,7 @@ function Hero(spriteTexture, bulletTexture) {
     this.mDye.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateSwing);
     this.mDye.setAnimationSpeed(15);
 
-    this.mRDye = new SpriteAnimateRenderable(spriteTexture);
+    this.mRDye = new SpriteAnimateRenderable(characterTexture);
     this.mRDye.setColor([1, 1, 1, 0]);
     this.mRDye.getXform().setPosition(35, 50);
     this.mRDye.getXform().setSize(this.width, this.height);
@@ -52,7 +51,7 @@ function Hero(spriteTexture, bulletTexture) {
     this.mRDye.mColor = this.mDye.getColor();
 
     // this.mPackSet = new GameObjectSet();
-    this.kMinionSprite = spriteTexture;
+    this.kMinionSprite = characterTexture;
 
     this.kLastFireTime = 0;
     //Rate in per second
@@ -82,6 +81,7 @@ function Hero(spriteTexture, bulletTexture) {
 
     this.mBullets = new HeroBullet();
     this.kBulletTexture = bulletTexture;
+    this.target = [];
 }
 
 gEngine.Core.inheritPrototype(Hero, GameObject);
@@ -105,9 +105,6 @@ Hero.prototype.decreaseHealth = function () {
     }
     this.mDye.getColor()[3] = [0.5];
     this.invincible = 150;
-//    TODO decrease
-
-//    TODO hero get red
 
 };
 
@@ -121,7 +118,11 @@ Hero.prototype.isInvincible = function () {
     return this.invincible;
 };
 
-Hero.prototype.update = function (trap, savePoint, reset, aCamera, aBoss) {
+Hero.prototype.setTarget = function (target) {
+    this.target=target
+};
+
+Hero.prototype.update = function (reset, aCamera) {
     var m = gEngine.GameLoop.mMyGame;
     GameObject.prototype.update.call(this);
     // control by WASD
@@ -129,54 +130,36 @@ Hero.prototype.update = function (trap, savePoint, reset, aCamera, aBoss) {
     if (reset === true) {
         this.jump = true;
     }
-
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Up)) {
         if (this.jump === true) {
-
-            // v[1] += this.kYDelta;
             v[1] = Math.min(this.kYDelta + v[1], 1.1 * this.kYDelta);
             this.jump = false;
         }
-
-        // this.setSpeed(1);
-
     }
-
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Down)) {
         v[1] -= this.kYMDelta;
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
-        // v[0] -= this.kXDelta;
         if (this.mDye.getXform().getPosition()[0] > 0) {
-
             this.mDye.getXform().getPosition()[0] -= 1;
         }
-        // this.mRDye.getXform().getPosition()[0] -= 1;
         this.setCurrentFrontDir(vec2.fromValues(-1, 0));
-
         this.mRenderComponent = this.mRDye;
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
         if (this.mDye.getXform().getPosition()[0] < 200) {
-
-            // v[0] += this.kXDelta;
             this.mDye.getXform().getPosition()[0] += 1;
-
         }
-        // this.mRDye.getXform().getPosition()[0] += 1;
         this.setCurrentFrontDir(vec2.fromValues(1, 0));
-
         this.mRenderComponent = this.mDye;
     }
 
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
-        // this.mBullets.addToSet(new Bullet(this.mBullets, this.kBulletTexture, this.getXform().getPosition(), 1, vec2.fromValues(1, 0)));
         this.mBullets.addToSet(new Bullet(this.mBullets, this.kBulletTexture, this.getXform().getPosition(), 2, this.getCurrentFrontDir()));
-
-
     }
 
-    this.mBullets.update(aCamera, aBoss);
+    this.mBullets.update(aCamera);
+    this.mBullets.setTarget(this.target);
 
     if (this.invincible > 0) {
         this.invincible -= 1;
@@ -186,42 +169,5 @@ Hero.prototype.update = function (trap, savePoint, reset, aCamera, aBoss) {
 
     }
     this.mRenderComponent.updateAnimation();
-    //
-    // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
-    //     this.mDye.getXform().getPosition()[0] -= 1;
-    //     this.mRDye.getXform().getPosition()[0] -= 1;
-    //     this.mRenderComponent = this.mRDye;
-    //
-    //
-    // }
-    // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
-    //     this.mDye.getXform().getPosition()[0] += 1;
-    //     this.mRDye.getXform().getPosition()[0] += 1;
-    //     this.mRenderComponent = this.mDye;
-    //
-    // }
-    // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Up)) {
-    //     this.mDye.getXform().getPosition()[1] += 1;
-    //     this.mRDye.getXform().getPosition()[1] += 1;
-    //
-    // }
-    // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Down)) {
-    //     this.mDye.getXform().getPosition()[1] -= 1;
-    //     this.mRDye.getXform().getPosition()[1] -= 1;
-    //
-    // }
-
-    // control by WASD
-
-    // // // TODO hitbox with Trap
-    // if (this.getBBox().intersectsBound(trap.getBBox())) {
-    //     this.decreaseHealth();
-    // }
-    //
-    //
-    // // // TODO hitbox with SavePoint
-    // if (this.getBBox().intersectsBound(savePoint.getBBox())) {
-    //     savePoint.save();
-    // }
 
 };

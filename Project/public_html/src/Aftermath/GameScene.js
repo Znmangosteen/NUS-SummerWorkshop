@@ -48,8 +48,8 @@ function GameScene() {
 
     this.mBoss = null;
 
+    this.mNPCs = [];
 //    FIXME debug thing
-    this.mWing = null;
 
     this.LevelSelect = null;
 
@@ -137,6 +137,7 @@ GameScene.prototype.initialize = function () {
     this.bg.getXform().setPosition(100, 56.25);
 
     this.mBoss = new Boss(this.kBoss, this.kBullet);
+    this.mNPCs.push(this.mBoss);
     // this.ParticleButton = new UIButton(this.particleSelect,this,[400,400],[600,100],"Particle Demos",8);
     // this.PhysicsButton = new UIButton(this.physicsSelect,this,[400,300],[500,100],"Physics Demo",8);
     // this.UIButton =  new UIButton(this.uiSelect,this,[400,200],[320,100],"UI Demo",8);
@@ -150,6 +151,14 @@ GameScene.prototype.initialize = function () {
 
     // this.mWing = new Wing(this.kMinionSprite,50,20,0);
     this.mHero = new Hero(this.kHero, this.kHeroBullet);
+    this.mHero.setTarget(this.mNPCs);
+
+
+    for (let i = 0; i < this.mNPCs.length; i++) {
+        this.mNPCs[i].setTarget(this.mHero);
+    }
+
+
     this.mTrap = new Trap(this.kTrap);
     this.mSavePoint = new SavePoint(this.kSave);
 
@@ -225,7 +234,9 @@ GameScene.prototype.draw = function () {
 
     this.bg.draw(this.mCamera);
 
-    this.mBoss.draw(this.mCamera);
+    for (let i = 0; i < this.mNPCs.length; i++) {
+        this.mBoss.draw(this.mCamera);
+    }
 
     this.mHero.draw(this.mCamera);
     // this.mTrap.draw(this.mCamera);
@@ -258,11 +269,14 @@ GameScene.prototype.update = function () {
     this.mAllPlatforms.update();
     this.reset = gEngine.Physics.processObjSet(this.mHero, this.mAllPlatforms);
 
-    this.mHero.update(this.mTrap, this.mSavePoint, this.reset, this.mCamera, this.mBoss);
+    this.mHero.update(this.reset, this.mCamera);
     this.mTrap.update();
     this.mSavePoint.update();
 
-    this.mBoss.update(this.mCamera, this.mHero);
+    for (let i = 0; i < this.mNPCs.length; i++) {
+        var NPC = this.mNPCs[i];
+        NPC.update(this.mCamera, this.mHero);
+    }
 
     this.reset = false;
 
@@ -271,7 +285,15 @@ GameScene.prototype.update = function () {
         this.finState = "You Died";
         gEngine.GameLoop.stop();
     }
-    if (this.mBoss.death) {
+    for (let i = 0; i < this.mNPCs.length; i++) {
+        NPC = this.mNPCs[i];
+        if (NPC.death) {
+            this.mNPCs.splice(i, 1);
+            break;
+        }
+    }
+
+    if (this.mNPCs.length <= 0) {
         this.finState = "You Win";
 
         gEngine.GameLoop.stop();

@@ -22,6 +22,7 @@ function Barrage(spriteTexture, spawnPos, speed, type, num, rotate) {
     this.barrageNum = num ? num : 100;
     var unit = 1;
     var theta = 0;
+    this.target = null;
 
     switch (type) {
         case BARRAGE_TYPE.CIRCLE:
@@ -101,26 +102,34 @@ Barrage.prototype.draw = function (aCamera) {
     GameObjectSet.prototype.draw.call(this, aCamera);
 };
 
+Barrage.prototype.setTarget = function (target) {
+    this.target = target;
+};
+
+
 /**
  * Update Function called by GameLoop
  * @returns {void}
  * @memberOf Barrage
  */
-Barrage.prototype.update = function (aCamera, target) {
+Barrage.prototype.update = function (aCamera) {
     var i;
     for (i = 0; i < this.mSet.length; i++) {
         this.mSet[i].update(aCamera);
 
     }
-    if (!target.isInvincible()) {
-        for (i = 0; i < this.mSet.length; i++) {
-            var h = [];
-            // if (this.mSet[i].pixelTouches(wing,h)) {
-            if (this.mSet[i].getBBox().intersectsBound(target.getBBox())) {
-                target.decreaseHealth();
-                // wing.hitTime += 1;
-            }
 
+    if (this.target !== null) {
+        if (!this.target.isInvincible()) {
+            for (i = 0; i < this.mSet.length; i++) {
+                var h = [];
+                // if (this.mSet[i].pixelTouches(wing,h)) {
+                if (this.mSet[i].getBBox().intersectsBound(this.target.getBBox())) {
+                    this.target.decreaseHealth();
+                    // wing.hitTime += 1;
+                }
+
+            }
         }
     }
 
