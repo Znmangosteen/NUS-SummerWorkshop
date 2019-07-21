@@ -47,7 +47,7 @@ function LevelSelect() {
 
 
     //next
-    this.State = null;
+    CURRENT_LEVEL = null;
 
 }
 
@@ -61,6 +61,9 @@ var SELECT = {
     L_2_3: 6,
     HIDDEN: 1000
 };
+
+var CURRENT_LEVEL = SELECT.L_1_1;
+
 
 gEngine.Core.inheritPrototype(LevelSelect, Scene);
 
@@ -81,7 +84,7 @@ LevelSelect.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kHero);
     gEngine.Textures.unloadTexture(this.kHeroBullet);
 
-    switch (this.State) {
+    switch (CURRENT_LEVEL) {
         case SELECT.BACK:
             gEngine.Core.startScene(new HomePage());
             break;
@@ -92,6 +95,24 @@ LevelSelect.prototype.unloadScene = function () {
         case SELECT.L_1_1:
             gEngine.Core.startScene(new Level_1_1());
             break;
+        case SELECT.L_1_2:
+            gEngine.Core.startScene(new Level_1_2());
+            break;
+        case SELECT.L_1_3:
+            gEngine.Core.startScene(new Level_1_3());
+            break;
+        case SELECT.L_2_1:
+            gEngine.Core.startScene(new Level_2_1());
+            break;
+        case SELECT.L_2_2:
+            gEngine.Core.startScene(new Level_2_2());
+            break;
+        case SELECT.L_2_3:
+            gEngine.Core.startScene(new Level_2_3());
+            break;
+
+
+
 
     }
 
@@ -207,36 +228,36 @@ LevelSelect.prototype.update = function () {
 
 // FIXME debug thing
 LevelSelect.prototype.goBack = function () {
-    this.State = SELECT.BACK;
+    CURRENT_LEVEL = SELECT.BACK;
     gEngine.GameLoop.stop();
 };
 LevelSelect.prototype.hiddenLevel = function () {
-    this.State = SELECT.HIDDEN;
+    CURRENT_LEVEL = SELECT.HIDDEN;
     gEngine.GameLoop.stop();
 };
 
 LevelSelect.prototype.select_1_1 = function () {
-    this.State = SELECT.L_1_1;
+    CURRENT_LEVEL = SELECT.L_1_1;
     gEngine.GameLoop.stop();
 };
 LevelSelect.prototype.select_1_2 = function () {
-    this.State = SELECT.L_1_2;
+    CURRENT_LEVEL = SELECT.L_1_2;
     gEngine.GameLoop.stop();
 };
 LevelSelect.prototype.select_1_3 = function () {
-    this.State = SELECT.L_1_3;
+    CURRENT_LEVEL = SELECT.L_1_3;
     gEngine.GameLoop.stop();
 };
 LevelSelect.prototype.select_2_1 = function () {
-    this.State = SELECT.L_2_1;
+    CURRENT_LEVEL = SELECT.L_2_1;
     gEngine.GameLoop.stop();
 };
 LevelSelect.prototype.select_2_2 = function () {
-    this.State = SELECT.L_2_2;
+    CURRENT_LEVEL = SELECT.L_2_2;
     gEngine.GameLoop.stop();
 };
 LevelSelect.prototype.select_2_3 = function () {
-    this.State = SELECT.L_2_3;
+    CURRENT_LEVEL = SELECT.L_2_3;
     gEngine.GameLoop.stop();
 };
 

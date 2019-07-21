@@ -101,7 +101,7 @@ LevelScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBoss);
     gEngine.Textures.unloadTexture(this.kHeart);
 
-    gEngine.Core.startScene(new MyGame(this.finState));
+    gEngine.Core.startScene(new LoseScene(this.finState));
 
     // if(this.LevelSelect==="Particle"){
     //     gEngine.Core.startScene(new ParticleLevel());
