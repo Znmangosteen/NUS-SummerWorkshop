@@ -90,7 +90,7 @@ LevelSelect.prototype.unloadScene = function () {
             break;
 
         case SELECT.L_1_1:
-            gEngine.Core.startScene(new GameScene());
+            gEngine.Core.startScene(new Level_1_1());
             break;
 
     }
@@ -145,7 +145,7 @@ LevelSelect.prototype.initButton = function () {
     this.ButtonPosition[1] -= (this.buttonInter + this.ButtonHeight);
 
     this.HiddenLButton = new UIButton(this.hiddenLevel, this, this.ButtonPosition, this.ButtonSize, "???", this.ButtonFontSize);
-    this.ButtonPosition[1] -= 2*(this.buttonInter + this.ButtonHeight);
+    this.ButtonPosition[1] -= 2 * (this.buttonInter + this.ButtonHeight);
 
     this.BackButton = new UIButton(this.goBack, this, this.ButtonPosition, this.ButtonSize, "Back", this.ButtonFontSize);
 

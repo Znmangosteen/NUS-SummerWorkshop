@@ -11,19 +11,17 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function LevelScene() {
+function LevelScene(aHero) {
     this.kUIButton = "assets/UI/SimpleButton.png";
     this.kCue = "assets/AudioTest/BlueLevel_cue.wav";
     this.kMinionSprite = "assets/minion_sprite.png";
     this.kTrap = "assets/Trap.png";
     this.kSave = "assets/save.png";
-    // this.kPlatformTexture = "assets/BlockUnit/green-platform2.png";
     this.kPlatformTexture = "assets/BlockUnit/snow-platform.png";
     this.kHero = "assets/Character/3.png";
     this.kBg = "assets/Background/snow-bg.png";
     this.kBullet = "assets/Bullet/Yellow-Bullet.png";
     this.kHeroBullet = "assets/Bullet/pink-bullet.png";
-    // this.kBullet = "assets/Bullet/blue-bullet.png";
     this.kBoss = "assets/Character/Boss.png";
     this.kHeart = "assets/Character/heart.png";
 
@@ -52,7 +50,11 @@ function LevelScene() {
 
     this.LevelSelect = null;
 
-    this.mHero = null;
+    if (aHero !== undefined) {
+        this.mHero = aHero;
+    } else {
+        this.mHero = null;
+    }
     this.mTrap = null;
     this.mSavePoint = null;
 
@@ -108,12 +110,6 @@ LevelScene.prototype.unloadScene = function () {
 };
 
 LevelScene.prototype.initialize = function () {
-    // Step A: set up the cameras
-    // this.mCamera = new Camera(
-    //     vec2.fromValues(50, 40), // position of the camera
-    //     100,                     // width of camera
-    //     [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
-    // );
 
     this.mCamera = new Camera(
         vec2.fromValues(100, 56.25), // position of the camera
@@ -132,7 +128,10 @@ LevelScene.prototype.initialize = function () {
     this.mBoss = new Boss(this.kBoss, this.kBullet);
     this.mNPCs.push(this.mBoss);
 
-    this.mHero = new Hero(this.kHero, this.kHeroBullet);
+    if (this.mHero === null) {
+        this.mHero = new Hero(this.kHero, this.kHeroBullet);
+    }
+
     this.mHero.setTarget(this.mNPCs);
 
 
@@ -161,8 +160,9 @@ LevelScene.prototype.initialize = function () {
         this.hearts[i] = new Heart(this.kHeart, rx);
         rx += 7;
     }
-
-    gEngine.AudioClips.playBackgroundAudio(this.kBgm);
+    if (!gEngine.AudioClips.isBackgroundAudioPlaying()) {
+        gEngine.AudioClips.playBackgroundAudio(this.kBgm);
+    }
 
 };
 
@@ -190,18 +190,6 @@ LevelScene.prototype.draw = function () {
     for (let i = 0; i < this.mHero.health; i++) {
         this.hearts[i].draw(this.mCamera);
     }
-    // this.ParticleButton.draw(this.mCamera);
-    // this.PhysicsButton.draw(this.mCamera);
-    // this.UIButton.draw(this.mCamera);
-    // this.UIText.draw(this.mCamera);
-    // for (let i = 0; i < this.mBarrageSet.length; i++) {
-    //     this.mBarrageSet[i].draw(this.mCamera);
-    // }
-    //
-    //
-    // this.mMsg.draw(this.mCamera);
-    //
-    // this.mWing.draw(this.mCamera);
 
 };
 
@@ -275,13 +263,3 @@ LevelScene.prototype.LevelSceneSelect = function () {
     this.LevelSelect = "Game";
     gEngine.GameLoop.stop();
 };
-//
-// LevelScene.prototype.physicsSelect = function(){
-//     this.LevelSelect="Physics";
-//     gEngine.GameLoop.stop();
-// };
-//
-// LevelScene.prototype.uiSelect= function(){
-//     this.LevelSelect="UI";
-//     gEngine.GameLoop.stop();
-// };

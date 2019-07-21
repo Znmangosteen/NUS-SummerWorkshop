@@ -17,9 +17,15 @@ function Hero(characterTexture, bulletTexture, position) {
 
     this.width = 8;
     this.height = 8;
+    this.boxWidth = this.width / 6;
+    this.boxHeight = this.height / 6;
+
     this.kRwidth = 6;
     this.kRheight = 8;
 
+    this.mSides = new LineRenderable();
+
+    this.mDrawBounds = false;
 
     this.mDye = new SpriteAnimateRenderable(characterTexture);
     this.mDye.setColor([1, 1, 1, 0]);
@@ -97,7 +103,36 @@ Hero.prototype.draw = function (aCamera) {
     GameObject.prototype.draw.call(this, aCamera);  // the default GameObject: only move forward
     this.mBullets.draw(aCamera);
 
+    if (!this.mDrawBounds) {
+        return;
+    }
+
+    //calculation for the X at the center of the shape
+    var x = this.mDye.getXform().getPosition()[0];
+    var y = this.mDye.getXform().getPosition()[1];
+    var w = this.boxWidth / 2;
+    var h = this.boxHeight / 2;
+
+    this.mSides.setFirstVertex(x - w, y + h);  //TOP LEFT
+    this.mSides.setSecondVertex(x + w, y + h); //TOP RIGHT
+    this.mSides.draw(aCamera);
+    this.mSides.setFirstVertex(x + w, y - h); //BOTTOM RIGHT
+    this.mSides.draw(aCamera);
+    this.mSides.setSecondVertex(x - w, y - h); //BOTTOM LEFT
+    this.mSides.draw(aCamera);
+    this.mSides.setFirstVertex(x - w, y + h); //TOP LEFT
+    this.mSides.draw(aCamera);
+
+
 };
+
+Hero.prototype.setDrawBounds = function (d) {
+    this.mDrawBounds = d;
+};
+Hero.prototype.getDrawBounds = function () {
+    return this.mDrawBounds;
+};
+
 
 Hero.prototype.decreaseHealth = function () {
     if (this.isInvincible()) {
@@ -116,7 +151,7 @@ Hero.prototype.decreaseHealth = function () {
 
 Hero.prototype.getBBox = function () {
     var xform = this.mDye.getXform();
-    var b = new BoundingBox(xform.getPosition(), xform.getWidth() / 8, xform.getHeight() / 8);
+    var b = new BoundingBox(xform.getPosition(), this.boxWidth, this.boxHeight);
     return b;
 
 };
@@ -175,5 +210,9 @@ Hero.prototype.update = function (reset, aCamera) {
 
     }
     this.mRenderComponent.updateAnimation();
+
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.B)) {
+        this.mDrawBounds = !this.mDrawBounds;
+    }
 
 };
