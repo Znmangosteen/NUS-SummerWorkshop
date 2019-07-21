@@ -21,21 +21,52 @@ gEngine.Core.inheritPrototype(Level_1_1, LevelScene);
 Level_1_1.prototype.initialize = function () {
     LevelScene.prototype.initialize.call(this);
 
+    this.addTopWall();
     var i, rx, ry, obj, dx, dy;
     dx = 8;
     dy = 8;
 
-
-    rx = [0, 5, 10, 15, 20, 25,
-        80, 85, 90,
-        185, 190, 195, 200, 205];
-    ry = [40, 40, 40, 40, 40, 40,
-        70, 70, 70,
-        40, 40, 40, 40, 40];
-    for (i = 0; i < 20; i++) {
-        obj = new Platform(this.kPlatformTexture, rx[i], ry[i]);
+    rx = 0;
+    for (i = 0; i < 9; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, 5);
         this.mAllPlatforms.addToSet(obj);
+
+
+        rx += dx;
     }
+
+    rx = 19 * dx;
+    for (i = 0; i < 9; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, 5);
+        this.mAllPlatforms.addToSet(obj);
+
+
+        rx += dx;
+    }
+
+
+    rx = 10 * dx;
+    ry = 5 + 7 * dy;
+    for (i = 0; i < 8; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, ry);
+        this.mAllPlatforms.addToSet(obj);
+
+        rx += dx;
+    }
+
+    rx = 5;
+    ry = 5;
+
+    // rx = [0, 5, 10, 15, 20, 25,
+    //     80, 85, 90,
+    //     185, 190, 195, 200, 205];
+    // ry = [40, 40, 40, 40, 40, 40,
+    //     70, 70, 70,
+    //     40, 40, 40, 40, 40];
+    // for (i = 0; i < 20; i++) {
+    //     obj = new Platform(this.kPlatformTexture, rx[i], ry[i]);
+    //     this.mAllPlatforms.addToSet(obj);
+    // }
 
 };
 
