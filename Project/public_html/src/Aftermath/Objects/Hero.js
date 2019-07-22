@@ -171,7 +171,7 @@ Hero.prototype.update = function (reset, aCamera) {
     if (reset === true) {
         this.jump = true;
     }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Up)) {
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Up)||gEngine.Input.isKeyClicked(gEngine.Input.keys.Shift)) {
         if (this.jump === true) {
             v[1] = Math.min(this.kYDelta + v[1], 1.1 * this.kYDelta);
             this.jump = false;
