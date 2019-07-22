@@ -15,8 +15,8 @@ function LevelScene(aHero) {
     this.kUIButton = "assets/UI/SimpleButton.png";
     this.kCue = "assets/AudioTest/BlueLevel_cue.wav";
     this.kMinionSprite = "assets/minion_sprite.png";
-    // this.kTrap = "assets/Trap.png";
-    this.kTrap = "assets/item/gadgets.png";
+    // this.kGadgets = "assets/Trap.png";
+    this.kGadgets = "assets/item/gadgets.png";
     this.kSave = "assets/save.png";
     this.kPlatformTexture = "assets/BlockUnit/snow-platform.png";
     // this.kCharacters = "assets/Character/3.png";
@@ -58,6 +58,7 @@ function LevelScene(aHero) {
         this.mHero = null;
     }
     this.mTrap = null;
+    this.mTrapSet = [];
     this.mSavePoint = null;
 
     this.reset = false;
@@ -82,7 +83,7 @@ LevelScene.prototype.loadScene = function () {
     gEngine.AudioClips.loadAudio(this.kBgm);
     gEngine.AudioClips.loadAudio(this.kShoot);
     gEngine.Textures.loadTexture(this.kMinionSprite);
-    gEngine.Textures.loadTexture(this.kTrap);
+    gEngine.Textures.loadTexture(this.kGadgets);
     gEngine.Textures.loadTexture(this.kSave);
     gEngine.Textures.loadTexture(this.kPlatformTexture);
     gEngine.Textures.loadTexture(this.kCharacters);
@@ -101,7 +102,7 @@ LevelScene.prototype.unloadScene = function () {
     gEngine.AudioClips.unloadAudio(this.kShoot);
 
     gEngine.Textures.unloadTexture(this.kMinionSprite);
-    gEngine.Textures.unloadTexture(this.kTrap);
+    gEngine.Textures.unloadTexture(this.kGadgets);
     gEngine.Textures.unloadTexture(this.kSave);
     gEngine.Textures.unloadTexture(this.kPlatformTexture);
     gEngine.Textures.unloadTexture(this.kCharacters);
@@ -149,7 +150,7 @@ LevelScene.prototype.initialize = function () {
     }
 
 
-    this.mTrap = new Trap(this.kTrap);
+    this.mTrap = new Trap(this.kGadgets);
     this.mSavePoint = new SavePoint(this.kSave);
 
     var i, j, rx, ry, obj, dy, dx;

@@ -122,13 +122,25 @@ Level_2_1.prototype.initialize = function () {
 
     }
 
+    // this.mTrapSet.push(new Trap(this.kGadgets, vec2.fromValues(10, 10)));
+    this.mTrapSet.push(new TrapWall(this.kGadgets, vec2.fromValues(16, 10)));
+
 };
 Level_2_1.prototype.draw = function () {
     LevelScene.prototype.draw.call(this, this.mCamera);
 
+    for (let i = 0; i < this.mTrapSet.length; i++) {
+        this.mTrapSet[i].draw(this.mCamera);
+    }
 };
 
 Level_2_1.prototype.update = function () {
     LevelScene.prototype.update.call(this);
+    for (let i = 0; i < this.mTrapSet.length; i++) {
+        if (this.mTrapSet[i].getBBox().intersectsBound(this.mHero.getBBox())) {
+            this.goLose();
+        }
+
+    }
 
 };

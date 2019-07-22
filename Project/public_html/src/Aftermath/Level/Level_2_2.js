@@ -111,6 +111,11 @@ Level_2_2.prototype.initialize = function () {
         rx += dx;
     }
 
+    ry = 5 + 3 * dy;
+    rx = 4 * dx;
+    obj = new Platform(this.kPlatformTexture, rx, ry);
+    this.mAllPlatforms.addToSet(obj);
+
 };
 
 Level_2_2.prototype.draw = function () {
