@@ -20,6 +20,7 @@ function LevelScene(aHero) {
     this.kPlatformTexture = "assets/BlockUnit/snow-platform.png";
     // this.kCharacters = "assets/Character/3.png";
     this.kCharacters = "assets/Character/characters.png";
+    this.kNPC = "assets/Character/NPC.png";
     this.kBg = "assets/Background/snow-bg.png";
     this.kBullet = "assets/Bullet/Yellow-Bullet.png";
     this.kCharactersBullet = "assets/Bullet/pink-bullet.png";
@@ -89,6 +90,7 @@ LevelScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kCharactersBullet);
     gEngine.Textures.loadTexture(this.kBoss);
     gEngine.Textures.loadTexture(this.kHeart);
+    gEngine.Textures.loadTexture(this.kNPC);
 
 
 };
@@ -107,6 +109,7 @@ LevelScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kCharactersBullet);
     gEngine.Textures.unloadTexture(this.kBoss);
     gEngine.Textures.unloadTexture(this.kHeart);
+    gEngine.Textures.unloadTexture(this.kNPC);
 
     if (this.levelClear) {
         startNextLevel();

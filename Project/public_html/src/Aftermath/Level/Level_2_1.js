@@ -21,6 +21,10 @@ gEngine.Core.inheritPrototype(Level_2_1, LevelScene);
 Level_2_1.prototype.initialize = function () {
     LevelScene.prototype.initialize.call(this);
 
+    this.mBoss = new Cat(this.kNPC, this.kBullet, vec2.fromValues(95, 78));
+    this.mBoss.setTarget(this.mHero);
+    this.mNPCs.push(this.mBoss);
+
     this.addTopWall();
     // this.addGround();
     var i, j, k, rx, ry, obj, dx, dy;

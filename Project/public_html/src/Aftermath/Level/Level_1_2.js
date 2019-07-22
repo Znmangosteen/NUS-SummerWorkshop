@@ -19,23 +19,60 @@ gEngine.Core.inheritPrototype(Level_1_2, LevelScene);
 
 Level_1_2.prototype.initialize = function () {
     LevelScene.prototype.initialize.call(this);
+    this.mBoss = new Cat(this.kNPC, this.kBullet, vec2.fromValues(180, 70));
+    this.mBoss.setTarget(this.mHero);
+    this.mNPCs.push(this.mBoss);
 
     this.addTopWall();
-    this.addGround();
+    // this.addGround();
 
     var i, j, k, rx, ry, obj, dx, dy;
 
     dx = 8;
     dy = 8;
 
-    rx = 10 * dx;
-    ry = 5 + 7 * dy;
-    for (i = 0; i < 8; i++) {
-        obj = new Platform(this.kPlatformTexture, rx, ry);
+    rx = 0;
+    for (i = 0; i < 2; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, 5);
         this.mAllPlatforms.addToSet(obj);
 
+        rx += 6 * dx;
+    }
+
+    rx = 0;
+    ry = 5 + 7 * dy;
+    for (i = 0; i < 4; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, ry);
+        this.mAllPlatforms.addToSet(obj);
         rx += dx;
     }
+
+    rx = 8 * dx;
+    ry = 5 + 13 * dy;
+    for (i = 0; i < 8; i++) {
+
+        obj = new Platform(this.kPlatformTexture, rx, ry);
+        this.mAllPlatforms.addToSet(obj);
+        rx += 2 * dx;
+
+    }
+    rx = 23 * dx;
+    ry = 5;
+    for (i = 0; i < 3; i++) {
+
+        obj = new Platform(this.kPlatformTexture, rx, ry);
+        this.mAllPlatforms.addToSet(obj);
+        rx += dx;
+
+    }
+    // rx = 10 * dx;
+    // ry = 5 + 7 * dy;
+    // for (i = 0; i < 8; i++) {
+    //     obj = new Platform(this.kPlatformTexture, rx, ry);
+    //     this.mAllPlatforms.addToSet(obj);
+    //
+    //     rx += dx;
+    // }
 
 
     // rx = 5;
