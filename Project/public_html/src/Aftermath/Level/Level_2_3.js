@@ -35,33 +35,55 @@ Level_2_3.prototype.initialize = function () {
 
 
     this.addTopWall();
-    this.addGround();
+    // this.addGround();
 
     var i, j, k, rx, ry, obj, dx, dy;
     dx = 8;
     dy = 8;
 
     rx = -0;
-    for (i = 0; i < 5; i++) {
+    ry = 5;
+    for (i = 0; i < 15; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, ry);
+        this.mAllPlatforms.addToSet(obj);
+
+        // obj = new Platform(this.kPlatformTexture, rx, 112);
+        // this.mAllPlatforms.addToSet(obj);
+        rx += 3 * dx;
+    }
+    rx = dx;
+    ry = 5;
+    for (i = 0; i < 15; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, ry);
+        this.mAllPlatforms.addToSet(obj);
+
+        // obj = new Platform(this.kPlatformTexture, rx, 112);
+        // this.mAllPlatforms.addToSet(obj);
+        rx += 3 * dx;
+    }
+
+    rx = 2*dx;
+    for (i = 0; i < 10; i++) {
         obj = new Platform(this.kPlatformTexture, rx, 40);
         this.mAllPlatforms.addToSet(obj);
 
         // obj = new Platform(this.kPlatformTexture, rx, 112);
         // this.mAllPlatforms.addToSet(obj);
-        rx += 5;
-    }
-    rx = 200;
-    for (i = 0; i < 5; i++) {
-        obj = new Platform(this.kPlatformTexture, rx, 40);
-        this.mAllPlatforms.addToSet(obj);
-
-        // obj = new Platform(this.kPlatformTexture, rx, 112);
-        // this.mAllPlatforms.addToSet(obj);
-        rx -= 5;
+        rx += 3 * dx;
     }
 
-    rx = 50;
-    for (i = 0; i < 20; i++) {
+    // rx = 200;
+    // for (i = 0; i < 5; i++) {
+    //     obj = new Platform(this.kPlatformTexture, rx, 40);
+    //     this.mAllPlatforms.addToSet(obj);
+    //
+    //     // obj = new Platform(this.kPlatformTexture, rx, 112);
+    //     // this.mAllPlatforms.addToSet(obj);
+    //     rx -= 5;
+    // }
+
+    rx = 60;
+    for (i = 0; i < 15; i++) {
         obj = new Platform(this.kPlatformTexture, rx, 80);
         this.mAllPlatforms.addToSet(obj);
 

@@ -15,7 +15,8 @@ function LevelScene(aHero) {
     this.kUIButton = "assets/UI/SimpleButton.png";
     this.kCue = "assets/AudioTest/BlueLevel_cue.wav";
     this.kMinionSprite = "assets/minion_sprite.png";
-    this.kTrap = "assets/Trap.png";
+    // this.kTrap = "assets/Trap.png";
+    this.kTrap = "assets/item/gadgets.png";
     this.kSave = "assets/save.png";
     this.kPlatformTexture = "assets/BlockUnit/snow-platform.png";
     // this.kCharacters = "assets/Character/3.png";

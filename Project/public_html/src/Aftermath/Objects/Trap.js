@@ -17,7 +17,7 @@ function Trap(spriteTexture) {
     this.mTrap.getXform().setPosition(80, 20);
     this.mTrap.getXform().setSize(7.5, 7.5);
     // this.mTrap.setElementPixelPositions(130, 310, 0, 180);
-    this.mTrap.setElementPixelPositions(0, 64, 0, 64);
+    this.mTrap.setElementPixelPositions(0, 256, 3840, 4096);
     // this.mTrap.setElementPixelPositions(0, 120, 0, 180);
 
 
