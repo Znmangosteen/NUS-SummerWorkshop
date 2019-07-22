@@ -126,7 +126,7 @@ LoseScene.prototype.initialize = function () {
     // this.ParticleButton = new UIButton(this.particleSelect,this,[400,400],[600,100],"Particle Demos",8);
     // this.PhysicsButton = new UIButton(this.physicsSelect,this,[400,300],[500,100],"Physics Demo",8);
     // this.UIButton =  new UIButton(this.uiSelect,this,[400,200],[320,100],"UI Demo",8);
-    this.UIText = new UIText("Press \"S\" to Play", [600, 220], 8, 1, 0, [0, 0, 0, 1]);
+    this.UIText = new UIText("Press \"R\" to Play", [600, 220], 8, 1, 0, [0, 0, 0, 1]);
     this.mMsg2 = new UIText(this.stateWord, [600, 400], 8, 1, 0, [1, 0, 0, 1]);
     this.mBarrageSet = [];
 
@@ -200,7 +200,7 @@ LoseScene.prototype.update = function () {
     //     gEngine.AudioClips.playACue(this.kCue, 0.1);
     // }
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.R)) {
         this.gameSceneSelect();
     }
 

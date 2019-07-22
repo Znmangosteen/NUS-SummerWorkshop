@@ -123,7 +123,7 @@ Level_2_1.prototype.initialize = function () {
     }
 
     // this.mTrapSet.push(new Trap(this.kGadgets, vec2.fromValues(10, 10)));
-    this.mTrapSet.push(new TrapWall(this.kGadgets, vec2.fromValues(16, 10)));
+    this.mTrapSet.push(new TrapWall(this.kGadgets, vec2.fromValues(16, 10),true));
 
 };
 Level_2_1.prototype.draw = function () {

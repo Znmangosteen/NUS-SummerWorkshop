@@ -116,6 +116,7 @@ Level_2_2.prototype.initialize = function () {
     obj = new Platform(this.kPlatformTexture, rx, ry);
     this.mAllPlatforms.addToSet(obj);
 
+    this.mEli = obj;
 };
 
 Level_2_2.prototype.draw = function () {
@@ -126,4 +127,14 @@ Level_2_2.prototype.draw = function () {
 Level_2_2.prototype.update = function () {
     LevelScene.prototype.update.call(this);
 
+    this.mEli.mPlatform.getXform().getPosition()[1] += this.mEli.move;
+
+    var state = this.mCamera.collideWCBound(this.mEli.mPlatform.getXform(), 1);
+    if ((state === 4) || (state === 8)) {
+        this.mEli.move = -this.mEli.move;
+    }
+    // else if (this.mCamera.collideWCBound(this.mEli.mPlatform.getXform()) === 8) {
+    //     this.mEli.move = -.1;
+    //
+    // }
 };

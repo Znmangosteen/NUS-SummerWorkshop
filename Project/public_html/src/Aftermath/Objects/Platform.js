@@ -31,5 +31,7 @@ function Platform(texture, atX, atY) {
 
     this.setCurrentFrontDir(vec2.fromValues(0, 1));
     this.setSpeed(0);
+
+    this.move = .3;
 }
 gEngine.Core.inheritPrototype(Platform, GameObject);
