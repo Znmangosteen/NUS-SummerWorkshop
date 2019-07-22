@@ -186,7 +186,7 @@ Boss2.prototype.update = function (aCamera) {
         this.reach = true;
         this.stay = 120;
         var x = (Math.floor(Math.random() * 3)) * 60 + 40;
-        var y = (Math.floor(Math.random() * 3)) * 40 + 10;
+        var y = (Math.floor(Math.random() * 3)) * 40 + 25;
 
         this.nextPos = vec2.fromValues(x, y);
         this.setSpeed(0);
