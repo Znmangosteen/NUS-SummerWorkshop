@@ -17,9 +17,7 @@ function HomePage() {
     this.kPlatformTexture = "assets/BlockUnit/snow-platform.png";
     this.kHero = "assets/Character/characters.png";
     this.kHeroBullet = "assets/Bullet/pink-bullet.png";
-
-
-
+    this.kTitle = "assets/UI/Title.png";
 
 
     // The camera to view the scene
@@ -63,6 +61,7 @@ HomePage.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kPlatformTexture);
     gEngine.Textures.loadTexture(this.kHero);
     gEngine.Textures.loadTexture(this.kHeroBullet);
+    gEngine.Textures.loadTexture(this.kTitle);
 
 };
 
@@ -72,6 +71,7 @@ HomePage.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kPlatformTexture);
     gEngine.Textures.unloadTexture(this.kHero);
     gEngine.Textures.unloadTexture(this.kHeroBullet);
+    gEngine.Textures.unloadTexture(this.kTitle);
 
     if (this.State === STATE.PLAY) {
         // gEngine.Core.startScene(new GameScene());
@@ -107,9 +107,12 @@ HomePage.prototype.initialize = function () {
     this.bg.getXform().setSize(200, 112.5);
     this.bg.getXform().setPosition(100, 56.25);
 
+    this.mTitle = new TextureRenderable(this.kTitle);
+    this.mTitle.getXform().setPosition(45, 95 );
+    this.mTitle.getXform().setSize(80, 40);
+
 
 };
-
 
 
 HomePage.prototype.initButton = function () {
@@ -137,6 +140,8 @@ HomePage.prototype.draw = function () {
     this.bg.draw(this.mCamera);
     this.drawButton();
 
+    this.mTitle.draw(this.mCamera);
+
     switch (this.State) {
         case STATE.CONTROL:
             this.drawControlInfo();
@@ -150,7 +155,7 @@ HomePage.prototype.draw = function () {
 
     }
 
-    };
+};
 
 HomePage.prototype.drawButton = function () {
     // this.ContinueButton.draw(this.mCamera);
@@ -203,3 +208,5 @@ HomePage.prototype.trophyInfo = function () {
 HomePage.prototype.acknowledgeInfo = function () {
     this.State = STATE.ACKNOWLEDGE;
 };
+
+var ROUND = 1;

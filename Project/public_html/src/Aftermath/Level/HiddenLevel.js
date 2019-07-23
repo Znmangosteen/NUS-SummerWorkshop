@@ -11,16 +11,18 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Level_1_1(aHero) {
+function HiddenLevel(aHero) {
     LevelScene.call(this, aHero);
-    this.maxDia = 2;
+    this.maxDia = 3;
+    this.kBg = "assets/Background/hidden-bg.png";
+
     this.levelName = "1-1-";
 }
 
 
-gEngine.Core.inheritPrototype(Level_1_1, LevelScene);
+gEngine.Core.inheritPrototype(HiddenLevel, LevelScene);
 
-Level_1_1.prototype.loadScene = function () {
+HiddenLevel.prototype.loadScene = function () {
     LevelScene.prototype.loadScene.call(this);
     for (let i = 1; i <= this.maxDia; i++) {
 
@@ -30,7 +32,7 @@ Level_1_1.prototype.loadScene = function () {
 };
 
 
-Level_1_1.prototype.unloadScene = function () {
+HiddenLevel.prototype.unloadScene = function () {
     LevelScene.prototype.unloadScene.call(this);
     for (let i = 1; i <= this.maxDia; i++) {
         gEngine.Textures.unloadTexture(this.kText + this.levelName + i + ".png");
@@ -39,11 +41,16 @@ Level_1_1.prototype.unloadScene = function () {
 };
 
 
-Level_1_1.prototype.initialize = function () {
+HiddenLevel.prototype.initialize = function () {
     LevelScene.prototype.initialize.call(this);
     this.mBoss = new Cat(this.kNPC, this.kBullet, vec2.fromValues(130, 70));
     this.mBoss.setTarget(this.mHero);
     this.mNPCs.push(this.mBoss);
+
+    this.bg = new TextureRenderable(this.kBg);
+    this.bg.getXform().setSize(200, 112.5);
+    this.bg.getXform().setPosition(100, 56.25);
+
 
     this.addTopWall();
     var i, rx, ry, obj, dx, dy;
@@ -81,12 +88,12 @@ Level_1_1.prototype.initialize = function () {
 
 };
 
-Level_1_1.prototype.draw = function () {
+HiddenLevel.prototype.draw = function () {
     LevelScene.prototype.draw.call(this, this.mCamera);
 
 };
 
-Level_1_1.prototype.update = function () {
+HiddenLevel.prototype.update = function () {
     LevelScene.prototype.update.call(this);
 
 };
