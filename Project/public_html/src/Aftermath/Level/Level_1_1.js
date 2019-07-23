@@ -13,10 +13,31 @@
 
 function Level_1_1(aHero) {
     LevelScene.call(this, aHero);
+    this.maxDia = 2;
+    this.levelName = "1-1-";
 }
 
 
 gEngine.Core.inheritPrototype(Level_1_1, LevelScene);
+
+Level_1_1.prototype.loadScene = function () {
+    LevelScene.prototype.loadScene.call(this);
+    for (let i = 1; i <= this.maxDia; i++) {
+
+        gEngine.Textures.loadTexture(this.kText + this.levelName + i + ".png");
+    }
+
+};
+
+
+Level_1_1.prototype.unloadScene = function () {
+    LevelScene.prototype.unloadScene.call(this);
+    for (let i = 1; i <= this.maxDia; i++) {
+        gEngine.Textures.unloadTexture(this.kText + this.levelName + i + ".png");
+    }
+
+};
+
 
 Level_1_1.prototype.initialize = function () {
     LevelScene.prototype.initialize.call(this);
@@ -57,19 +78,6 @@ Level_1_1.prototype.initialize = function () {
         rx += dx;
     }
 
-    rx = 5;
-    ry = 5;
-
-    // rx = [0, 5, 10, 15, 20, 25,
-    //     80, 85, 90,
-    //     185, 190, 195, 200, 205];
-    // ry = [40, 40, 40, 40, 40, 40,
-    //     70, 70, 70,
-    //     40, 40, 40, 40, 40];
-    // for (i = 0; i < 20; i++) {
-    //     obj = new Platform(this.kPlatformTexture, rx[i], ry[i]);
-    //     this.mAllPlatforms.addToSet(obj);
-    // }
 
 };
 

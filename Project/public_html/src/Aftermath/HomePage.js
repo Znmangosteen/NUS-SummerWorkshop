@@ -203,3 +203,5 @@ HomePage.prototype.trophyInfo = function () {
 HomePage.prototype.acknowledgeInfo = function () {
     this.State = STATE.ACKNOWLEDGE;
 };
+
+var ROUND = 1;

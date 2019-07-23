@@ -31,6 +31,14 @@ function LevelScene(aHero) {
     this.kBgm = "assets/Music/BGM/bgm.mp3";
     this.kShoot = "assets/Music/Cue/shoot1.wav";
 
+    // this.kText = "assets/Word/1/1-1-1.png";
+    this.kText = "assets/Word/" + ROUND + "/";
+
+    this.mDialogue = null;
+    this.inDia = true;
+    this.currentDia = 1;
+    this.maxDia = 1;
+
 
     // The camera to view the scene
     this.mCamera = null;
@@ -198,6 +206,8 @@ LevelScene.prototype.initialize = function () {
     }
 
     this.BackButton = new UIButton(this.goBack, this, this.ButtonPosition, this.ButtonSize, "Home", this.ButtonFontSize);
+    this.dia = new Dialogue(this.kText + this.levelName + this.currentDia + ".png");
+
 
 };
 
@@ -228,53 +238,73 @@ LevelScene.prototype.draw = function () {
 
     this.BackButton.draw(this.mCamera);
 
+    if (this.inDia) {
+        this.dia.draw(this.mCamera);
+    }
 };
 
 LevelScene.prototype.update = function () {
     // this.ParticleButton.update();
     // this.PhysicsButton.update();
     // this.UIButton.update();
-    this.mAllPlatforms.update();
-    this.reset = gEngine.Physics.processObjSet(this.mHero, this.mAllPlatforms);
 
-    this.mHero.update(this.reset, this.mCamera);
-    this.mTrap.update();
-    this.mSavePoint.update();
+    if (this.inDia) {
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Enter)) {
+            if (this.currentDia >= this.maxDia) {
 
-    for (let i = 0; i < this.mNPCs.length; i++) {
-        var NPC = this.mNPCs[i];
-        NPC.update(this.mCamera, this.mHero);
-    }
+                this.inDia = false;
+            } else {
 
-    this.reset = false;
+                this.currentDia += 1;
+                this.dia.setTexture(this.kText + this.levelName + this.currentDia + ".png")
+            }
 
-    if (this.mHero.death) {
-        this.goLose();
-    }
-    for (let i = 0; i < this.mNPCs.length; i++) {
-        NPC = this.mNPCs[i];
-        if (NPC.death) {
-            this.mNPCs.splice(i, 1);
-            break;
         }
     }
 
-    if (this.mNPCs.length <= 0) {
-        this.finState = "You Win";
-        this.levelClear = true;
-        // gEngine.GameLoop.stop();
-    }
+    else {
+        this.mAllPlatforms.update();
+        this.reset = gEngine.Physics.processObjSet(this.mHero, this.mAllPlatforms);
 
-    if (this.levelClear && (this.mCamera.collideWCBound(this.mHero.getXform(), 1) === 2)) {
-        CURRENT_LEVEL += 1;
-        gEngine.GameLoop.stop();
-    }
+        this.mHero.update(this.reset, this.mCamera);
+        this.mTrap.update();
+        this.mSavePoint.update();
 
-    if (this.mCamera.collideWCBound(this.mHero.getXform(), 1) === 8) {
-        this.goLose();
-    }
+        for (let i = 0; i < this.mNPCs.length; i++) {
+            var NPC = this.mNPCs[i];
+            NPC.update(this.mCamera, this.mHero);
+        }
 
-    this.BackButton.update();
+        this.reset = false;
+
+        if (this.mHero.death) {
+            this.goLose();
+        }
+        for (let i = 0; i < this.mNPCs.length; i++) {
+            NPC = this.mNPCs[i];
+            if (NPC.death) {
+                this.mNPCs.splice(i, 1);
+                break;
+            }
+        }
+
+        if (this.mNPCs.length <= 0) {
+            this.finState = "You Win";
+            this.levelClear = true;
+            // gEngine.GameLoop.stop();
+        }
+
+        if (this.levelClear && (this.mCamera.collideWCBound(this.mHero.getXform(), 1) === 2)) {
+            CURRENT_LEVEL += 1;
+            gEngine.GameLoop.stop();
+        }
+
+        if (this.mCamera.collideWCBound(this.mHero.getXform(), 1) === 8) {
+            this.goLose();
+        }
+
+        this.BackButton.update();
+    }
 
     // var num = 0;
     // for (let i = 0; i < this.mBarrageSet.length; i++) {
