@@ -27,15 +27,19 @@ Level_2_1.prototype.initialize = function () {
 
     this.addTopWall();
     // this.addGround();
-    var i, j, k, rx, ry, obj, dx, dy;
+    var i, j, k, rx, ry, obj, dx, dy, plt;
     dx = 8;
     dy = 8;
 
     rx = 0;
+    ry = 5;
     for (i = 0; i < 9; i++) {
-        obj = new Platform(this.kPlatformTexture, rx, 5);
+        obj = new Platform(this.kPlatformTexture, rx, ry);
         this.mAllPlatforms.addToSet(obj);
-
+        if (i > 3 && i < 7) {
+            plt = new Trap(this.kGadgets, vec2.fromValues(rx - 4, ry + 4));
+            this.mTrapSet.push(plt);
+        }
 
         rx += dx;
     }
@@ -49,6 +53,21 @@ Level_2_1.prototype.initialize = function () {
         rx += dx;
     }
 
+    rx = 0;
+    ry = 4 * dy;
+    for (j = 0; j < 11; j++) {
+        obj = new Platform(this.kPlatformTexture, rx, ry);
+        this.mAllPlatforms.addToSet(obj);
+        if (j < 4) {
+            plt = new TrapWall(this.kGadgets, vec2.fromValues(rx + 5, ry), true);
+            this.mTrapSet.push(plt);
+
+        }
+        ry += dy;
+
+    }
+
+
     rx = 5;
     ry = 5;
 
@@ -57,8 +76,15 @@ Level_2_1.prototype.initialize = function () {
     for (j = 0; j < 12; j++) {
         obj = new Platform(this.kPlatformTexture, rx, ry);
         this.mAllPlatforms.addToSet(obj);
+        if (j > 8) {
+            plt = new TrapWall(this.kGadgets, vec2.fromValues(rx - 5, ry), false);
+            this.mTrapSet.push(plt);
+
+        }
         ry += dy;
+
     }
+
     ry = 5 + 3 * dy;
     rx += 4 * dx;
     for (j = 0; j < 14; j++) {
@@ -67,22 +93,28 @@ Level_2_1.prototype.initialize = function () {
         ry += dy;
     }
 
-    rx -= 3 * dx;
+    rx -= dx;
     ry = 5 + 3 * dy;
     for (i = 0; i < 3; i++) {
         obj = new Platform(this.kPlatformTexture, rx, ry);
         this.mAllPlatforms.addToSet(obj);
+
+        plt = new Trap(this.kGadgets, vec2.fromValues(rx, ry + 4));
+        this.mTrapSet.push(plt);
         ry += 3 * dy;
-        rx += Math.pow(-1, i) * 2 * dx;
+        rx += Math.pow(-1, i + 1) * 2 * dx;
 
     }
 
-    rx += 4 * dx;
+    rx += 7 * dx;
     ry = 5 + 4 * dy;
 
     for (i = 0; i < 5; i++) {
         obj = new Platform(this.kPlatformTexture, rx, ry);
         this.mAllPlatforms.addToSet(obj);
+
+        plt = new Trap(this.kGadgets, vec2.fromValues(rx, ry + 4));
+        this.mTrapSet.push(plt);
         rx += 1.6 * dx;
 
     }
@@ -94,11 +126,21 @@ Level_2_1.prototype.initialize = function () {
         obj = new Platform(this.kPlatformTexture, rx, ry);
         this.mAllPlatforms.addToSet(obj);
         rx += dx;
+        // if (i > 3 && i < 7) {
+        plt = new Trap(this.kGadgets, vec2.fromValues(rx, ry - 4), false);
+        this.mTrapSet.push(plt);
+        // }
 
     }
     for (i = 0; i < 6; i++) {
         obj = new Platform(this.kPlatformTexture, rx, ry);
         this.mAllPlatforms.addToSet(obj);
+        if ( i < 3) {
+
+            plt = new TrapWall(this.kGadgets, vec2.fromValues(rx + 5, ry), true);
+
+            this.mTrapSet.push(plt);
+        }
         ry += dy;
 
     }
@@ -123,7 +165,7 @@ Level_2_1.prototype.initialize = function () {
     }
 
     // this.mTrapSet.push(new Trap(this.kGadgets, vec2.fromValues(10, 10)));
-    this.mTrapSet.push(new TrapWall(this.kGadgets, vec2.fromValues(16, 10),true));
+    // this.mTrapSet.push(new TrapWall(this.kGadgets, vec2.fromValues(16, 10), true));
 
 };
 Level_2_1.prototype.draw = function () {
