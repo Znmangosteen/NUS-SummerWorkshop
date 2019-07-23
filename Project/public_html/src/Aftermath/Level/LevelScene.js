@@ -283,7 +283,7 @@ LevelScene.prototype.update = function () {
         }
 
         if (this.levelClear && (this.mCamera.collideWCBound(this.mHero.getXform(), 1) === 2)
-            && (CURRENT_LEVEL !== SELECT.L_2_3)) {
+            && (CURRENT_LEVEL !== SELECT.L_2_3)&&(CURRENT_LEVEL !== SELECT.HIDDEN)) {
             CURRENT_LEVEL += 1;
             gEngine.GameLoop.stop();
         }

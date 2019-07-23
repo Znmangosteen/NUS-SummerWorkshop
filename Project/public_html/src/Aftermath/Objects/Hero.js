@@ -69,7 +69,7 @@ function Hero(characterTexture, bulletTexture, position) {
     //Rate in per second
     this.kfireRate = 5;
 
-    this.health = 3;
+    this.health = 5;
     this.death = false;
 
     GameObject.call(this, this.mDye);
@@ -145,7 +145,7 @@ Hero.prototype.decreaseHealth = function () {
         this.death = true;
     }
     this.mDye.getColor()[3] = [0.5];
-    this.invincible = 150;
+    this.invincible = 30;
 
 };
 

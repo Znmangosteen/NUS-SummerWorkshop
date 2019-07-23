@@ -10,18 +10,14 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function Dialogue(word) {
-    this.width = 128;
-    this.height = 16;
+    this.width = 100;
+    this.height = 25;
 
     // this.mBack = new TextureRenderable(textureBack);
     // this.mBack.getXform().setPosition(20, 20);
     this.mWord = new TextureRenderable(word);
     this.mWord.getXform().setPosition(100, 30);
     this.mWord.getXform().setSize(this.width, this.height);
-
-
-
-
 
 
     // this.mDialogue = new TextureRenderable(texture);
