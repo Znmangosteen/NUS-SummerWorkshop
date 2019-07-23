@@ -33,7 +33,7 @@ Level_1_2.prototype.unloadScene = function () {
 Level_1_2.prototype.initialize = function () {
     LevelScene.prototype.initialize.call(this);
 
-    this.mHandout=new TextureRenderable(this.kHandout);;
+    this.mHandout=new TextureRenderable(this.kHandout);
     this.mHandout.getXform().setPosition(100, 50);
     this.mHandout.getXform().setSize(20, 20);
 
