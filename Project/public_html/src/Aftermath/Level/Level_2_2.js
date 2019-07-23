@@ -112,29 +112,41 @@ Level_2_2.prototype.initialize = function () {
     }
 
     ry = 5 + 3 * dy;
-    rx = 4 * dx;
+    rx = 4 * dx - 3;
     obj = new Platform(this.kPlatformTexture, rx, ry);
     this.mAllPlatforms.addToSet(obj);
-
+    // this.mT = new Trap(this.kGadgets, vec2.fromValues(rx, ry));
     this.mEli = obj;
+
+    rx += dx;
+    obj = new Platform(this.kPlatformTexture, rx, ry);
+    this.mAllPlatforms.addToSet(obj);
+    this.mEli2 = obj;
+
+    // this.mT2 = new Trap(this.kGadgets, vec2.fromValues(rx, ry));
 };
 
 Level_2_2.prototype.draw = function () {
     LevelScene.prototype.draw.call(this, this.mCamera);
-
+    // this.mT.draw(this.mCamera);
+    // this.mT2.draw(this.mCamera);
 };
 
 Level_2_2.prototype.update = function () {
     LevelScene.prototype.update.call(this);
 
     this.mEli.mPlatform.getXform().getPosition()[1] += this.mEli.move;
+    this.mEli2.mPlatform.getXform().getPosition()[1] += this.mEli2.move;
 
     var state = this.mCamera.collideWCBound(this.mEli.mPlatform.getXform(), 1);
-    if ((state === 4) || (state === 8)) {
-        this.mEli.move = -this.mEli.move;
+    if ((state === 4) ) {
+        this.mEli.mPlatform.getXform().getPosition()[1] = 0;
+        this.mEli2.mPlatform.getXform().getPosition()[1] = 0;
+        // this.mEli.move = -this.mEli.move;
+        // this.mEli2.move = -this.mEli2.move;
     }
-    // else if (this.mCamera.collideWCBound(this.mEli.mPlatform.getXform()) === 8) {
-    //     this.mEli.move = -.1;
-    //
-    // }
+    // this.mT.mTrap.mXform.getPosition()[1] = this.mEli.mPlatform.getXform().getPosition()[1] + 5;
+    // this.mT2.mTrap.mXform.getPosition()[1] = this.mEli.mPlatform.getXform().getPosition()[1] + 5;
+
+
 };

@@ -67,6 +67,16 @@ function LevelScene(aHero) {
     this.levelClear = false;
 
     this.hearts = [];
+
+    this.BackButton = null;
+    this.back = false;
+
+    this.ButtonWidth = 50;
+    this.ButtonHeight = 40;
+    this.ButtonSize = [this.ButtonWidth, this.ButtonHeight];
+    this.ButtonFontSize = 3;
+    this.ButtonPosition = [1250, 700];
+
 }
 
 gEngine.Core.inheritPrototype(LevelScene, Scene);
@@ -113,6 +123,10 @@ LevelScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kHeart);
     gEngine.Textures.unloadTexture(this.kNPC);
 
+    if (this.back) {
+        gEngine.Core.startScene(new HomePage());
+        return;
+    }
     if (this.levelClear) {
         startNextLevel();
     } else {
@@ -183,6 +197,8 @@ LevelScene.prototype.initialize = function () {
         gEngine.AudioClips.playBackgroundAudio(this.kBgm);
     }
 
+    this.BackButton = new UIButton(this.goBack, this, this.ButtonPosition, this.ButtonSize, "Home", this.ButtonFontSize);
+
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -209,6 +225,8 @@ LevelScene.prototype.draw = function () {
     for (let i = 0; i < this.mHero.health; i++) {
         this.hearts[i].draw(this.mCamera);
     }
+
+    this.BackButton.draw(this.mCamera);
 
 };
 
@@ -255,6 +273,9 @@ LevelScene.prototype.update = function () {
     if (this.mCamera.collideWCBound(this.mHero.getXform(), 1) === 8) {
         this.goLose();
     }
+
+    this.BackButton.update();
+
     // var num = 0;
     // for (let i = 0; i < this.mBarrageSet.length; i++) {
     //     this.mBarrageSet[i].update(this.mCamera,this.mWing);
@@ -283,6 +304,11 @@ LevelScene.prototype.update = function () {
     // this.mWing.update();
     // this.mMsg.setText("Bullet Num: " + num);
 
+};
+
+LevelScene.prototype.goBack = function () {
+    this.back = true;
+    gEngine.GameLoop.stop();
 };
 
 LevelScene.prototype.addGround = function () {
