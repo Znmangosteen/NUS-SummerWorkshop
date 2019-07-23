@@ -153,7 +153,7 @@ HomePage.prototype.draw = function () {
     };
 
 HomePage.prototype.drawButton = function () {
-    this.ContinueButton.draw(this.mCamera);
+    // this.ContinueButton.draw(this.mCamera);
     this.PlayButton.draw(this.mCamera);
     this.ControlButton.draw(this.mCamera);
     this.TrophyButton.draw(this.mCamera);
@@ -162,7 +162,7 @@ HomePage.prototype.drawButton = function () {
 
 
 HomePage.prototype.update = function () {
-    this.ContinueButton.update();
+    // this.ContinueButton.update();
     this.PlayButton.update();
     this.ControlButton.update();
     this.TrophyButton.update();

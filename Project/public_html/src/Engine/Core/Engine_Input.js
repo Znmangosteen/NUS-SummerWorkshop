@@ -50,6 +50,7 @@ gEngine.Input = (function () {
         Seven : 55,
         Eight : 56,
         Nine : 57,
+        Shift:16,
 
         // Alphabets
         A : 65,

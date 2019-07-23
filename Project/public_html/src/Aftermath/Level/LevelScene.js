@@ -15,14 +15,16 @@ function LevelScene(aHero) {
     this.kUIButton = "assets/UI/SimpleButton.png";
     this.kCue = "assets/AudioTest/BlueLevel_cue.wav";
     this.kMinionSprite = "assets/minion_sprite.png";
-    this.kTrap = "assets/Trap.png";
+    // this.kGadgets = "assets/Trap.png";
+    this.kGadgets = "assets/item/gadgets.png";
     this.kSave = "assets/save.png";
     this.kPlatformTexture = "assets/BlockUnit/snow-platform.png";
-    // this.kHero = "assets/Character/3.png";
-    this.kHero = "assets/Character/characters.png";
+    // this.kCharacters = "assets/Character/3.png";
+    this.kCharacters = "assets/Character/characters.png";
+    this.kNPC = "assets/Character/NPC.png";
     this.kBg = "assets/Background/snow-bg.png";
     this.kBullet = "assets/Bullet/Yellow-Bullet.png";
-    this.kHeroBullet = "assets/Bullet/pink-bullet.png";
+    this.kCharactersBullet = "assets/Bullet/pink-bullet.png";
     this.kBoss = "assets/Character/Boss.png";
     this.kHeart = "assets/Character/heart.png";
 
@@ -56,6 +58,7 @@ function LevelScene(aHero) {
         this.mHero = null;
     }
     this.mTrap = null;
+    this.mTrapSet = [];
     this.mSavePoint = null;
 
     this.reset = false;
@@ -64,6 +67,16 @@ function LevelScene(aHero) {
     this.levelClear = false;
 
     this.hearts = [];
+
+    this.BackButton = null;
+    this.back = false;
+
+    this.ButtonWidth = 50;
+    this.ButtonHeight = 40;
+    this.ButtonSize = [this.ButtonWidth, this.ButtonHeight];
+    this.ButtonFontSize = 3;
+    this.ButtonPosition = [1250, 700];
+
 }
 
 gEngine.Core.inheritPrototype(LevelScene, Scene);
@@ -80,15 +93,16 @@ LevelScene.prototype.loadScene = function () {
     gEngine.AudioClips.loadAudio(this.kBgm);
     gEngine.AudioClips.loadAudio(this.kShoot);
     gEngine.Textures.loadTexture(this.kMinionSprite);
-    gEngine.Textures.loadTexture(this.kTrap);
+    gEngine.Textures.loadTexture(this.kGadgets);
     gEngine.Textures.loadTexture(this.kSave);
     gEngine.Textures.loadTexture(this.kPlatformTexture);
-    gEngine.Textures.loadTexture(this.kHero);
+    gEngine.Textures.loadTexture(this.kCharacters);
     gEngine.Textures.loadTexture(this.kBg);
     gEngine.Textures.loadTexture(this.kBullet);
-    gEngine.Textures.loadTexture(this.kHeroBullet);
+    gEngine.Textures.loadTexture(this.kCharactersBullet);
     gEngine.Textures.loadTexture(this.kBoss);
     gEngine.Textures.loadTexture(this.kHeart);
+    gEngine.Textures.loadTexture(this.kNPC);
 
 
 };
@@ -98,25 +112,26 @@ LevelScene.prototype.unloadScene = function () {
     gEngine.AudioClips.unloadAudio(this.kShoot);
 
     gEngine.Textures.unloadTexture(this.kMinionSprite);
-    gEngine.Textures.unloadTexture(this.kTrap);
+    gEngine.Textures.unloadTexture(this.kGadgets);
     gEngine.Textures.unloadTexture(this.kSave);
     gEngine.Textures.unloadTexture(this.kPlatformTexture);
-    gEngine.Textures.unloadTexture(this.kHero);
+    gEngine.Textures.unloadTexture(this.kCharacters);
     gEngine.Textures.unloadTexture(this.kBg);
     gEngine.Textures.unloadTexture(this.kBullet);
-    gEngine.Textures.unloadTexture(this.kHeroBullet);
+    gEngine.Textures.unloadTexture(this.kCharactersBullet);
     gEngine.Textures.unloadTexture(this.kBoss);
     gEngine.Textures.unloadTexture(this.kHeart);
+    gEngine.Textures.unloadTexture(this.kNPC);
 
+    if (this.back) {
+        gEngine.Core.startScene(new HomePage());
+        return;
+    }
     if (this.levelClear) {
-
         startNextLevel();
     } else {
         gEngine.Core.startScene(new LoseScene("You Died"));
     }
-    // if(this.LevelSelect==="Particle"){
-    //     gEngine.Core.startScene(new ParticleLevel());
-    // }
 
 };
 
@@ -138,7 +153,7 @@ LevelScene.prototype.initialize = function () {
 
 
     if (this.mHero === null) {
-        this.mHero = new Hero(this.kHero, this.kHeroBullet);
+        this.mHero = new Hero(this.kCharacters, this.kCharactersBullet);
     }
 
     this.mHero.setTarget(this.mNPCs);
@@ -149,32 +164,29 @@ LevelScene.prototype.initialize = function () {
     }
 
 
-    this.mTrap = new Trap(this.kTrap);
+    this.mTrap = new Trap(this.kGadgets);
     this.mSavePoint = new SavePoint(this.kSave);
 
     var i, j, rx, ry, obj, dy, dx;
     dx = 8;
     dy = 8;
 
-    rx = -5;
-    for (i = 0; i < 45; i++) {
-        obj = new Platform(this.kPlatformTexture, rx, 5);
-        this.mAllPlatforms.addToSet(obj);
-
-        // obj = new Platform(this.kPlatformTexture, rx, 112);
-        // this.mAllPlatforms.addToSet(obj);
-        rx += dx;
-    }
-    rx = 0;
-    ry = 120;
-    for (i = 0; i < 45; i++) {
-        obj = new Platform(this.kPlatformTexture, rx, ry);
-        this.mAllPlatforms.addToSet(obj);
-
-        // obj = new Platform(this.kPlatformTexture, rx, 112);
-        // this.mAllPlatforms.addToSet(obj);
-        rx += dx;
-    }
+    // rx = 0;
+    // for (i = 0; i < 26; i++) {
+    //     obj = new Platform(this.kPlatformTexture, rx, 5);
+    //     this.mAllPlatforms.addToSet(obj);
+    //
+    //
+    //     rx += dx;
+    // }
+    // rx = 0;
+    // ry = 120;
+    // for (i = 0; i < 27; i++) {
+    //     obj = new Platform(this.kPlatformTexture, rx, ry);
+    //     this.mAllPlatforms.addToSet(obj);
+    //
+    //     rx += dx;
+    // }
 
     rx = 10;
     for (i = 0; i < this.mHero.health; i++) {
@@ -184,6 +196,8 @@ LevelScene.prototype.initialize = function () {
     if (!gEngine.AudioClips.isBackgroundAudioPlaying()) {
         gEngine.AudioClips.playBackgroundAudio(this.kBgm);
     }
+
+    this.BackButton = new UIButton(this.goBack, this, this.ButtonPosition, this.ButtonSize, "Home", this.ButtonFontSize);
 
 };
 
@@ -212,6 +226,8 @@ LevelScene.prototype.draw = function () {
         this.hearts[i].draw(this.mCamera);
     }
 
+    this.BackButton.draw(this.mCamera);
+
 };
 
 LevelScene.prototype.update = function () {
@@ -233,10 +249,7 @@ LevelScene.prototype.update = function () {
     this.reset = false;
 
     if (this.mHero.death) {
-
-        // CURRENT_LEVEL = SELECT.LOSE;
-        this.levelClear = false;
-        gEngine.GameLoop.stop();
+        this.goLose();
     }
     for (let i = 0; i < this.mNPCs.length; i++) {
         NPC = this.mNPCs[i];
@@ -252,10 +265,17 @@ LevelScene.prototype.update = function () {
         // gEngine.GameLoop.stop();
     }
 
-    if (this.levelClear && this.mCamera.collideWCBound(this.mHero.getXform(), 1) === 2) {
+    if (this.levelClear && (this.mCamera.collideWCBound(this.mHero.getXform(), 1) === 2)) {
         CURRENT_LEVEL += 1;
         gEngine.GameLoop.stop();
     }
+
+    if (this.mCamera.collideWCBound(this.mHero.getXform(), 1) === 8) {
+        this.goLose();
+    }
+
+    this.BackButton.update();
+
     // var num = 0;
     // for (let i = 0; i < this.mBarrageSet.length; i++) {
     //     this.mBarrageSet[i].update(this.mCamera,this.mWing);
@@ -264,6 +284,9 @@ LevelScene.prototype.update = function () {
     // }
     //
     //
+    // if (gEngine.Input.isKeyClicked(gEngine.Input.keys.R)) {
+    //     startNextLevel();
+    // }
     // if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
     //     this.mBarrageSet.push(new Barrage(this.kMinionSprite, vec2.fromValues(50, 50), 0.8, BARRAGE_TYPE.CIRCLE, 30));
     // }
@@ -286,6 +309,44 @@ LevelScene.prototype.update = function () {
 
 };
 
+LevelScene.prototype.goBack = function () {
+    this.back = true;
+    gEngine.GameLoop.stop();
+};
+
+LevelScene.prototype.addGround = function () {
+    var i, j, rx, ry, obj, dy, dx;
+    dx = 8;
+    dy = 8;
+
+    rx = 0;
+    for (i = 0; i < 26; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, 5);
+        this.mAllPlatforms.addToSet(obj);
+
+        rx += dx;
+    }
+
+
+};
+LevelScene.prototype.addTopWall = function () {
+    var i, j, rx, ry, obj, dy, dx;
+    dx = 8;
+    dy = 8;
+
+    rx = 0;
+    ry = 120;
+    for (i = 0; i < 27; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, ry);
+        this.mAllPlatforms.addToSet(obj);
+
+        rx += dx;
+    }
+};
+LevelScene.prototype.goLose = function () {
+    this.levelClear = false;
+    gEngine.GameLoop.stop();
+};
 LevelScene.prototype.LevelSceneSelect = function () {
     this.LevelSelect = "Game";
     gEngine.GameLoop.stop();

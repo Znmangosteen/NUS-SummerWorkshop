@@ -46,6 +46,16 @@ function LoseScene(previousWork) {
         this.stateWord = "";
 
     }
+
+    this.BackButton = null;
+    this.back = false;
+
+    this.ButtonWidth = 100;
+    this.ButtonHeight = 50;
+    this.ButtonSize = [this.ButtonWidth, this.ButtonHeight];
+    this.ButtonFontSize = 6;
+    this.ButtonPosition = [600, 300];
+
 }
 
 gEngine.Core.inheritPrototype(LoseScene, Scene);
@@ -69,7 +79,12 @@ LoseScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBg);
     gEngine.Textures.unloadTexture(this.kHeroBullet);
 
+    if (this.back) {
+        gEngine.Core.startScene(new HomePage());
+        return;
+    }
     if (this.LevelSelect === "Game") {
+
         startNextLevel();
         // switch (CURRENT_LEVEL) {
         //     case SELECT.L_1_1:
@@ -126,7 +141,7 @@ LoseScene.prototype.initialize = function () {
     // this.ParticleButton = new UIButton(this.particleSelect,this,[400,400],[600,100],"Particle Demos",8);
     // this.PhysicsButton = new UIButton(this.physicsSelect,this,[400,300],[500,100],"Physics Demo",8);
     // this.UIButton =  new UIButton(this.uiSelect,this,[400,200],[320,100],"UI Demo",8);
-    this.UIText = new UIText("Press \"S\" to Play", [600, 220], 8, 1, 0, [0, 0, 0, 1]);
+    this.UIText = new UIText("Press \"R\" to Play", [600, 220], 8, 1, 0, [0, 0, 0, 1]);
     this.mMsg2 = new UIText(this.stateWord, [600, 400], 8, 1, 0, [1, 0, 0, 1]);
     this.mBarrageSet = [];
 
@@ -140,6 +155,7 @@ LoseScene.prototype.initialize = function () {
     this.mMsg.getXform().setPosition(5, 5);
     this.mMsg.setTextHeight(3);
 
+    this.BackButton = new UIButton(this.goBack, this, this.ButtonPosition, this.ButtonSize, "Home", this.ButtonFontSize);
 
     // this.mWing = new Wing(this.kMinionSprite,50,20,0);
     // this.mHero = new Hero(this.kWawa, this.kHeroBullet);
@@ -162,6 +178,9 @@ LoseScene.prototype.draw = function () {
     this.mMsg2.draw(this.mCamera);
 
     this.bg.draw(this.mCamera);
+
+    this.BackButton.draw(this.mCamera);
+
     //
     // for (let i = 0; i < this.mBarrageSet.length; i++) {
     //     this.mBarrageSet[i].draw(this.mCamera);
@@ -199,12 +218,18 @@ LoseScene.prototype.update = function () {
     // if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
     //     gEngine.AudioClips.playACue(this.kCue, 0.1);
     // }
+    this.BackButton.update();
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.R)) {
         this.gameSceneSelect();
     }
 
 
+};
+
+LoseScene.prototype.goBack = function () {
+    this.back = true;
+    gEngine.GameLoop.stop();
 };
 
 LoseScene.prototype.gameSceneSelect = function () {
