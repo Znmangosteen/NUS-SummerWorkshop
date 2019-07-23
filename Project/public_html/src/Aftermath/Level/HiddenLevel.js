@@ -57,33 +57,65 @@ HiddenLevel.prototype.initialize = function () {
     dx = 8;
     dy = 8;
 
-    rx = 0;
-    for (i = 0; i < 9; i++) {
-        obj = new Platform(this.kPlatformTexture, rx, 5);
-        this.mAllPlatforms.addToSet(obj);
+    this.mHero.mDye.getXform().getPosition()[0] = 12 * dx;
+    // rx = 0;
+    // for (i = 0; i < 4; i++) {
+    //     obj = new Platform(this.kPlatformTexture, rx, 5);
+    //     this.mAllPlatforms.addToSet(obj);
+    //
+    //
+    //     rx += dx;
+    // }
+    //
+    // rx = 19 * dx;
+    // for (i = 0; i < 4; i++) {
+    //     obj = new Platform(this.kPlatformTexture, rx, 5);
+    //     this.mAllPlatforms.addToSet(obj);
+    //
+    //
+    //     rx += dx;
+    // }
 
 
-        rx += dx;
-    }
-
-    rx = 19 * dx;
-    for (i = 0; i < 9; i++) {
-        obj = new Platform(this.kPlatformTexture, rx, 5);
-        this.mAllPlatforms.addToSet(obj);
-
-
-        rx += dx;
-    }
-
-
-    rx = 10 * dx;
-    ry = 5 + 7 * dy;
+    rx = 9 * dx;
+    ry = 5;
     for (i = 0; i < 8; i++) {
         obj = new Platform(this.kPlatformTexture, rx, ry);
         this.mAllPlatforms.addToSet(obj);
 
         rx += dx;
     }
+
+    rx = 0;
+    ry = 5 + 5 * dy;
+    for (i = 0; i < 5; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, ry);
+        this.mAllPlatforms.addToSet(obj);
+
+        rx += dx;
+    }
+
+    rx = 21 * dx;
+    ry = 5 + 5 * dy;
+    for (i = 0; i < 5; i++) {
+        obj = new Platform(this.kPlatformTexture, rx, ry);
+        this.mAllPlatforms.addToSet(obj);
+
+        rx += dx;
+    }
+
+    rx = 12 * dx;
+    ry = 5 + 12 * dy;
+    obj = new Platform(this.kPlatformTexture, rx, ry);
+    this.mAllPlatforms.addToSet(obj);
+    rx = 7 * dx;
+    ry = 5 + 8 * dy;
+    obj = new Platform(this.kPlatformTexture, rx, ry);
+    this.mAllPlatforms.addToSet(obj);
+    rx = 18 * dx;
+    ry = 5 + 8 * dy;
+    obj = new Platform(this.kPlatformTexture, rx, ry);
+    this.mAllPlatforms.addToSet(obj);
 
 
 };

@@ -18,10 +18,26 @@ function Level_2_3(aHero) {
 
     this.mBoss = null;
 
+    this.kFake = "assets/save.png";
+
+    this.mFakeText = null;
+
 }
 
 
 gEngine.Core.inheritPrototype(Level_2_3, LevelScene);
+
+Level_2_3.prototype.loadScene = function () {
+    LevelScene.prototype.loadScene.call(this);
+    gEngine.Textures.loadTexture(this.kFake);
+
+};
+Level_2_3.prototype.unloadScene = function () {
+    LevelScene.prototype.unloadScene.call(this);
+    gEngine.Textures.unloadTexture(this.kFake);
+
+};
+
 
 Level_2_3.prototype.initialize = function () {
     LevelScene.prototype.initialize.call(this);
@@ -62,7 +78,7 @@ Level_2_3.prototype.initialize = function () {
         rx += 3 * dx;
     }
 
-    rx = 2*dx;
+    rx = 2 * dx;
     for (i = 0; i < 10; i++) {
         obj = new Platform(this.kPlatformTexture, rx, 40);
         this.mAllPlatforms.addToSet(obj);
@@ -105,6 +121,9 @@ Level_2_3.prototype.draw = function () {
     LevelScene.prototype.draw.call(this, this.mCamera);
     this.Bar.draw(this.mCamera);
 
+    if (this.mFakeText !== null) {
+        this.mFakeText.draw(this.mCamera);
+    }
 };
 
 Level_2_3.prototype.update = function () {
@@ -112,4 +131,22 @@ Level_2_3.prototype.update = function () {
     this.Bar.setCurrentValue(this.mBoss.health);
     // this.Bar.setCurrentValue(-3);
     this.Bar.update();
+
+    if (this.levelClear && this.mFakeText === null) {
+        this.mFakeText = new TextBlock(this.kFake, 40, 50, 5, 5);
+        this.mFakeText.getRigidBody().setMass(.5);
+
+    }
+
+    if (this.mFakeText !== null) {
+        this.mFakeText.update(this.mCamera);
+        this.reset = gEngine.Physics.processObjSet(this.mFakeText, this.mAllPlatforms);
+
+    }
+
+    if (this.levelClear && (this.mCamera.collideWCBound(this.mHero.getXform(), 1) === 2)
+    ) {
+        CURRENT_LEVEL = SELECT.HIDDEN;
+        gEngine.GameLoop.stop();
+    }
 };
