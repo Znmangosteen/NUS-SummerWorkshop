@@ -14,7 +14,6 @@
 function Level_1_2(aHero) {
     LevelScene.call(this, aHero);
     this.kHandout = "assets/Word/handout.png";
-
 }
 
 gEngine.Core.inheritPrototype(Level_1_2, LevelScene);
@@ -33,9 +32,10 @@ Level_1_2.prototype.unloadScene = function () {
 Level_1_2.prototype.initialize = function () {
     LevelScene.prototype.initialize.call(this);
 
-    this.mHandout=new TextureRenderable(this.kHandout);
-    this.mHandout.getXform().setPosition(100, 50);
-    this.mHandout.getXform().setSize(20, 20);
+    // this.mHandout=new TextureRenderable(this.kHandout);
+    // this.mHandout.getXform().setPosition(100, 50);
+    // this.mHandout.getXform().setSize(20, 20);
+    this.mHandout = new TextBlock(this.kHandout, 135, 5,80,10);
 
     this.mBoss = new Cat(this.kNPC, this.kBullet, vec2.fromValues(180, 70));
     this.mBoss.setTarget(this.mHero);
@@ -117,10 +117,14 @@ Level_1_2.prototype.initialize = function () {
 Level_1_2.prototype.draw = function () {
     LevelScene.prototype.draw.call(this, this.mCamera);
 
-    this.mHandout.draw(this.mCamera);
 };
 
 Level_1_2.prototype.update = function () {
     LevelScene.prototype.update.call(this);
 
+    if (this.mHandout.getBBox().intersectsBound(this.mHero.getBBox())) {
+        // this.showHandout = true;
+        this.mAllPlatforms.addToSet(this.mHandout);
+
+    }
 };

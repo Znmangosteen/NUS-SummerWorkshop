@@ -9,18 +9,20 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function TextBlock(texture, atX, atY) {
+function TextBlock(texture, atX, atY, w, h) {
+    this.width = w === undefined ? 80 : w;
+    this.height = h === undefined ? 20 : h;
     this.mTextBlock = new TextureRenderable(texture);
 
     this.mTextBlock.setColor([1, 1, 1, 0]);
     this.mTextBlock.getXform().setPosition(atX, atY);
     // this.mTextBlock.getXform().setSize(30, 3.75);
-    this.mTextBlock.getXform().setSize(40, 20);
-                                // show each element for mAnimSpeed updates
+    this.mTextBlock.getXform().setSize(this.width, this.height);
+    // show each element for mAnimSpeed updates
     GameObject.call(this, this.mTextBlock);
 
     // var rigidShape = new RigidRectangle(this.getXform(), 30, 3);
-    var rigidShape = new RigidRectangle(this.getXform(), 8, 6);
+    var rigidShape = new RigidRectangle(this.getXform(), this.width, this.height);
     rigidShape.setMass(0);  // ensures no movements!
     // rigidShape.toggleDrawBound();
     this.toggleDrawRigidShape();
@@ -33,4 +35,5 @@ function TextBlock(texture, atX, atY) {
     this.setSpeed(0);
 
 }
+
 gEngine.Core.inheritPrototype(TextBlock, GameObject);

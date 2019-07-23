@@ -284,6 +284,9 @@ LevelScene.prototype.update = function () {
     // }
     //
     //
+    // if (gEngine.Input.isKeyClicked(gEngine.Input.keys.R)) {
+    //     startNextLevel();
+    // }
     // if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
     //     this.mBarrageSet.push(new Barrage(this.kMinionSprite, vec2.fromValues(50, 50), 0.8, BARRAGE_TYPE.CIRCLE, 30));
     // }
