@@ -111,7 +111,10 @@ LevelScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kBoss);
     gEngine.Textures.loadTexture(this.kHeart);
     gEngine.Textures.loadTexture(this.kNPC);
+    for (let i = 1; i <= this.maxDia; i++) {
 
+        gEngine.Textures.loadTexture(this.kText + this.levelName + i + ".png");
+    }
 
 };
 
@@ -130,7 +133,9 @@ LevelScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBoss);
     gEngine.Textures.unloadTexture(this.kHeart);
     gEngine.Textures.unloadTexture(this.kNPC);
-
+    for (let i = 1; i <= this.maxDia; i++) {
+        gEngine.Textures.unloadTexture(this.kText + this.levelName + i + ".png");
+    }
     if (this.back) {
         gEngine.Core.startScene(new HomePage());
         return;
@@ -179,22 +184,6 @@ LevelScene.prototype.initialize = function () {
     dx = 8;
     dy = 8;
 
-    // rx = 0;
-    // for (i = 0; i < 26; i++) {
-    //     obj = new Platform(this.kPlatformTexture, rx, 5);
-    //     this.mAllPlatforms.addToSet(obj);
-    //
-    //
-    //     rx += dx;
-    // }
-    // rx = 0;
-    // ry = 120;
-    // for (i = 0; i < 27; i++) {
-    //     obj = new Platform(this.kPlatformTexture, rx, ry);
-    //     this.mAllPlatforms.addToSet(obj);
-    //
-    //     rx += dx;
-    // }
 
     rx = 10;
     for (i = 0; i < this.mHero.health; i++) {
@@ -206,6 +195,7 @@ LevelScene.prototype.initialize = function () {
     }
 
     this.BackButton = new UIButton(this.goBack, this, this.ButtonPosition, this.ButtonSize, "Home", this.ButtonFontSize);
+    if (this.inDia)
     this.dia = new Dialogue(this.kText + this.levelName + this.currentDia + ".png");
 
 
@@ -289,12 +279,11 @@ LevelScene.prototype.update = function () {
         }
 
         if (this.mNPCs.length <= 0) {
-            this.finState = "You Win";
             this.levelClear = true;
-            // gEngine.GameLoop.stop();
         }
 
-        if (this.levelClear && (this.mCamera.collideWCBound(this.mHero.getXform(), 1) === 2)) {
+        if (this.levelClear && (this.mCamera.collideWCBound(this.mHero.getXform(), 1) === 2)
+            && (CURRENT_LEVEL !== SELECT.L_2_3)) {
             CURRENT_LEVEL += 1;
             gEngine.GameLoop.stop();
         }
