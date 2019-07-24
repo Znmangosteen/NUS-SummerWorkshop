@@ -20,7 +20,7 @@ function HomePage() {
     this.kHero = "assets/Character/characters.png";
     this.kHeroBullet = "assets/Bullet/pink-bullet.png";
     this.kTitle = "assets/UI/Title.png";
-    this.kCross = "assets/UI/cross.png";
+    // this.kCross = "assets/UI/cross.png";
 
 
     // The camera to view the scene
@@ -66,7 +66,7 @@ HomePage.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kHero);
     gEngine.Textures.loadTexture(this.kHeroBullet);
     gEngine.Textures.loadTexture(this.kTitle);
-    gEngine.Textures.loadTexture(this.kCross);
+    // gEngine.Textures.loadTexture(this.kCross);
     gEngine.AudioClips.loadAudio(kShoot);
 
 };
@@ -79,7 +79,7 @@ HomePage.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kHero);
     gEngine.Textures.unloadTexture(this.kHeroBullet);
     gEngine.Textures.unloadTexture(this.kTitle);
-    gEngine.Textures.unloadTexture(this.kCross);
+    // gEngine.Textures.unloadTexture(this.kCross);
 
     if (this.State === STATE.PLAY) {
         // gEngine.Core.startScene(new GameScene());
