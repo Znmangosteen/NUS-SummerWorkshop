@@ -138,9 +138,15 @@ LevelScene.prototype.unloadScene = function () {
     for (let i = 1; i <= this.maxDia; i++) {
         gEngine.Textures.unloadTexture(this.kText + this.levelName + i + ".png");
     }
-    if (this.Win!==undefined &&this.Win){
-        gEngine.Core.startScene(new FakeLoseScene());
-        return;
+    if (this.Win !== undefined) {
+        if (this.Win) {
+
+            gEngine.Core.startScene(new FakeLoseScene());
+            return;
+        } else {
+            gEngine.Core.startScene(new LoseScene("You Died"));
+            return;
+        }
     }
     if (this.back) {
         gEngine.Core.startScene(new HomePage());
@@ -202,7 +208,7 @@ LevelScene.prototype.initialize = function () {
 
     this.BackButton = new UIButton(this.goBack, this, this.ButtonPosition, this.ButtonSize, "Home", this.ButtonFontSize);
     if (this.inDia)
-    this.dia = new Dialogue(this.kText + this.levelName + this.currentDia + ".png");
+        this.dia = new Dialogue(this.kText + this.levelName + this.currentDia + ".png");
 
 
 };
@@ -292,7 +298,7 @@ LevelScene.prototype.update = function () {
         }
 
         if (this.levelClear && (this.mCamera.collideWCBound(this.mHero.getXform(), 1) === 2)
-            && (CURRENT_LEVEL !== SELECT.L_2_3)&&(CURRENT_LEVEL !== SELECT.HIDDEN)) {
+            && (CURRENT_LEVEL !== SELECT.L_2_3) && (CURRENT_LEVEL !== SELECT.HIDDEN)) {
             CURRENT_LEVEL += 1;
             gEngine.GameLoop.stop();
         }

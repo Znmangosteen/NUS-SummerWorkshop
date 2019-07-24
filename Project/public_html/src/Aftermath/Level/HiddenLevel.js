@@ -40,26 +40,26 @@ gEngine.Core.inheritPrototype(HiddenLevel, LevelScene);
 
 HiddenLevel.prototype.loadScene = function () {
     LevelScene.prototype.loadScene.call(this);
-    for (let i = 1; i <= this.maxDia; i++) {
-
-        gEngine.Textures.loadTexture(this.kText + this.levelName + i + ".png");
-    }
-
-};
-
-
-HiddenLevel.prototype.unloadScene = function () {
-    // if (this.Win) {
-    //     gEngine.Core.startScene(new HomePage());
-    //     return;
-    // }
-    LevelScene.prototype.unloadScene.call(this);
-
     // for (let i = 1; i <= this.maxDia; i++) {
-    //     gEngine.Textures.unloadTexture(this.kText + this.levelName + i + ".png");
+    //
+    //     gEngine.Textures.loadTexture(this.kText + this.levelName + i + ".png");
     // }
 
 };
+
+
+// HiddenLevel.prototype.unloadScene = function () {
+//     // if (this.Win) {
+//     //     gEngine.Core.startScene(new HomePage());
+//     //     return;
+//     // }
+//     LevelScene.prototype.unloadScene.call(this);
+//
+//     // for (let i = 1; i <= this.maxDia; i++) {
+//     //     gEngine.Textures.unloadTexture(this.kText + this.levelName + i + ".png");
+//     // }
+//
+// };
 
 
 HiddenLevel.prototype.initialize = function () {
