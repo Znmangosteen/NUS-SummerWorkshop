@@ -54,7 +54,14 @@ Level_2_3.prototype.initialize = function () {
 
     this.mBoss = new Boss2(this.kCharacters, this.kBullet);
     this.mBoss.setTarget(this.mHero);
-    this.mNPCs.push(this.mBoss);
+    if (ROUND === 1) {
+
+        this.mNPCs.push(this.mBoss);
+
+    } else {
+        this.mFriends.push(this.mBoss);
+    }
+    // this.mNPCs.push(this.mBoss);
 
     this.Bar.setMaxValue(this.mBoss.health);
 
@@ -141,7 +148,7 @@ Level_2_3.prototype.update = function () {
     // this.Bar.setCurrentValue(-3);
     this.Bar.update();
 
-    if (this.levelClear && this.mFakeText === null) {
+    if (this.levelClear && this.mFakeText === null && ROUND === 1) {
         this.mFakeText = new TextBlock(this.kFake, 40, 60, 40, 20);
         this.mFakeText.getRigidBody().setMass(.5);
 
