@@ -26,7 +26,7 @@ function Level_2_3(aHero) {
 
         this.maxDia = 2;
     } else {
-        this.maxDia = 2;
+        this.maxDia = 1;
 
     }
     this.levelName = "2-3-";
@@ -157,5 +157,8 @@ Level_2_3.prototype.update = function () {
     ) {
         CURRENT_LEVEL = SELECT.HIDDEN;
         gEngine.GameLoop.stop();
+    }
+    if (!this.inDia && ROUND === 2) {
+        WEAPON_TYPE = 1;
     }
 };

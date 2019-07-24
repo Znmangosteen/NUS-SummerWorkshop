@@ -70,7 +70,7 @@ HiddenLevel.prototype.initialize = function () {
         this.mNPCs.push(this.mBoss);
 
     } else {
-        // this.mHero.health = 1;
+        this.mHero.health = 1;
     }
     this.bg = new TextureRenderable(this.kBg);
     this.bg.getXform().setSize(200, 112.5);
