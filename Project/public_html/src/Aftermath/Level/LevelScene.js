@@ -104,7 +104,6 @@ var GAME_STATE = {
 };
 
 LevelScene.prototype.loadScene = function () {
-    gEngine.AudioClips.loadAudio(this.kCue);
     gEngine.AudioClips.loadAudio(this.kBgm);
     gEngine.AudioClips.loadAudio(this.kShoot);
     gEngine.Textures.loadTexture(this.kMinionSprite);

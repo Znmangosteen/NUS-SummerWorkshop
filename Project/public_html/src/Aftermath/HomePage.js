@@ -67,6 +67,7 @@ HomePage.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kHeroBullet);
     gEngine.Textures.loadTexture(this.kTitle);
     gEngine.Textures.loadTexture(this.kCross);
+    gEngine.AudioClips.loadAudio(kShoot);
 
 };
 

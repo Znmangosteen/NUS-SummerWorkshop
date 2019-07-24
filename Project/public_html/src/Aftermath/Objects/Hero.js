@@ -14,6 +14,9 @@
 var HERO_HEALTH = 3;
 var BULLET_SIZE=130;
 var WEAPON_TYPE=0;
+
+var kShoot = "assets/Music/Cue/shoot1.wav";
+
 function Hero(characterTexture, bulletTexture, position) {
     this.kYDelta = 130;
     this.kYMDelta = 180;
@@ -200,6 +203,7 @@ Hero.prototype.update = function (reset, aCamera) {
 
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
         this.mBullets.addToSet(new Bullet(this.mBullets, this.kBulletTexture, this.getXform().getPosition(), 2, this.getCurrentFrontDir(),BULLET_SIZE));
+        gEngine.AudioClips.playACue(kShoot, 10);
     }
 
     this.mBullets.update(aCamera);
