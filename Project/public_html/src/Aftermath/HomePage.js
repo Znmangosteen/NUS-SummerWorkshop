@@ -20,6 +20,7 @@ function HomePage() {
     this.kHero = "assets/Character/characters.png";
     this.kHeroBullet = "assets/Bullet/pink-bullet.png";
     this.kTitle = "assets/UI/Title.png";
+    this.kCross = "assets/UI/cross.png";
 
 
     // The camera to view the scene
@@ -65,6 +66,8 @@ HomePage.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kHero);
     gEngine.Textures.loadTexture(this.kHeroBullet);
     gEngine.Textures.loadTexture(this.kTitle);
+    gEngine.Textures.loadTexture(this.kCross);
+    gEngine.AudioClips.loadAudio(kShoot);
 
 };
 
@@ -76,6 +79,7 @@ HomePage.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kHero);
     gEngine.Textures.unloadTexture(this.kHeroBullet);
     gEngine.Textures.unloadTexture(this.kTitle);
+    gEngine.Textures.unloadTexture(this.kCross);
 
     if (this.State === STATE.PLAY) {
         // gEngine.Core.startScene(new GameScene());
@@ -112,10 +116,15 @@ HomePage.prototype.initialize = function () {
     this.bg.getXform().setPosition(100, 56.25);
 
     this.mTitle = new TextureRenderable(this.kTitle);
-    this.mTitle.getXform().setPosition(45, 95 );
+    this.mTitle.getXform().setPosition(45, 95);
     this.mTitle.getXform().setSize(80, 40);
 
-
+    // if (ROUND === 2) {
+    //     this.mCross = new TextureRenderable(this.kCross);
+    //     this.mCross.getXform().setPosition(90, 75);
+    //     this.mCross.getXform().setSize(30, 10);
+    //
+    // }
 };
 
 
@@ -130,7 +139,6 @@ HomePage.prototype.initButton = function () {
     // this.ButtonPosition[1] -= (1 + this.ButtonHeight);
     this.AcknowledgeButton = new UIButton(this.acknowledgeInfo, this, this.ButtonPosition, this.ButtonSize, "Information", this.ButtonFontSize);
 
-
 };
 // This is the draw function, make sure to setup proper drawing environment, and more
 // importantly, make sure to _NOT_ change any state.
@@ -142,6 +150,10 @@ HomePage.prototype.draw = function () {
     this.mCamera.setupViewProjection();
 
     this.bg.draw(this.mCamera);
+    // if (this.mCross !== undefined) {
+    //     this.mCross.draw(this.mCamera);
+    //
+    // }
     this.drawButton();
 
     this.mTitle.draw(this.mCamera);
@@ -158,6 +170,7 @@ HomePage.prototype.draw = function () {
             break;
 
     }
+
 
 };
 
@@ -188,13 +201,12 @@ HomePage.prototype.update = function () {
     }
     // if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
 
-
 };
 
 // FIXME debug thing
 HomePage.prototype.hiddenLevel = function () {
     this.State = STATE.HIDDEN;
-    this.CURRENT_LEVEL = SELECT.HIDDEN;
+    CURRENT_LEVEL = SELECT.HIDDEN;
     gEngine.GameLoop.stop();
 };
 

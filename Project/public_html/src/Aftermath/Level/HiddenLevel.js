@@ -32,7 +32,7 @@ function HiddenLevel(aHero) {
     this.mBook = null;
     this.Win = false;
 
-
+    this.trueWin = false;
 }
 
 
@@ -40,26 +40,26 @@ gEngine.Core.inheritPrototype(HiddenLevel, LevelScene);
 
 HiddenLevel.prototype.loadScene = function () {
     LevelScene.prototype.loadScene.call(this);
-    for (let i = 1; i <= this.maxDia; i++) {
-
-        gEngine.Textures.loadTexture(this.kText + this.levelName + i + ".png");
-    }
-
-};
-
-
-HiddenLevel.prototype.unloadScene = function () {
-    // if (this.Win) {
-    //     gEngine.Core.startScene(new HomePage());
-    //     return;
-    // }
-    LevelScene.prototype.unloadScene.call(this);
-
     // for (let i = 1; i <= this.maxDia; i++) {
-    //     gEngine.Textures.unloadTexture(this.kText + this.levelName + i + ".png");
+    //
+    //     gEngine.Textures.loadTexture(this.kText + this.levelName + i + ".png");
     // }
 
 };
+
+
+// HiddenLevel.prototype.unloadScene = function () {
+//     // if (this.Win) {
+//     //     gEngine.Core.startScene(new HomePage());
+//     //     return;
+//     // }
+//     LevelScene.prototype.unloadScene.call(this);
+//
+//     // for (let i = 1; i <= this.maxDia; i++) {
+//     //     gEngine.Textures.unloadTexture(this.kText + this.levelName + i + ".png");
+//     // }
+//
+// };
 
 
 HiddenLevel.prototype.initialize = function () {
@@ -164,6 +164,11 @@ HiddenLevel.prototype.update = function () {
     // if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
     //     this.pattern5();
     // }
+    if (ROUND === 2 && this.mNPCs.length <= 0) {
+        this.goFinalWin();
+
+    }
+
     if (!this.inDia) {
         if (ROUND === 1) {
             for (let i = 0; i < this.mBarrageSet.length; i++) {
@@ -211,11 +216,16 @@ HiddenLevel.prototype.update = function () {
     }
 
 
-
 };
 
 HiddenLevel.prototype.goWin = function () {
     this.Win = true;
+    gEngine.GameLoop.stop();
+
+
+};
+HiddenLevel.prototype.goFinalWin = function () {
+    this.trueWin = true;
     gEngine.GameLoop.stop();
 
 

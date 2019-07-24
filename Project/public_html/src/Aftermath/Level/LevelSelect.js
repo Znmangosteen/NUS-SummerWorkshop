@@ -78,32 +78,32 @@ LevelSelect.prototype.loadScene = function () {
 
 };
 
-function startNextLevel() {
+function startNextLevel(inDia) {
     switch (CURRENT_LEVEL) {
         case SELECT.BACK:
             gEngine.Core.startScene(new HomePage());
             break;
         case SELECT.HIDDEN:
-            gEngine.Core.startScene(new HiddenLevel());
+            gEngine.Core.startScene(new HiddenLevel(inDia));
             break;
 
         case SELECT.L_1_1:
-            gEngine.Core.startScene(new Level_1_1());
+            gEngine.Core.startScene(new Level_1_1(inDia));
             break;
         case SELECT.L_1_2:
-            gEngine.Core.startScene(new Level_1_2());
+            gEngine.Core.startScene(new Level_1_2(inDia));
             break;
         case SELECT.L_1_3:
-            gEngine.Core.startScene(new Level_1_3());
+            gEngine.Core.startScene(new Level_1_3(inDia));
             break;
         case SELECT.L_2_1:
-            gEngine.Core.startScene(new Level_2_1());
+            gEngine.Core.startScene(new Level_2_1(inDia));
             break;
         case SELECT.L_2_2:
-            gEngine.Core.startScene(new Level_2_2());
+            gEngine.Core.startScene(new Level_2_2(inDia));
             break;
         case SELECT.L_2_3:
-            gEngine.Core.startScene(new Level_2_3());
+            gEngine.Core.startScene(new Level_2_3(inDia));
             break;
 
 

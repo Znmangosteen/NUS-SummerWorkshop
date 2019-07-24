@@ -144,5 +144,12 @@ Level_1_2.prototype.update = function () {
 
     if (!this.inDia &&ROUND===2) {
         HERO_HEALTH = 10;
+        this.mHero.health = HERO_HEALTH;
+        var rx = 10;
+        var i;
+        for (i = 0; i < this.mHero.health; i++) {
+            this.hearts[i] = new Heart(this.kHeart, rx);
+            rx += 7;
+        }
     }
 };
