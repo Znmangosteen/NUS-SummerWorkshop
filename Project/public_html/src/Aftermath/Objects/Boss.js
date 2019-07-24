@@ -63,7 +63,7 @@ function Boss(spriteTexture, bullet) {
     //Rate in per second
     this.kfireRate = 5;
 
-    this.health = 10;
+    this.health = 15;
     this.death = false;
 
     GameObject.call(this, this.mBoss);
