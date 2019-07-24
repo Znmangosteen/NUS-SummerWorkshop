@@ -30,6 +30,9 @@ function HiddenLevel(aHero) {
     this.patternType = 0;
 
     this.mBook = null;
+    this.Win = false;
+
+
 }
 
 
@@ -46,7 +49,12 @@ HiddenLevel.prototype.loadScene = function () {
 
 
 HiddenLevel.prototype.unloadScene = function () {
+    // if (this.Win) {
+    //     gEngine.Core.startScene(new HomePage());
+    //     return;
+    // }
     LevelScene.prototype.unloadScene.call(this);
+
     for (let i = 1; i <= this.maxDia; i++) {
         gEngine.Textures.unloadTexture(this.kText + this.levelName + i + ".png");
     }
@@ -66,7 +74,7 @@ HiddenLevel.prototype.initialize = function () {
     this.bg.getXform().setSize(200, 112.5);
     this.bg.getXform().setPosition(100, 56.25);
 
-    this.mBook = new Book(this.kGadgets,96,105);
+    this.mBook = new Book(this.kGadgets, 96, 105);
 
     this.addTopWall();
     var i, rx, ry, obj, dx, dy;
@@ -143,61 +151,71 @@ HiddenLevel.prototype.draw = function () {
     for (let i = 0; i < this.mBarrageSet.length; i++) {
         this.mBarrageSet[i].draw(this.mCamera);
     }
-
-    this.mBook.draw(this.mCamera);
+    if (ROUND === 1) {
+        this.mBook.draw(this.mCamera);
+    }
 };
 
 HiddenLevel.prototype.update = function () {
     LevelScene.prototype.update.call(this);
 
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
-        this.pattern5();
-    }
+    // if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
+    //     this.pattern5();
+    // }
     if (!this.inDia) {
-
-        for (let i = 0; i < this.mBarrageSet.length; i++) {
-            this.mBarrageSet[i].update(this.mCamera);
-        }
-
-        if (Date.now() - this.lastChange > 6000) {
-            this.patternType = Math.min(this.patternType + 1, 6);
-            this.lastChange = Date.now();
-        }
-        if ((Date.now() - this.lastChange > 4000 || this.patternType === 1) && (Date.now() - this.lastFire > 100)) {
-            this.lastFire = Date.now();
-            switch (this.patternType) {
-                case 1:
-                    this.pattern1();
-                    break;
-                case 2:
-                    this.pattern2();
-                    break;
-                case 3:
-                    this.pattern3();
-                    break;
-                case 4:
-                    this.pattern4();
-                    break;
-                case 5:
-                    this.pattern5();
-                    break;
-                case 6:
-                    this.pattern6();
-                    break;
-
-
+        if (ROUND === 1) {
+            for (let i = 0; i < this.mBarrageSet.length; i++) {
+                this.mBarrageSet[i].update(this.mCamera);
             }
 
+            if (Date.now() - this.lastChange > 6000) {
+                this.patternType = Math.min(this.patternType + 1, 6);
+                this.lastChange = Date.now();
+            }
+            if ((Date.now() - this.lastChange > 4000 || this.patternType === 1) && (Date.now() - this.lastFire > 100)) {
+                this.lastFire = Date.now();
+                switch (this.patternType) {
+                    case 1:
+                        this.pattern1();
+                        break;
+                    case 2:
+                        this.pattern2();
+                        break;
+                    case 3:
+                        this.pattern3();
+                        break;
+                    case 4:
+                        this.pattern4();
+                        break;
+                    case 5:
+                        this.pattern5();
+                        break;
+                    case 6:
+                        this.pattern6();
+                        break;
+
+
+                }
+
+            }
+            if (this.mBook.getBBox().intersectsBound(this.mHero.getBBox())) {
+                ROUND = 2;
+                this.goBack();
+            }
         }
+
+
     }
 
-    if (this.mBook.getBBox().intersectsBound(this.mHero.getBBox())) {
-        ROUND = 2;
-        startNextLevel();
-    }
 
 };
 
+HiddenLevel.prototype.goWin = function () {
+    this.back = true;
+    gEngine.GameLoop.stop();
+
+
+};
 HiddenLevel.prototype.pattern1 = function () {
     var angle = 0;
     this.currentBarrageType = 1;

@@ -18,9 +18,18 @@ function Level_2_3(aHero) {
 
     this.mBoss = null;
 
-    this.kFake = "assets/save.png";
+    this.kFake = "assets/Word/1/2-3-3.png";
 
     this.mFakeText = null;
+
+    if (ROUND === 1) {
+
+        this.maxDia = 2;
+    } else {
+        this.maxDia = 2;
+
+    }
+    this.levelName = "2-3-";
 
 }
 
@@ -133,7 +142,7 @@ Level_2_3.prototype.update = function () {
     this.Bar.update();
 
     if (this.levelClear && this.mFakeText === null) {
-        this.mFakeText = new TextBlock(this.kFake, 40, 50, 5, 5);
+        this.mFakeText = new TextBlock(this.kFake, 40, 60, 40, 20);
         this.mFakeText.getRigidBody().setMass(.5);
 
     }

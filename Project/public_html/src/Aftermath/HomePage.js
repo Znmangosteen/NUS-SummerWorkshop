@@ -14,6 +14,8 @@
 function HomePage() {
     this.kBg = "assets/Background/snow-bg.png";
     this.kControlGuide = "assets/UI/control-guide.png";
+    this.kInformation = "assets/UI/information.png";
+
     this.kPlatformTexture = "assets/BlockUnit/snow-platform.png";
     this.kHero = "assets/Character/characters.png";
     this.kHeroBullet = "assets/Bullet/pink-bullet.png";
@@ -58,6 +60,7 @@ gEngine.Core.inheritPrototype(HomePage, Scene);
 HomePage.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kBg);
     gEngine.Textures.loadTexture(this.kControlGuide);
+    gEngine.Textures.loadTexture(this.kInformation);
     gEngine.Textures.loadTexture(this.kPlatformTexture);
     gEngine.Textures.loadTexture(this.kHero);
     gEngine.Textures.loadTexture(this.kHeroBullet);
@@ -68,6 +71,7 @@ HomePage.prototype.loadScene = function () {
 HomePage.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBg);
     gEngine.Textures.unloadTexture(this.kControlGuide);
+    gEngine.Textures.unloadTexture(this.kInformation);
     gEngine.Textures.unloadTexture(this.kPlatformTexture);
     gEngine.Textures.unloadTexture(this.kHero);
     gEngine.Textures.unloadTexture(this.kHeroBullet);
@@ -122,9 +126,9 @@ HomePage.prototype.initButton = function () {
     this.ButtonPosition[1] -= (1 + this.ButtonHeight);
     this.ControlButton = new UIButton(this.controlInfo, this, this.ButtonPosition, this.ButtonSize, "Control", this.ButtonFontSize);
     this.ButtonPosition[1] -= (1 + this.ButtonHeight);
-    this.TrophyButton = new UIButton(this.trophyInfo, this, this.ButtonPosition, this.ButtonSize, "Trophy", this.ButtonFontSize);
-    this.ButtonPosition[1] -= (1 + this.ButtonHeight);
-    this.AcknowledgeButton = new UIButton(this.acknowledgeInfo, this, this.ButtonPosition, this.ButtonSize, "Acknowledgement", this.ButtonFontSize);
+    // this.TrophyButton = new UIButton(this.trophyInfo, this, this.ButtonPosition, this.ButtonSize, "Trophy", this.ButtonFontSize);
+    // this.ButtonPosition[1] -= (1 + this.ButtonHeight);
+    this.AcknowledgeButton = new UIButton(this.acknowledgeInfo, this, this.ButtonPosition, this.ButtonSize, "Information", this.ButtonFontSize);
 
 
 };
@@ -161,7 +165,7 @@ HomePage.prototype.drawButton = function () {
     // this.ContinueButton.draw(this.mCamera);
     this.PlayButton.draw(this.mCamera);
     this.ControlButton.draw(this.mCamera);
-    this.TrophyButton.draw(this.mCamera);
+    // this.TrophyButton.draw(this.mCamera);
     this.AcknowledgeButton.draw(this.mCamera);
 };
 
@@ -170,7 +174,7 @@ HomePage.prototype.update = function () {
     // this.ContinueButton.update();
     this.PlayButton.update();
     this.ControlButton.update();
-    this.TrophyButton.update();
+    // this.TrophyButton.update();
     this.AcknowledgeButton.update();
 
     switch (this.State) {
@@ -190,6 +194,7 @@ HomePage.prototype.update = function () {
 // FIXME debug thing
 HomePage.prototype.hiddenLevel = function () {
     this.State = STATE.HIDDEN;
+    this.CURRENT_LEVEL = SELECT.HIDDEN;
     gEngine.GameLoop.stop();
 };
 

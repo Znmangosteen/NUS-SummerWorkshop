@@ -13,6 +13,14 @@
 
 function Level_2_2(aHero) {
     LevelScene.call(this, aHero);
+    if (ROUND === 1) {
+
+        this.maxDia = 2;
+    } else {
+        this.maxDia = 3;
+
+    }
+    this.levelName = "2-2-";
 }
 
 
@@ -23,14 +31,34 @@ Level_2_2.prototype.initialize = function () {
     LevelScene.prototype.initialize.call(this);
     this.mBoss = new Cat(this.kNPC, this.kBullet, vec2.fromValues(90, 78));
     this.mBoss.setTarget(this.mHero);
-    this.mNPCs.push(this.mBoss);
+    // this.mNPCs.push(this.mBoss);
+    if (ROUND === 1) {
 
+        this.mNPCs.push(this.mBoss);
+
+    } else {
+        this.mFriends.push(this.mBoss);
+    }
     this.mBoss = new Cat(this.kNPC, this.kBullet, vec2.fromValues(120, 78));
     this.mBoss.setTarget(this.mHero);
-    this.mNPCs.push(this.mBoss);
+    // this.mNPCs.push(this.mBoss);
+    if (ROUND === 1) {
+
+        this.mNPCs.push(this.mBoss);
+
+    } else {
+        this.mFriends.push(this.mBoss);
+    }
     this.mBoss = new Cat(this.kNPC, this.kBullet, vec2.fromValues(150, 78));
     this.mBoss.setTarget(this.mHero);
-    this.mNPCs.push(this.mBoss);
+    // this.mNPCs.push(this.mBoss);
+    if (ROUND === 1) {
+
+        this.mNPCs.push(this.mBoss);
+
+    } else {
+        this.mFriends.push(this.mBoss);
+    }
 
     var i, j, k, rx, ry, obj, dx, dy;
     dx = 8;

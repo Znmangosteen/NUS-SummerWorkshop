@@ -17,7 +17,7 @@ function Boss3(spriteTexture, bullet) {
     this.kYMDelta = 180;
 
     this.width = 10;
-    this.height = 10;
+    this.height = 20;
     this.kRwidth = 6;
     this.kRheight = 8;
 
@@ -29,7 +29,7 @@ function Boss3(spriteTexture, bullet) {
     this.mBoss3.getXform().setPosition(150, 45);
     this.mBoss3.getXform().setSize(this.width, this.height);
     // this.mBoss3.setElementPixelPositions(0, 120, 0, 180);
-    this.mBoss3.setElementPixelPositions(0, 512, 2950, 3562);
+    this.mBoss3.setElementPixelPositions(106, 382, 1352, 1783);
 
     // this.mBoss3.setSpriteSequence(512, 0,     // first element pixel position: top-left 512 is top of image, 0 is left of image
     //     566, 512,   // widthxheight in pixels

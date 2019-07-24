@@ -56,6 +56,7 @@ function LevelScene(aHero) {
 
 
     this.mNPCs = [];
+    this.mFriends = [];
 //    FIXME debug thing
 
     this.LevelSelect = null;
@@ -214,6 +215,9 @@ LevelScene.prototype.draw = function () {
 
     for (let i = 0; i < this.mNPCs.length; i++) {
         this.mNPCs[i].draw(this.mCamera);
+    }
+    for (let i = 0; i < this.mFriends.length; i++) {
+        this.mFriends[i].draw(this.mCamera);
     }
     this.mAllPlatforms.draw(this.mCamera);
 

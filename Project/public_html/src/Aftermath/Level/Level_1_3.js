@@ -17,7 +17,14 @@ function Level_1_3(aHero) {
     this.Bar.setMidElemColor([0.6, 0, 0, 1]);
 
     this.mBoss = null;
+    if (ROUND === 1) {
 
+        this.maxDia = 3;
+    } else {
+        this.maxDia = 3;
+
+    }
+    this.levelName = "1-3-";
 }
 
 
@@ -29,7 +36,14 @@ Level_1_3.prototype.initialize = function () {
 
     this.mBoss = new Boss(this.kBoss, this.kBullet);
     this.mBoss.setTarget(this.mHero);
-    this.mNPCs.push(this.mBoss);
+    // this.mNPCs.push(this.mBoss);
+    if (ROUND === 1) {
+
+        this.mNPCs.push(this.mBoss);
+
+    } else {
+        this.mFriends.push(this.mBoss);
+    }
 
     this.Bar.setMaxValue(this.mBoss.health);
 

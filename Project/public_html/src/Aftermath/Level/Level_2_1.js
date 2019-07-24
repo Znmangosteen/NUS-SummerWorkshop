@@ -13,6 +13,14 @@
 
 function Level_2_1(aHero) {
     LevelScene.call(this, aHero);
+    if (ROUND === 1) {
+
+        this.maxDia = 2;
+    } else {
+        this.maxDia = 2;
+
+    }
+    this.levelName = "2-1-";
 }
 
 
@@ -23,7 +31,14 @@ Level_2_1.prototype.initialize = function () {
 
     this.mBoss = new Cat(this.kNPC, this.kBullet, vec2.fromValues(95, 78));
     this.mBoss.setTarget(this.mHero);
-    this.mNPCs.push(this.mBoss);
+    // this.mNPCs.push(this.mBoss);
+    if (ROUND === 1) {
+
+        this.mNPCs.push(this.mBoss);
+
+    } else {
+        this.mFriends.push(this.mBoss);
+    }
 
     this.addTopWall();
     // this.addGround();
@@ -183,6 +198,9 @@ Level_2_1.prototype.update = function () {
             this.goLose();
         }
 
+    }
+    if (!this.inDia && ROUND===2) {
+        this.mTrapSet = [];
     }
 
 };

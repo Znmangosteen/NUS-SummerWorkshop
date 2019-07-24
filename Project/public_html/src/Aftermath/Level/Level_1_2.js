@@ -14,6 +14,14 @@
 function Level_1_2(aHero) {
     LevelScene.call(this, aHero);
     this.kHandout = "assets/Word/handout.png";
+    if (ROUND === 1) {
+
+        this.maxDia = 4;
+    } else {
+        this.maxDia = 3;
+
+    }
+    this.levelName = "1-2-";
 }
 
 gEngine.Core.inheritPrototype(Level_1_2, LevelScene);
@@ -39,7 +47,13 @@ Level_1_2.prototype.initialize = function () {
 
     this.mBoss = new Cat(this.kNPC, this.kBullet, vec2.fromValues(180, 70));
     this.mBoss.setTarget(this.mHero);
-    this.mNPCs.push(this.mBoss);
+    if (ROUND === 1) {
+
+        this.mNPCs.push(this.mBoss);
+
+    } else {
+        this.mFriends.push(this.mBoss);
+    }
 
     this.addTopWall();
     // this.addGround();
