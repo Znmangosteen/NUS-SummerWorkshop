@@ -19,7 +19,7 @@
 function UIButton(callback, context, position, size, text, textSize) {
     // default BG colors = varying gray hues
     this.mBgColor = [7/256,73/256,115/256,1];
-    this.mBgHoverColor = [3/256,40/256,89/256,1];
+    this.mBgHoverColor = [100/256,149/256,237/256,1];
     this.mBgClickColor = [1/256,28/256,64/256,1];
     
     this.mBg = new UIRenderable(this.mBgColor, position, size);
