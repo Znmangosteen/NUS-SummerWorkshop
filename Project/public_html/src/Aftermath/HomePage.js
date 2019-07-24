@@ -115,7 +115,7 @@ HomePage.prototype.initialize = function () {
     this.bg.getXform().setPosition(100, 56.25);
 
     this.mTitle = new TextureRenderable(this.kTitle);
-    this.mTitle.getXform().setPosition(45, 95 );
+    this.mTitle.getXform().setPosition(45, 95);
     this.mTitle.getXform().setSize(80, 40);
 
     // if (ROUND === 2) {
@@ -169,7 +169,6 @@ HomePage.prototype.draw = function () {
             break;
 
     }
-
 
 
 };

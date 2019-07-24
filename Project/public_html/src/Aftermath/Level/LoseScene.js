@@ -85,7 +85,7 @@ LoseScene.prototype.unloadScene = function () {
     }
     if (this.LevelSelect === "Game") {
 
-        startNextLevel();
+        startNextLevel(false);
         // switch (CURRENT_LEVEL) {
         //     case SELECT.L_1_1:
         //         gEngine.Core.startScene(new Level_1_1());

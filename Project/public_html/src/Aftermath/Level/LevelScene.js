@@ -11,7 +11,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function LevelScene(aHero) {
+function LevelScene(inDia) {
     this.kUIButton = "assets/UI/SimpleButton.png";
     this.kCue = "assets/AudioTest/BlueLevel_cue.wav";
     this.kMinionSprite = "assets/minion_sprite.png";
@@ -35,7 +35,13 @@ function LevelScene(aHero) {
     this.kText = "assets/Word/" + ROUND + "/";
 
     this.mDialogue = null;
-    this.inDia = true;
+    if (inDia === undefined) {
+
+        this.inDia = true;
+    } else {
+
+        this.inDia = inDia;
+    }
     this.currentDia = 1;
     this.maxDia = 1;
 
@@ -61,11 +67,11 @@ function LevelScene(aHero) {
 
     this.LevelSelect = null;
 
-    if (aHero !== undefined) {
-        this.mHero = aHero;
-    } else {
+    // if (aHero !== undefined) {
+    //     this.mHero = aHero;
+    // } else {
         this.mHero = null;
-    }
+    // }
     this.mTrap = null;
     this.mTrapSet = [];
     this.mSavePoint = null;
@@ -137,6 +143,10 @@ LevelScene.prototype.unloadScene = function () {
 
     for (let i = 1; i <= this.maxDia; i++) {
         gEngine.Textures.unloadTexture(this.kText + this.levelName + i + ".png");
+    }
+    if (this.trueWin) {
+        gEngine.Core.startScene(new LoseScene("You Win"));
+        return;
     }
     if (this.Win !== undefined) {
         if (this.Win) {
