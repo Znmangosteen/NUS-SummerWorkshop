@@ -1,5 +1,5 @@
 /*
- * File: LoseScene.js 
+ * File: FakeLoseScene.js 
  * This is the logic of our game. 
  */
 
@@ -11,7 +11,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function LoseScene(previousWork) {
+function FakeLoseScene(previousWork) {
     //this.kUIButton = "assets/UI/button.png";
     this.kUIButton = "assets/UI/SimpleButton.png";
     this.kCue = "assets/AudioTest/BlueLevel_cue.wav";
@@ -43,7 +43,7 @@ function LoseScene(previousWork) {
     if (previousWork !== undefined) {
         this.stateWord = previousWork;
     } else {
-        this.stateWord = "";
+        this.stateWord = "You Died";
 
     }
 
@@ -58,10 +58,10 @@ function LoseScene(previousWork) {
 
 }
 
-gEngine.Core.inheritPrototype(LoseScene, Scene);
+gEngine.Core.inheritPrototype(FakeLoseScene, Scene);
 
 
-LoseScene.prototype.loadScene = function () {
+FakeLoseScene.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kUIButton);
     gEngine.AudioClips.loadAudio(this.kCue);
     gEngine.Textures.loadTexture(this.kMinionSprite);
@@ -72,7 +72,7 @@ LoseScene.prototype.loadScene = function () {
 
 };
 
-LoseScene.prototype.unloadScene = function () {
+FakeLoseScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kUIButton);
     gEngine.Textures.unloadTexture(this.kMinionSprite);
     gEngine.Textures.unloadTexture(this.kWawa);
@@ -121,7 +121,7 @@ LoseScene.prototype.unloadScene = function () {
     // gEngine.AudioClips.unloadAudio(this.kCue);
 };
 
-LoseScene.prototype.initialize = function () {
+FakeLoseScene.prototype.initialize = function () {
     // Step A: set up the cameras
     // this.mCamera = new Camera(
     //     vec2.fromValues(50, 40), // position of the camera
@@ -165,7 +165,7 @@ LoseScene.prototype.initialize = function () {
 
 // This is the draw function, make sure to setup proper drawing environment, and more
 // importantly, make sure to _NOT_ change any state.
-LoseScene.prototype.draw = function () {
+FakeLoseScene.prototype.draw = function () {
     // Step A: clear the canvas
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
 
@@ -190,7 +190,7 @@ LoseScene.prototype.draw = function () {
 
 };
 
-LoseScene.prototype.update = function () {
+FakeLoseScene.prototype.update = function () {
     // this.ParticleButton.update();
     // this.PhysicsButton.update();
     // this.UIButton.update();
@@ -227,12 +227,12 @@ LoseScene.prototype.update = function () {
 
 };
 
-LoseScene.prototype.goBack = function () {
+FakeLoseScene.prototype.goBack = function () {
     this.back = true;
     gEngine.GameLoop.stop();
 };
 
-LoseScene.prototype.gameSceneSelect = function () {
+FakeLoseScene.prototype.gameSceneSelect = function () {
     this.LevelSelect = "Game";
     gEngine.GameLoop.stop();
 };

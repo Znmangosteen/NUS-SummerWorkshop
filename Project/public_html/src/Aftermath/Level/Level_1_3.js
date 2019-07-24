@@ -104,4 +104,8 @@ Level_1_3.prototype.update = function () {
     this.Bar.setCurrentValue(this.mBoss.health);
     // this.Bar.setCurrentValue(-3);
     this.Bar.update();
+
+    if (!this.inDia &&ROUND===2) {
+        BULLET_SIZE = 250;
+    }
 };

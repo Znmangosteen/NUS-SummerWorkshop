@@ -55,9 +55,9 @@ HiddenLevel.prototype.unloadScene = function () {
     // }
     LevelScene.prototype.unloadScene.call(this);
 
-    for (let i = 1; i <= this.maxDia; i++) {
-        gEngine.Textures.unloadTexture(this.kText + this.levelName + i + ".png");
-    }
+    // for (let i = 1; i <= this.maxDia; i++) {
+    //     gEngine.Textures.unloadTexture(this.kText + this.levelName + i + ".png");
+    // }
 
 };
 
@@ -69,6 +69,8 @@ HiddenLevel.prototype.initialize = function () {
         this.mBoss.setTarget(this.mHero);
         this.mNPCs.push(this.mBoss);
 
+    } else {
+        // this.mHero.health = 1;
     }
     this.bg = new TextureRenderable(this.kBg);
     this.bg.getXform().setSize(200, 112.5);
@@ -200,7 +202,8 @@ HiddenLevel.prototype.update = function () {
             }
             if (this.mBook.getBBox().intersectsBound(this.mHero.getBBox())) {
                 ROUND = 2;
-                this.goBack();
+                // this.goBack();
+                this.goWin();
             }
         }
 
@@ -208,10 +211,11 @@ HiddenLevel.prototype.update = function () {
     }
 
 
+
 };
 
 HiddenLevel.prototype.goWin = function () {
-    this.back = true;
+    this.Win = true;
     gEngine.GameLoop.stop();
 
 

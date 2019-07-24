@@ -11,6 +11,9 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
+var HERO_HEALTH = 3;
+var BULLET_SIZE=130;
+var WEAPON_TYPE=0;
 function Hero(characterTexture, bulletTexture, position) {
     this.kYDelta = 130;
     this.kYMDelta = 180;
@@ -69,7 +72,7 @@ function Hero(characterTexture, bulletTexture, position) {
     //Rate in per second
     this.kfireRate = 5;
 
-    this.health = 5;
+    this.health = HERO_HEALTH;
     this.death = false;
 
     GameObject.call(this, this.mDye);
@@ -196,7 +199,7 @@ Hero.prototype.update = function (reset, aCamera) {
     }
 
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
-        this.mBullets.addToSet(new Bullet(this.mBullets, this.kBulletTexture, this.getXform().getPosition(), 2, this.getCurrentFrontDir()));
+        this.mBullets.addToSet(new Bullet(this.mBullets, this.kBulletTexture, this.getXform().getPosition(), 2, this.getCurrentFrontDir(),BULLET_SIZE));
     }
 
     this.mBullets.update(aCamera);

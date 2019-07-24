@@ -134,8 +134,13 @@ LevelScene.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBoss);
     gEngine.Textures.unloadTexture(this.kHeart);
     gEngine.Textures.unloadTexture(this.kNPC);
+
     for (let i = 1; i <= this.maxDia; i++) {
         gEngine.Textures.unloadTexture(this.kText + this.levelName + i + ".png");
+    }
+    if (this.Win!==undefined &&this.Win){
+        gEngine.Core.startScene(new FakeLoseScene());
+        return;
     }
     if (this.back) {
         gEngine.Core.startScene(new HomePage());

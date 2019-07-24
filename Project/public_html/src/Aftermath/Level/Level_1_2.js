@@ -141,4 +141,8 @@ Level_1_2.prototype.update = function () {
         this.mAllPlatforms.addToSet(this.mHandout);
 
     }
+
+    if (!this.inDia &&ROUND===2) {
+        HERO_HEALTH = 10;
+    }
 };

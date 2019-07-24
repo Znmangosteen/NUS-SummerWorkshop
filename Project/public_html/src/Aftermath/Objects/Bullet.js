@@ -9,9 +9,15 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Bullet(bulletSet, spriteTexture, spawnPos, speed, dir, target) {
-    this.kRefWidth = 130;
-    this.kRefHeight = 150;
+function Bullet(bulletSet, spriteTexture, spawnPos, speed, dir, size) {
+    if (size === undefined) {
+        this.kRefWidth = 130;
+
+    } else {
+
+        this.kRefWidth = size;
+    }
+    this.kRefHeight =this.kRefWidth *15/13;
 
     this.mBullet = new SpriteRenderable(spriteTexture);
     this.mBullet.setColor([1, 1, 1, 0.1]);
