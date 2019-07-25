@@ -156,6 +156,8 @@ LoseScene.prototype.initialize = function () {
     this.mMsg.setTextHeight(3);
 
     this.BackButton = new UIButton(this.goBack, this, this.ButtonPosition, this.ButtonSize, "Home", this.ButtonFontSize);
+    this.BackButton.setBGColor([7/256,73/256,115/256,.4]);
+
 
     // this.mWing = new Wing(this.kMinionSprite,50,20,0);
     // this.mHero = new Hero(this.kWawa, this.kHeroBullet);

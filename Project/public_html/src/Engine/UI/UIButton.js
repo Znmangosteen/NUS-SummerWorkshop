@@ -18,16 +18,17 @@
  */
 function UIButton(callback, context, position, size, text, textSize) {
     // default BG colors = varying gray hues
-    this.mBgColor = [7/256,73/256,115/256,1];
-    this.mBgHoverColor = [100/256,149/256,237/256,1];
-    this.mBgClickColor = [1/256,28/256,64/256,1];
+    this.mBgColor = [0,0,0,.0];
+    this.mBgHoverColor = [100/256,149/256,237/256,.7];
+    this.mBgClickColor = [1/256,28/256,64/256,.9];
     
     this.mBg = new UIRenderable(this.mBgColor, position, size);
     
     this.mStencil = new UITexture("assets/UI/ButtonStencil.png", position, size);
     
     // default Text colors = black or white depending on state
-    this.mTextColor = [93/256,138/256,166/256,1];
+    // this.mTextColor = [93/256,138/256,166/256,1];
+    this.mTextColor = [0,0,0,1];
     this.mHoverTextColor = this.mTextColor;
     this.mClickTextColor = [1,1,1,1];
     

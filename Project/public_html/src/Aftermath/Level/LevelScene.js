@@ -216,6 +216,7 @@ LevelScene.prototype.initialize = function () {
     }
 
     this.BackButton = new UIButton(this.goBack, this, this.ButtonPosition, this.ButtonSize, "Home", this.ButtonFontSize);
+    this.BackButton.setBGColor([7/256,73/256,115/256,.4]);
     if (this.inDia)
         this.dia = new Dialogue(this.kText + this.levelName + this.currentDia + ".png");
 
