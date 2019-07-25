@@ -14,6 +14,7 @@
 var HERO_HEALTH = 3;
 var BULLET_SIZE=130;
 var WEAPON_TYPE=0;
+var hitBox = false;
 
 var kShoot = "assets/Music/Cue/shoot1.wav";
 
@@ -31,7 +32,7 @@ function Hero(characterTexture, bulletTexture, position) {
 
     this.mSides = new LineRenderable();
 
-    this.mDrawBounds = false;
+    this.mDrawBounds = hitBox;
 
     this.mDye = new SpriteAnimateRenderable(characterTexture);
     this.mDye.setColor([1, 1, 1, 0]);
@@ -219,7 +220,9 @@ Hero.prototype.update = function (reset, aCamera) {
     this.mRenderComponent.updateAnimation();
 
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.B)) {
-        this.mDrawBounds = !this.mDrawBounds;
+        hitBox = !hitBox;
+        this.mDrawBounds = hitBox;
+
     }
 
 };
