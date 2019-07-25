@@ -11,7 +11,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-var HERO_HEALTH = 3;
+var HERO_HEALTH = 5;
 var BULLET_SIZE=130;
 var WEAPON_TYPE=0;
 var hitBox = false;
@@ -152,7 +152,7 @@ Hero.prototype.decreaseHealth = function () {
         this.death = true;
     }
     this.mDye.getColor()[3] = [0.5];
-    this.invincible = 90;
+    this.invincible = 120;
 
 };
 
