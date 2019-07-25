@@ -152,7 +152,7 @@ Hero.prototype.decreaseHealth = function () {
         this.death = true;
     }
     this.mDye.getColor()[3] = [0.5];
-    this.invincible = 30;
+    this.invincible = 90;
 
 };
 
